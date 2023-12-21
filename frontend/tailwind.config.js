@@ -11,6 +11,7 @@ module.exports = {
       'logo-red-hover': '#f05032',
       'logo-purple': '#332294',
       'logo-purple-hover': '#453891', 
+      'gray-400': '#9ca3af',
     },
     extend: {},
   },
