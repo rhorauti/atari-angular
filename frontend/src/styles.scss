@@ -4,21 +4,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
 
 *{
-    background-color: #000000;
-    color: #fff;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
 
-:root {
-    // Logo
-    --color-blue: #0d7ff1;
-    --color-red: #ca391e;
-    --color-purple: #332294;
-
-    // Hover
-    --color-red-hover: #f05032;
-    --color-blue-hover: #2c8dee;
-    --color-purple-hover: #453891;
+body {
+    background-color: #000000;
 }
 

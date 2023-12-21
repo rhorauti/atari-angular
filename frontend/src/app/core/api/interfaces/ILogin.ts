@@ -1,7 +1,7 @@
 export interface IRequestlogin {
     email: string;
     password: string;
-    rememberMe: boolean;
+    isChecked: boolean;
   }
   
   export interface IResponseLogin {
