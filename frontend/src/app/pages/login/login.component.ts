@@ -7,11 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpRequestService } from '../../core/api/http-request.service';
 import { InputLoginComponent } from '../../components/input/input-login/input-login.component';
+import { ButtonStandardComponent } from '../../components/button/button-standard/button-standard.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatIconModule, CommonModule, FormsModule, HttpClientModule, InputLoginComponent],
+  imports: [MatIconModule, CommonModule, FormsModule, HttpClientModule, InputLoginComponent, ButtonStandardComponent],
   providers: [AuthApi, HttpRequestService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
