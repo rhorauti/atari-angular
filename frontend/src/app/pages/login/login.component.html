@@ -1,35 +1,27 @@
-<div class="flex h-screen flex-col justify-center px-6 lg:px-8 sm:mx-auto sm:w-full sm:max-w-sm">
+<div class="flex h-screen overflow-auto flex-col justify-center px-6 sm:mx-auto sm:w-full sm:max-w-sm">
   <!--Logo-->
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <img class="mx-auto h-16 w-auto" src="../../../assets/images/logo.png" alt="Atari">
+    <img class="mx-auto h-14 w-auto" src="../../../assets/images/logo.png" alt="Atari">
     <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-white">Seja bem vindo!</h2>
   </div>
   <!--E-mail-->
-  <div class="mt-7">
-    <label for="email" class="block text-sm font-medium leading-6">E-mail</label>
-    <div class="relative mt-2 rounded-md shadow-sm">
-      <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-        <mat-icon [ngClass]="(emailValue.length > 0) ? 'text-white' : 'text-gray-400'">email</mat-icon>
-      </div>
-      <input type="email" name="email" id="email" [(ngModel)]="emailValue" class="block w-full mb-6 py-2 pl-12 ring-1 sm:text-sm sm:leading-6" placeholder="teste@exemplo.com">
-    </div>
+  <div class="my-3">
+    <label for="email" class="block mb-2 text-sm font-medium leading-6">E-mail</label>
+    <app-input-login [showIconRight]="false" [iconLeft]="'email'" [placeholder]="'teste@exemplo.com'"></app-input-login>
   </div>
   <!--Senha-->
-  <div>
-    <div class="flex items-center justify-between">
-      <label for="password" class="block text-sm font-medium leading-6 text-white">Senha</label>
-      <div class="text-sm">
-        <a href="#" class="font-semibold text-logo-blue-hover hover:text-logo-blue">Esqueceu sua senha?</a>
-      </div>
+  <div class="mb-4">
+    <label for="password" class="block mb-2 text-sm font-medium leading-6 text-white">Senha</label>
+    <app-input-login></app-input-login>
+  </div>
+  <!--Lembrar de mim-->
+  <div class="flex items-center justify-between pb-6">
+    <div class="flex items-center">
+      <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-400 text-text-logo-blue focus:ring-text-logo-blue">
+      <label for="remember-me" class="ml-2 block text-sm leading-6 text-white">Lembrar de mim</label>
     </div>
-    <div class="relative mt-2 rounded-md shadow-sm">
-      <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-        <mat-icon [ngClass]="(passwordValue.length > 0) ? 'text-white' : 'text-gray-400'">lock</mat-icon>
-      </div>
-      <input id="password" name="password" [(ngModel)]="passwordValue" [type]="showPassword ? 'text' : 'password'" autocomplete="current-password" placeholder="******" required class="block w-full mb-6 py-2 pl-12 ring-1 sm:text-sm sm:leading-6">
-      <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-        <mat-icon (click)="showPassword = !showPassword" class="cursor-pointer" [ngClass]="(passwordValue.length > 0) ? 'text-white' : 'text-gray-400'">{{ showPassword ? "visibility" : "visibility_off" }}</mat-icon>
-      </div>
+    <div class="text-sm">
+      <a href="#" class="font-semibold text-logo-blue-hover hover:text-logo-blue">Esqueceu sua senha?</a>
     </div>
   </div>
   <!--Button-->
