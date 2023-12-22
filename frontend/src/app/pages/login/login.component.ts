@@ -7,8 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpRequestService } from '../../core/api/http-request.service';
 import { InputLoginComponent } from '../../components/input/input-login/input-login.component';
-import { ButtonSubmitComponent } from '../../components/button/button-submit/button-submit.component';
+import { ButtonStandardComponent } from '../../components/button/button-standard/button-standard.component';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { LoadingComponent } from '../../components/loading/loading.component';
 
 @Component({
   selector: 'app-login',
@@ -19,8 +20,9 @@ import { ModalComponent } from '../../components/modal/modal.component';
     FormsModule, 
     HttpClientModule, 
     InputLoginComponent, 
-    ButtonSubmitComponent,
+    ButtonStandardComponent,
     ModalComponent,
+    LoadingComponent,
   ],
   providers: [AuthApi, HttpRequestService],
   templateUrl: './login.component.html',
@@ -39,7 +41,7 @@ export class LoginComponent {
   public emailValue = '';
   public passwordValue = '';
   public showPassword = false;
-  public isModalNotActive = true;
+  public isModalActive = false;
 
   /**
    * getPasswordValue
@@ -69,11 +71,11 @@ export class LoginComponent {
   }
 
   showModal() {
-    this.isModalNotActive = false;
+    this.isModalActive = true;
   }
 
   closeModal(modalStatus: boolean) {
-    this.isModalNotActive = modalStatus; 
+    this.isModalActive = modalStatus; 
   }
 
 }

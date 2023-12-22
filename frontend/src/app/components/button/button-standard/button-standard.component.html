@@ -1,14 +1,14 @@
-<button 
+<button
     [ngClass]="btnClass" 
     class="
         w-full 
         rounded-md 
-        bg-logo-blue 
+        {{ backgroundColor }}
         py-1.5 
         text-sm 
         font-semibold 
         leading-6 
-        text-white 
-        hover:bg-logo-blue-hover">
+        {{ labelColor }}
+        {{ hoverBackgroundColor }}">
     {{ label }}
 </button>

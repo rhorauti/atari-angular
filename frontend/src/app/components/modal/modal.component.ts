@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { ButtonCancelComponent } from '../button/button-cancel/button-cancel.component';
-import { ButtonCloseComponent } from '../button/button-close/button-close.component';
-import { ButtonSuccessComponent } from '../button/button-success/button-success.component';
-import { ButtonSubmitComponent } from '../button/button-submit/button-submit.component';
+import { ButtonStandardComponent } from '../button/button-standard/button-standard.component';
 
 @Component({
   selector: 'app-modal',
@@ -12,10 +9,7 @@ import { ButtonSubmitComponent } from '../button/button-submit/button-submit.com
   imports: [
     CommonModule, 
     MatIconModule,
-    ButtonCancelComponent,
-    ButtonCloseComponent,
-    ButtonSuccessComponent,
-    ButtonSubmitComponent,
+    ButtonStandardComponent,
   ],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss'
@@ -23,14 +17,24 @@ import { ButtonSubmitComponent } from '../button/button-submit/button-submit.com
 export class ModalComponent {
 
   @Input() showModal = false;
-  @Input() butNumber = 1;
+  @Input() btnNumber = 1;
   @Input() title = 'Sucesso'
-  @Input() description = 'Dados registrados com sucesso!'
+  @Input() description = 'Dados registrados com sucesso! aslkj fçsakdf jasdf aasdf asdfas dsf asdf sçaskjdfç asjkd fasdçjf açsdj façsfd'
   @Input() icon = 'check'
   @Output() emitCloseModal = new EventEmitter<boolean>();
+  @Output() emitCancelModal = new EventEmitter<boolean>();
+  @Output() emitOkModal = new EventEmitter<boolean>();
 
-  sendEmitterEvent() {
-    this.emitCloseModal.emit(true);
+  sendCloseEmitterEvent(): void {
+    this.emitCloseModal.emit(false);
+  }
+
+  sendCancelEmitterEvent(): void {
+    this.emitCancelModal.emit(false);
+  }
+
+  sendOkEmitterEvent(): void {
+    this.emitOkModal.emit(false);
   }
 
 }
