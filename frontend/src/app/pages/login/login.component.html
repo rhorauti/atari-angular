@@ -6,7 +6,7 @@
   </div>
   <!--E-mail-->
   <div class="my-3">
-    <label for="email" class="block mb-2 text-sm font-medium leading-6">E-mail</label>
+    <label for="email" class="block mb-2 text-sm font-medium leading-6 text-white">E-mail</label>
     <app-input-login (emitInputValue)="getEmailValue($event)" [isEmail]="true" [showIconRight]="false" [iconLeft]="'email'" [placeholder]="'teste@exemplo.com'"></app-input-login>
   </div>
   <!--Senha-->
@@ -31,5 +31,5 @@
     <a href="#" class="font-semibold leading-6 text-logo-blue-hover hover:text-logo-blue"> Clique aqui!</a>
   </p>
 </div>
-<app-loading></app-loading>
-<app-modal [showModal]="isModalActive" [btnNumber]="1" (emitCloseModal)="closeModal($event)"></app-modal>
+<app-modal-info [showModal]="isModalActive" [modalIcon]="modalInfo.modalIcon" [iconModalTextColor]="modalInfo.iconModalTextColor" [iconModalBackgroundColor]="modalInfo.iconModalBackgroundColor" (emitCloseModal)="closeModal($event)"></app-modal-info>
+<app-loading [showLoading]="isLoadingActive"></app-loading>

@@ -1,26 +1,26 @@
 <div *ngIf="showModal" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+    <div class="fixed inset-0 bg-black bg-opacity-75 transition-opacity"></div>
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
       <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
         <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 max-w-sm">
           <div class="bg-white">
             <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-green-600">
-                <mat-icon class="text-green-100">{{ icon }}</mat-icon>
+                <mat-icon class="text-green-100">{{ modalIcon }}</mat-icon>
             </div>
             <div class="bg-white my-5 text-center">
-              <h3 class="text-base font-semibold leading-6 text-gray-900 w-full" id="modal-title">{{ title }}</h3>
+              <h3 class="text-base font-semibold leading-6 text-gray-900 w-full" id="modal-title">{{ modalTitle }}</h3>
               <div class="mt-2">
-                <p class="text-sm text-gray-500 w-full">{{ description }}</p>
+                <p class="text-sm text-gray-500 w-full">{{ modalDescription }}</p>
               </div>
             </div>
           </div>
           <div *ngIf="btnNumber == 1; else twoBtnBlock" class="mt-6">
-            <app-button-standard [btnType]="'close'" (click)="sendCloseEmitterEvent()"></app-button-standard>
+            <app-button-standard [btnType]="'close'" [showIcon]="isIconCloseVisible" [icon]="btnCloseIcon" [label]="btnCloseLabel" (click)="sendCloseEmitterEvent()"></app-button-standard>
           </div>
           <ng-template #twoBtnBlock>
             <div class="mt-6 grid grid-cols-2 gap-2">
-              <app-button-standard [btnType]="'cancel'" (click)="sendCancelEmitterEvent()"></app-button-standard>
-              <app-button-standard [btnType]="'success'" (click)="sendOkEmitterEvent()"></app-button-standard>
+              <app-button-standard [btnType]="'cancel'" [showIcon]="isIconCancelVisible" [icon]="btnCancelIcon" [label]="btnCancelLabel" (click)="sendCancelEmitterEvent()"></app-button-standard>
+              <app-button-standard [btnType]="'success'" [showIcon]="isIconSuccessVisible" [icon]="btnSuccessIcon" [label]="btnSuccessLabel" (click)="sendOkEmitterEvent()"></app-button-standard>
             </div>
           </ng-template>
         </div>

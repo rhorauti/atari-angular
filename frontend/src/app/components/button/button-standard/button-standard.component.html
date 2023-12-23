@@ -1,6 +1,8 @@
 <button
     [ngClass]="btnClass" 
     class="
+        flex
+        justify-center
         w-full 
         rounded-md 
         {{ backgroundColor }}
@@ -10,5 +12,6 @@
         leading-6 
         {{ labelColor }}
         {{ hoverBackgroundColor }}">
-    {{ label }}
+        <mat-icon *ngIf="showIcon" class="mr-1 text-base">{{ icon }}</mat-icon>
+        <span>{{ label }}</span>
 </button>

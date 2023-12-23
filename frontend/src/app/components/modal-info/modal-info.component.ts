@@ -4,23 +4,34 @@ import { MatIconModule } from '@angular/material/icon';
 import { ButtonStandardComponent } from '../button/button-standard/button-standard.component';
 
 @Component({
-  selector: 'app-modal',
+  selector: 'app-modal-info',
   standalone: true,
   imports: [
     CommonModule, 
     MatIconModule,
     ButtonStandardComponent,
   ],
-  templateUrl: './modal.component.html',
-  styleUrl: './modal.component.scss'
+  templateUrl: './modal-info.component.html',
+  styleUrl: './modal-info.component.scss'
 })
-export class ModalComponent {
+export class ModalInfoComponent {
 
   @Input() showModal = false;
+  @Input() modalIcon = 'check';
+  @Input() iconModalBackgroundColor = 'bg-green-600';
+  @Input() iconModalTextColor = 'text-green-100';
   @Input() btnNumber = 1;
-  @Input() title = 'Sucesso'
-  @Input() description = 'Dados registrados com sucesso! aslkj fçsakdf jasdf aasdf asdfas dsf asdf sçaskjdfç asjkd fasdçjf açsdj façsfd'
-  @Input() icon = 'check'
+  @Input() btnCloseLabel = '';
+  @Input() btnCancelLabel = '';
+  @Input() btnSuccessLabel = '';
+  @Input() isIconCloseVisible = false;
+  @Input() isIconCancelVisible = false;
+  @Input() isIconSuccessVisible = false;
+  @Input() btnCloseIcon = '';
+  @Input() btnCancelIcon = '';
+  @Input() btnSuccessIcon = '';
+  @Input() modalTitle = 'Sucesso'
+  @Input() modalDescription = 'Dados registrados com sucesso! aslkj fçsakdf jasdf aasdf asdfas dsf asdf sçaskjdfç asjkd fasdçjf açsdj façsfd'
   @Output() emitCloseModal = new EventEmitter<boolean>();
   @Output() emitCancelModal = new EventEmitter<boolean>();
   @Output() emitOkModal = new EventEmitter<boolean>();

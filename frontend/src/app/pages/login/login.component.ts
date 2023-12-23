@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpRequestService } from '../../core/api/http-request.service';
 import { InputLoginComponent } from '../../components/input/input-login/input-login.component';
 import { ButtonStandardComponent } from '../../components/button/button-standard/button-standard.component';
-import { ModalComponent } from '../../components/modal/modal.component';
+import { ModalInfoComponent } from '../../components/modal-info/modal-info.component';
 import { LoadingComponent } from '../../components/loading/loading.component';
 
 @Component({
@@ -21,7 +21,7 @@ import { LoadingComponent } from '../../components/loading/loading.component';
     HttpClientModule, 
     InputLoginComponent, 
     ButtonStandardComponent,
-    ModalComponent,
+    ModalInfoComponent,
     LoadingComponent,
   ],
   providers: [AuthApi, HttpRequestService],
@@ -38,10 +38,16 @@ export class LoginComponent {
     isChecked: false,
   }
 
-  public emailValue = '';
-  public passwordValue = '';
   public showPassword = false;
   public isModalActive = false;
+  public isLoadingActive = false;
+  public modalInfo = {
+    modalIcon: '',
+    modalTitle: '',
+    modalDescription: '',
+    iconModalBackgroundColor: '',
+    iconModalTextColor: '',
+  }
 
   /**
    * getPasswordValue
@@ -62,19 +68,59 @@ export class LoginComponent {
   }
 
   /**
+   * handleSuccessModal
+   * Função que popula os dados do modal no caso de email ou senha validados corretamente.
+   */
+  handleSuccessModal(): void {
+    this.modalInfo = {
+      modalIcon: 'check',
+      modalTitle: 'Sucesso!',
+      modalDescription: 'Login realizado com sucesso!',
+      iconModalBackgroundColor: 'bg-green-600',
+      iconModalTextColor: 'text-green-100',
+    }
+  }
+
+  /**
+   * handleFailureModal
+   * Função que popula os dados do modal no caso de email ou senha digitados incorretamente.
+   */
+  handleFailureModal(): void {
+    this.modalInfo = {
+      modalIcon: 'close',
+      modalTitle: 'Erro!',
+      modalDescription: 'E-mail ou senha inválidos!',
+      iconModalBackgroundColor: 'bg-red-500',
+      iconModalTextColor: 'bg-red-300',
+    }
+  }
+
+  /**
    * authenticateUser
    * Função que envia os dados do usuário (email e senha) para validação do backend
    */
-  submitUserData():void {
-    this.showModal();
-    // this.authApi.authenticateUser(this.loginData);
+  async submitUserData(): Promise<void> {
+    this.isLoadingActive = true;
+    try {
+      const response = await this.authApi.authenticateUser(this.loginData);
+      if(response.status) {
+        this.handleSuccessModal();
+        this.isModalActive = true;
+      }
+    } catch {
+      this.handleFailureModal();
+      this.isModalActive = true;
+    } finally {
+      this.isLoadingActive = false;
+    }
   }
 
-  showModal() {
-    this.isModalActive = true;
-  }
-
-  closeModal(modalStatus: boolean) {
+  /**
+   * closeModal
+   * Função que fecha o modal e direciona o usuário para a tela inicial da aplicação.
+   * @param modalStatus 
+   */
+  closeModal(modalStatus: boolean): void {
     this.isModalActive = modalStatus; 
   }
 

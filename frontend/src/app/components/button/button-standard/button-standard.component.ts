@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-button-standard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './button-standard.component.html',
   styleUrl: './button-standard.component.scss'
 })
@@ -13,6 +14,8 @@ export class ButtonStandardComponent implements OnInit {
   @Input() label = '';
   @Input() btnClass = '';
   @Input() btnType = 'submit';
+  @Input() icon = '';
+  @Input() showIcon = false;
 
   public backgroundColor = '';
   public labelColor = 'text-white';
