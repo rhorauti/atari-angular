@@ -17,7 +17,7 @@ export class AuthApi {
    */
   async authenticateUser(login: IRequestlogin): Promise<IResponseLogin> {
     const response = await this.httpRequestService.sendHttpRequest(
-      `http://localhost:4444/login`,
+      `http://localhost:3000/login`,
       'POST',
       login,
     );

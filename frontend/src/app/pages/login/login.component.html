@@ -17,7 +17,7 @@
   <!--Lembrar de mim-->
   <div class="flex items-center max-[420px]:flex-col justify-between pb-6">
     <div class="flex items-center">
-      <input [checked]="loginData.isChecked" id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-400 text-text-logo-blue focus:ring-text-logo-blue">
+      <input [checked]="loginData.rememberMe" id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-400 text-text-logo-blue focus:ring-text-logo-blue">
       <label for="remember-me" class="ml-2 block text-sm leading-6 text-white">Lembrar de mim</label>
     </div>
     <div class="text-sm max-[420px]:mt-2">
@@ -31,5 +31,5 @@
     <a href="#" class="font-semibold leading-6 text-logo-blue-hover hover:text-logo-blue"> Clique aqui!</a>
   </p>
 </div>
-<app-modal-info [showModal]="isModalActive" [modalIcon]="modalInfo.modalIcon" [iconModalTextColor]="modalInfo.iconModalTextColor" [iconModalBackgroundColor]="modalInfo.iconModalBackgroundColor" (emitCloseModal)="closeModal($event)"></app-modal-info>
 <app-loading [showLoading]="isLoadingActive"></app-loading>
+<app-modal-info [showModal]="isModalActive" [modalIcon]="modalInfo.modalIcon" [iconModalTextColor]="modalInfo.iconModalTextColor" [iconModalBackgroundColor]="modalInfo.iconModalBackgroundColor" [modalDescription]="modalInfo.modalDescription" [modalTitle]="modalInfo.modalTitle" (emitCloseModal)="closeModal($event)"></app-modal-info>

@@ -7,7 +7,7 @@ import { ButtonStandardComponent } from '../button/button-standard/button-standa
   selector: 'app-modal-info',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     MatIconModule,
     ButtonStandardComponent,
   ],
@@ -30,8 +30,8 @@ export class ModalInfoComponent {
   @Input() btnCloseIcon = '';
   @Input() btnCancelIcon = '';
   @Input() btnSuccessIcon = '';
-  @Input() modalTitle = 'Sucesso'
-  @Input() modalDescription = 'Dados registrados com sucesso! aslkj fçsakdf jasdf aasdf asdfas dsf asdf sçaskjdfç asjkd fasdçjf açsdj façsfd'
+  @Input() modalTitle = 'Sucesso!'
+  @Input() modalDescription = 'Dados registrados com sucesso!'
   @Output() emitCloseModal = new EventEmitter<boolean>();
   @Output() emitCancelModal = new EventEmitter<boolean>();
   @Output() emitOkModal = new EventEmitter<boolean>();

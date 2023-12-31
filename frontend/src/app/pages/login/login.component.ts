@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AuthApi } from '../../core/api/app/auth.api';
-import { IRequestlogin } from '../../core/api/interfaces/ILogin';
+import { IModalInfo, IRequestlogin } from '../../core/api/interfaces/ILogin';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,11 +15,11 @@ import { LoadingComponent } from '../../components/loading/loading.component';
   selector: 'app-login',
   standalone: true,
   imports: [
-    MatIconModule, 
-    CommonModule, 
-    FormsModule, 
-    HttpClientModule, 
-    InputLoginComponent, 
+    MatIconModule,
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    InputLoginComponent,
     ButtonStandardComponent,
     ModalInfoComponent,
     LoadingComponent,
@@ -35,13 +35,13 @@ export class LoginComponent {
   loginData: IRequestlogin = {
     email: '',
     password: '',
-    isChecked: false,
+    rememberMe: false,
   }
 
   public showPassword = false;
   public isModalActive = false;
   public isLoadingActive = false;
-  public modalInfo = {
+  public modalInfo: IModalInfo = {
     modalIcon: '',
     modalTitle: '',
     modalDescription: '',
@@ -52,7 +52,7 @@ export class LoginComponent {
   /**
    * getPasswordValue
    * Função que pega o valor do componente input password
-   * @param passwordValue 
+   * @param passwordValue
    */
   getPasswordValue(passwordValue: string): void {
     this.loginData.password = passwordValue;
@@ -61,7 +61,7 @@ export class LoginComponent {
   /**
    * getEmailValue
    * Função que pega o valor do componente input e-mail
-   * @param emailValue 
+   * @param emailValue
    */
   getEmailValue(emailValue: string): void {
     this.loginData.email = emailValue;
@@ -71,11 +71,11 @@ export class LoginComponent {
    * handleSuccessModal
    * Função que popula os dados do modal no caso de email ou senha validados corretamente.
    */
-  handleSuccessModal(): void {
+  handleSuccessModal(message: string): void {
     this.modalInfo = {
       modalIcon: 'check',
       modalTitle: 'Sucesso!',
-      modalDescription: 'Login realizado com sucesso!',
+      modalDescription: message,
       iconModalBackgroundColor: 'bg-green-600',
       iconModalTextColor: 'text-green-100',
     }
@@ -85,13 +85,13 @@ export class LoginComponent {
    * handleFailureModal
    * Função que popula os dados do modal no caso de email ou senha digitados incorretamente.
    */
-  handleFailureModal(): void {
+  handleFailureModal(message: string): void {
     this.modalInfo = {
       modalIcon: 'close',
       modalTitle: 'Erro!',
-      modalDescription: 'E-mail ou senha inválidos!',
+      modalDescription: message,
       iconModalBackgroundColor: 'bg-red-500',
-      iconModalTextColor: 'bg-red-300',
+      iconModalTextColor: 'text-white',
     }
   }
 
@@ -102,14 +102,21 @@ export class LoginComponent {
   async submitUserData(): Promise<void> {
     this.isLoadingActive = true;
     try {
+      if(this.loginData.email.length == 0) {
+        this.handleFailureModal("O campo de e-mail está vazio! Digite um e-mail válido!");
+      } else if(this.loginData.password.length == 0) {
+        this.handleFailureModal("O campo de senha está vazio! Digite uma senha válida!");
+      }
       const response = await this.authApi.authenticateUser(this.loginData);
       if(response.status) {
-        this.handleSuccessModal();
-        this.isModalActive = true;
+        console.log('sucesso!')
+        this.handleSuccessModal(response.message);
       }
-    } catch {
-      this.handleFailureModal();
       this.isModalActive = true;
+    } catch (error: any) {
+      console.log(error)
+      // this.handleFailureModal(message)
+      // this.isModalActive = true;
     } finally {
       this.isLoadingActive = false;
     }
@@ -118,10 +125,10 @@ export class LoginComponent {
   /**
    * closeModal
    * Função que fecha o modal e direciona o usuário para a tela inicial da aplicação.
-   * @param modalStatus 
+   * @param modalStatus
    */
   closeModal(modalStatus: boolean): void {
-    this.isModalActive = modalStatus; 
+    this.isModalActive = modalStatus;
   }
 
 }

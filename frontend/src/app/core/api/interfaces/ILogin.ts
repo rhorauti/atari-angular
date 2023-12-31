@@ -1,11 +1,20 @@
 export interface IRequestlogin {
     email: string;
     password: string;
-    isChecked: boolean;
+    rememberMe: boolean;
   }
-  
+
   export interface IResponseLogin {
     date: string;
     status: boolean;
-    data: string;
+    message: string;
+    data: Object;
+  }
+
+  export interface IModalInfo {
+    modalIcon: string,
+    modalTitle: string,
+    modalDescription: string,
+    iconModalBackgroundColor: string,
+    iconModalTextColor: string,
   }

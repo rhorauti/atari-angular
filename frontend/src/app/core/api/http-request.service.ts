@@ -50,7 +50,7 @@ export class HttpRequestService {
         }
       }
     } catch (error) {
-      console.log('error')
+
     }
   }
 }
