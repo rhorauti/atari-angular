@@ -102,21 +102,22 @@ export class LoginComponent {
   async submitUserData(): Promise<void> {
     this.isLoadingActive = true;
     try {
-      if(this.loginData.email.length == 0) {
-        this.handleFailureModal("O campo de e-mail está vazio! Digite um e-mail válido!");
-      } else if(this.loginData.password.length == 0) {
-        this.handleFailureModal("O campo de senha está vazio! Digite uma senha válida!");
-      }
+      console.log('entrando no try...')
       const response = await this.authApi.authenticateUser(this.loginData);
-      if(response.status) {
-        console.log('sucesso!')
+      if(this.loginData.email.length == 0) {
+        this.handleFailureModal("Campo email vazio!");
+      } else if(this.loginData.password.length == 0) {
+        this.handleFailureModal("Campo senha vazio!")
+      } else if(!response) {
+        this.handleFailureModal("Email ou senha inválidos!")
+      } else {
         this.handleSuccessModal(response.message);
       }
       this.isModalActive = true;
     } catch (error: any) {
-      console.log(error)
-      // this.handleFailureModal(message)
-      // this.isModalActive = true;
+      console.log('entrando no catch...')
+      this.isModalActive = true;
+      this.handleFailureModal(error)
     } finally {
       this.isLoadingActive = false;
     }

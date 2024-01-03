@@ -21,7 +21,7 @@ export class AuthApi {
       'POST',
       login,
     );
-    localStorage.setItem('@authToken', response.data);
+    // localStorage.setItem('@authToken', response.data);
     return response;
   }
 

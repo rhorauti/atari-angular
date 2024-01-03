@@ -1,7 +1,6 @@
 import { IAuthRespository } from "@src/core/repositories/IAuthRepository";
 import { inject, injectable } from "tsyringe";
 import { Request, Response } from 'express'
-import { httpResponse } from "@src/core/httpResponses/httpResponses";
 
 @injectable()
 export class AuthController {
@@ -10,16 +9,22 @@ export class AuthController {
     @inject('AuthRepository') private authRepository: IAuthRespository
   ) {}
 
-  async loginUser(request: Request, response: Response): Promise<Response> {
-    const { email, password } = request.body;
-    const userExists = await this.authRepository.findUserByEmailAndPassword(email);
-    if(!userExists) {
-      return httpResponse(response, 401, 'E-mail inexistente ou incorreto!');
+  async loginUser(request: Request, response: Response): Promise<Response | null> {
+    const user = await this.authRepository.findUserByEmailAndPassword(request.body.email);
+    if(!user) {
+      return response.status(401).json({
+        message: 'email inválido'
+      })
     } else {
-      if(userExists.email == email && userExists.password != password) {
-        return httpResponse(response, 401, 'Senha inválida!')
+      if(user.email == request.body.email && user.password != request.body.password) {
+        return response.status(401).json({
+          message: 'senha inválido'
+        })
       } else {
-        return httpResponse(response, 200, 'Login efetuado com sucesso!', userExists)
+        return response.status(200).json({
+          message: 'login efetuado com sucesso!',
+          data: user
+        })
       }
     }
   }

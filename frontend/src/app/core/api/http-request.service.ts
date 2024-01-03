@@ -28,25 +28,25 @@ export class HttpRequestService {
     method: string,
     data?: Record<string, any>,
   ): Promise<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('@authToken')}`,
-      'Content-Type': 'application/json',
-    });
+    // const headers = new HttpHeaders({
+    //   Authorization: `Bearer ${localStorage.getItem('@authToken')}`,
+    //   'Content-Type': 'application/json',
+    // });
     try {
       switch (method) {
         case 'GET': {
-          return await lastValueFrom(this.httpClient.get(path, { headers }));
+          return await lastValueFrom(this.httpClient.get(path, { }));
         }
         case 'POST': {
           return await lastValueFrom(
-            this.httpClient.post(path, data, { headers }),
+            this.httpClient.post(path, data, { }),
           );
         }
         case 'PUT': {
-          return await lastValueFrom(this.httpClient.put(path, { headers }));
+          return await lastValueFrom(this.httpClient.put(path, { }));
         }
         case 'DELETE': {
-          return await lastValueFrom(this.httpClient.delete(path, { headers }));
+          return await lastValueFrom(this.httpClient.delete(path, { }));
         }
       }
     } catch (error) {
