@@ -6,16 +6,11 @@ import { ButtonStandardComponent } from '../button/button-standard/button-standa
 @Component({
   selector: 'app-modal-info',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatIconModule,
-    ButtonStandardComponent,
-  ],
+  imports: [CommonModule, MatIconModule, ButtonStandardComponent],
   templateUrl: './modal-info.component.html',
-  styleUrl: './modal-info.component.scss'
+  styleUrl: './modal-info.component.scss',
 })
 export class ModalInfoComponent {
-
   @Input() showModal = false;
   @Input() modalIcon = 'check';
   @Input() iconModalBackgroundColor = 'bg-green-600';
@@ -30,8 +25,8 @@ export class ModalInfoComponent {
   @Input() btnCloseIcon = '';
   @Input() btnCancelIcon = '';
   @Input() btnSuccessIcon = '';
-  @Input() modalTitle = 'Sucesso!'
-  @Input() modalDescription = 'Dados registrados com sucesso!'
+  @Input() modalTitle = 'Sucesso!';
+  @Input() modalDescription = 'Dados registrados com sucesso!';
   @Output() emitCloseModal = new EventEmitter<boolean>();
   @Output() emitCancelModal = new EventEmitter<boolean>();
   @Output() emitOkModal = new EventEmitter<boolean>();
@@ -47,5 +42,4 @@ export class ModalInfoComponent {
   sendOkEmitterEvent(): void {
     this.emitOkModal.emit(false);
   }
-
 }

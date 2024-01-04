@@ -1,4 +1,4 @@
-import { container } from 'tsyringe';
-import { AuthRepository } from '../repositories/auth.repository';
+import { container } from 'tsyringe'
+import { AuthRepository } from '../repositories/auth.repository'
 
-container.registerSingleton('AuthRepository', AuthRepository);
+container.registerSingleton('AuthRepository', AuthRepository)

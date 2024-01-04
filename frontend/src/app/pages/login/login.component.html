@@ -1,35 +1,78 @@
-<div class="bg-black min-h-screen flex flex-col justify-center px-4 py-4 sm:mx-auto max-[450px]:mt-2 max-[450px]:mb-2 sm:w-full sm:max-w-sm">
+<div
+  class="bg-black min-h-screen flex flex-col justify-center px-4 py-4 sm:mx-auto max-[450px]:mt-2 max-[450px]:mb-2 sm:w-full sm:max-w-sm">
   <!--Logo-->
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <img class="mx-auto h-12 w-auto" src="../../../assets/images/logo.png" alt="Atari">
-    <h2 class="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-white">Seja bem-vindo!</h2>
+    <img
+      class="mx-auto h-12 w-auto"
+      src="../../../assets/images/logo.png"
+      alt="Atari" />
+    <h2
+      class="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-white">
+      Seja bem-vindo!
+    </h2>
   </div>
   <!--E-mail-->
   <div class="my-3">
-    <label for="email" class="block mb-2 text-sm font-medium leading-6 text-white">E-mail</label>
-    <app-input-login (emitInputValue)="getEmailValue($event)" [isEmail]="true" [showIconRight]="false" [iconLeft]="'email'" [placeholder]="'teste@exemplo.com'"></app-input-login>
+    <label
+      for="email"
+      class="block mb-2 text-sm font-medium leading-6 text-white"
+      >E-mail</label
+    >
+    <app-input-login
+      (emitInputValue)="getEmailValue($event)"
+      [isEmail]="true"
+      [showIconRight]="false"
+      [iconLeft]="'email'"
+      [placeholder]="'teste@exemplo.com'"></app-input-login>
   </div>
   <!--Senha-->
   <div class="mb-4">
-    <label for="password" class="block mb-2 text-sm font-medium leading-6 text-white">Senha</label>
-    <app-input-login (emitInputValue)="getPasswordValue($event)"></app-input-login>
+    <label
+      for="password"
+      class="block mb-2 text-sm font-medium leading-6 text-white"
+      >Senha</label
+    >
+    <app-input-login
+      (emitInputValue)="getPasswordValue($event)"></app-input-login>
   </div>
   <!--Lembrar de mim-->
   <div class="flex items-center max-[420px]:flex-col justify-between pb-6">
     <div class="flex items-center">
-      <input [checked]="loginData.rememberMe" id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-400 text-text-logo-blue focus:ring-text-logo-blue">
-      <label for="remember-me" class="ml-2 block text-sm leading-6 text-white">Lembrar de mim</label>
+      <input
+        [checked]="loginData.rememberMe"
+        id="remember-me"
+        name="remember-me"
+        type="checkbox"
+        class="h-4 w-4 rounded border-gray-400 text-text-logo-blue focus:ring-text-logo-blue" />
+      <label for="remember-me" class="ml-2 block text-sm leading-6 text-white"
+        >Lembrar de mim</label
+      >
     </div>
     <div class="text-sm max-[420px]:mt-2">
-      <a href="#" class="font-semibold text-logo-blue-hover hover:text-logo-blue">Esqueceu sua senha?</a>
+      <a
+        href="#"
+        class="font-semibold text-logo-blue-hover hover:text-logo-blue"
+        >Esqueceu sua senha?</a
+      >
     </div>
   </div>
   <!--Button-->
   <app-button-standard (click)="submitUserData()"></app-button-standard>
   <p class="mt-5 text-center text-sm text-gray-400">
     Não tem cadastro?
-    <a href="#" class="font-semibold leading-6 text-logo-blue-hover hover:text-logo-blue"> Clique aqui!</a>
+    <a
+      href="#"
+      class="font-semibold leading-6 text-logo-blue-hover hover:text-logo-blue">
+      Clique aqui!</a
+    >
   </p>
 </div>
 <app-loading [showLoading]="isLoadingActive"></app-loading>
-<app-modal-info [showModal]="isModalActive" [modalIcon]="modalInfo.modalIcon" [iconModalTextColor]="modalInfo.iconModalTextColor" [iconModalBackgroundColor]="modalInfo.iconModalBackgroundColor" [modalDescription]="modalInfo.modalDescription" [modalTitle]="modalInfo.modalTitle" (emitCloseModal)="closeModal($event)"></app-modal-info>
+<app-modal-info
+  [showModal]="isModalActive"
+  [modalIcon]="modalInfo.modalIcon"
+  [iconModalTextColor]="modalInfo.iconModalTextColor"
+  [iconModalBackgroundColor]="modalInfo.iconModalBackgroundColor"
+  [modalDescription]="modalInfo.modalDescription"
+  [modalTitle]="modalInfo.modalTitle"
+  (emitCloseModal)="closeModal($event)"></app-modal-info>

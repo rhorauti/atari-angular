@@ -3,13 +3,10 @@ import { lastValueFrom } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HttpRequestService {
-
   private httpClient = inject(HttpClient);
-
-  // constructor(private httpClient: HttpClient) {}
 
   /**
    *sendHttpRequest
@@ -22,35 +19,30 @@ export class HttpRequestService {
    * @param authToken token de autenticação
    * @returns Retorna uma promise
    */
-
-   async sendHttpRequest(
+  async sendHttpRequest(
     path: string,
     method: string,
-    data?: Record<string, any>,
+    data?: Record<string, any>
   ): Promise<any> {
-    // const headers = new HttpHeaders({
-    //   Authorization: `Bearer ${localStorage.getItem('@authToken')}`,
-    //   'Content-Type': 'application/json',
-    // });
-    try {
-      switch (method) {
-        case 'GET': {
-          return await lastValueFrom(this.httpClient.get(path, { }));
-        }
-        case 'POST': {
-          return await lastValueFrom(
-            this.httpClient.post(path, data, { }),
-          );
-        }
-        case 'PUT': {
-          return await lastValueFrom(this.httpClient.put(path, { }));
-        }
-        case 'DELETE': {
-          return await lastValueFrom(this.httpClient.delete(path, { }));
-        }
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('@authToken')}`,
+      'Content-Type': 'application/json',
+    });
+    switch (method) {
+      case 'GET': {
+        return await lastValueFrom(this.httpClient.get(path, { headers }));
       }
-    } catch (error) {
-
+      case 'POST': {
+        return await lastValueFrom(
+          this.httpClient.post(path, data, { headers })
+        );
+      }
+      case 'PUT': {
+        return await lastValueFrom(this.httpClient.put(path, { headers }));
+      }
+      case 'DELETE': {
+        return await lastValueFrom(this.httpClient.delete(path, { headers }));
+      }
     }
   }
 }

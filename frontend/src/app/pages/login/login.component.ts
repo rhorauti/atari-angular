@@ -26,17 +26,16 @@ import { LoadingComponent } from '../../components/loading/loading.component';
   ],
   providers: [AuthApi, HttpRequestService],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-
   private authApi = inject(AuthApi);
 
   loginData: IRequestlogin = {
     email: '',
     password: '',
     rememberMe: false,
-  }
+  };
 
   public showPassword = false;
   public isModalActive = false;
@@ -47,7 +46,7 @@ export class LoginComponent {
     modalDescription: '',
     iconModalBackgroundColor: '',
     iconModalTextColor: '',
-  }
+  };
 
   /**
    * getPasswordValue
@@ -78,7 +77,7 @@ export class LoginComponent {
       modalDescription: message,
       iconModalBackgroundColor: 'bg-green-600',
       iconModalTextColor: 'text-green-100',
-    }
+    };
   }
 
   /**
@@ -92,7 +91,7 @@ export class LoginComponent {
       modalDescription: message,
       iconModalBackgroundColor: 'bg-red-500',
       iconModalTextColor: 'text-white',
-    }
+    };
   }
 
   /**
@@ -102,22 +101,23 @@ export class LoginComponent {
   async submitUserData(): Promise<void> {
     this.isLoadingActive = true;
     try {
-      console.log('entrando no try...')
-      const response = await this.authApi.authenticateUser(this.loginData);
-      if(this.loginData.email.length == 0) {
-        this.handleFailureModal("Campo email vazio!");
-      } else if(this.loginData.password.length == 0) {
-        this.handleFailureModal("Campo senha vazio!")
-      } else if(!response) {
-        this.handleFailureModal("Email ou senha inválidos!")
+      if (this.loginData.email.length == 0) {
+        this.handleFailureModal('Campo email vazio!');
+      } else if (this.loginData.password.length == 0) {
+        this.handleFailureModal('Campo senha vazio!');
       } else {
-        this.handleSuccessModal(response.message);
+        const response = await this.authApi.authenticateUser(this.loginData);
+        console.log(response);
+        if (!response.status) {
+          this.handleFailureModal(response.message);
+        } else {
+          this.handleSuccessModal(response.message);
+        }
       }
       this.isModalActive = true;
-    } catch (error: any) {
-      console.log('entrando no catch...')
+    } catch (e: any) {
+      this.handleFailureModal(e.error.message);
       this.isModalActive = true;
-      this.handleFailureModal(error)
     } finally {
       this.isLoadingActive = false;
     }
@@ -131,5 +131,4 @@ export class LoginComponent {
   closeModal(modalStatus: boolean): void {
     this.isModalActive = modalStatus;
   }
-
 }
