@@ -27,7 +27,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="btnNumber == 1; else twoBtnBlock" class="mt-6">
+        <div *ngIf="btnNumber === 1; else twoBtnBlock" class="mt-6">
           <app-button-standard
             [btnType]="'close'"
             [showIcon]="isIconCloseVisible"

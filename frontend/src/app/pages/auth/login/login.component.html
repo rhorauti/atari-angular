@@ -60,10 +60,11 @@
   <app-button-standard (click)="submitUserData()"></app-button-standard>
   <p class="mt-5 text-center text-sm text-gray-400">
     Não tem cadastro?
-    <a
-      href="#"
-      class="font-semibold leading-6 text-logo-blue-hover hover:text-logo-blue">
-      Clique aqui!</a
+    <span
+      (click)="redirectToNewUserPage()"
+      aria-hidden="true"
+      class="font-semibold leading-6 text-logo-blue-hover hover:text-logo-blue cursor-pointer">
+      Clique aqui!</span
     >
   </p>
 </div>

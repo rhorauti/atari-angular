@@ -1,21 +1,16 @@
 import { Users } from '../entities/users'
 
-export type usersDTO = {
-  id: number
-  name?: string
+export type IRequestLogin = {
   email: string
   password: string
-  avatar?: string
-  createdAt: Date
+}
+
+export type IResponseLogin = {
+  email: string
+  token: string
 }
 
 export interface IAuthRespository {
-  createUser({
-    name,
-    email,
-    password,
-    avatar,
-    createdAt,
-  }: usersDTO): Promise<Users>
+  createUser({ email, password }: IRequestLogin): Promise<Users>
   findUserByEmail(email: string): Promise<Users>
 }

@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer'
 import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm'
 
 @Entity('Users')
@@ -12,11 +13,13 @@ export class Users {
   email: string
 
   @Column()
+  @Exclude()
   password: string
 
   @Column()
   avatar?: string
 
   @CreateDateColumn()
+  @Exclude()
   createdAt: Date
 }

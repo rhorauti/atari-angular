@@ -1,15 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { AuthApi } from '../../core/api/app/auth.api';
-import { IModalInfo, IRequestlogin } from '../../core/api/interfaces/ILogin';
+import { AuthApi } from '../../../core/api/app/auth.api';
+import { IModalInfo, IRequestlogin } from '../../../core/api/interfaces/IAuth';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpRequestService } from '../../core/api/http-request.service';
-import { InputLoginComponent } from '../../components/input/input-login/input-login.component';
-import { ButtonStandardComponent } from '../../components/button/button-standard/button-standard.component';
-import { ModalInfoComponent } from '../../components/modal-info/modal-info.component';
-import { LoadingComponent } from '../../components/loading/loading.component';
+import { HttpRequestService } from '../../../core/api/http-request.service';
+import { InputLoginComponent } from '../../../components/input/input-login/input-login.component';
+import { ButtonStandardComponent } from '../../../components/button/button-standard/button-standard.component';
+import { ModalInfoComponent } from '../../../components/modal-info/modal-info.component';
+import { LoadingComponent } from '../../../components/loading/loading.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +31,7 @@ import { LoadingComponent } from '../../components/loading/loading.component';
 })
 export class LoginComponent {
   private authApi = inject(AuthApi);
+  private router = inject(Router);
 
   loginData: IRequestlogin = {
     email: '',
@@ -49,21 +51,21 @@ export class LoginComponent {
   };
 
   /**
-   * getPasswordValue
-   * Função que pega o valor do componente input password
-   * @param passwordValue
-   */
-  getPasswordValue(passwordValue: string): void {
-    this.loginData.password = passwordValue;
-  }
-
-  /**
    * getEmailValue
    * Função que pega o valor do componente input e-mail
    * @param emailValue
    */
   getEmailValue(emailValue: string): void {
     this.loginData.email = emailValue;
+  }
+
+  /**
+   * getPasswordValue
+   * Função que pega o valor do componente input password
+   * @param passwordValue
+   */
+  getPasswordValue(passwordValue: string): void {
+    this.loginData.password = passwordValue;
   }
 
   /**
@@ -107,7 +109,6 @@ export class LoginComponent {
         this.handleFailureModal('Campo senha vazio!');
       } else {
         const response = await this.authApi.authenticateUser(this.loginData);
-        console.log(response);
         if (!response.status) {
           this.handleFailureModal(response.message);
         } else {
@@ -130,5 +131,13 @@ export class LoginComponent {
    */
   closeModal(modalStatus: boolean): void {
     this.isModalActive = modalStatus;
+  }
+
+  /**
+   * redirectToNewUser
+   * Função que redireciona o usuário para a tela de cadastro.
+   */
+  redirectToNewUserPage(): void {
+    this.router.navigate(['/signup']);
   }
 }

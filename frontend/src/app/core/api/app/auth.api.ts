@@ -1,6 +1,11 @@
 import { inject } from '@angular/core';
 import { HttpRequestService } from '../http-request.service';
-import { IRequestlogin, IResponseLogin } from '../interfaces/ILogin';
+import {
+  IRequestSignUp,
+  IRequestlogin,
+  IResponseLogin,
+  IResponseSignUp,
+} from '../interfaces/IAuth';
 // import { IResponseCheckValidToken } from '../interfaces/IRedirect';
 
 export class AuthApi {
@@ -18,8 +23,16 @@ export class AuthApi {
       'POST',
       login
     );
-    localStorage.setItem('@authToken', response.data);
+    localStorage.setItem('@authToken', response.data.token);
     return response;
+  }
+
+  async createNewUser(newUser: IRequestSignUp): Promise<IResponseSignUp> {
+    return await this.httpRequestService.sendHttpRequest(
+      `http://localhost:3000/signup`,
+      'POST',
+      newUser
+    );
   }
 
   /**

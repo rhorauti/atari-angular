@@ -1,6 +1,9 @@
 import { IAuthRespository } from '@src/core/repositories/IAuthRepository'
+import jwtConfig from '@src/config/jwt.config'
 import { inject, injectable } from 'tsyringe'
 import { Request, Response } from 'express'
+import { sign } from 'jsonwebtoken'
+import { instanceToInstance } from 'class-transformer'
 
 @injectable()
 export class AuthController {
@@ -28,11 +31,19 @@ export class AuthController {
           message: 'senha inválida',
         })
       } else {
-        return response.json({
-          status: true,
-          message: 'login efetuado com sucesso!',
-          data: user,
+        const token = sign({ userId: user.id }, jwtConfig.jwt.secret, {
+          expiresIn: jwtConfig.jwt.expiresIn,
         })
+        return response.json(
+          instanceToInstance({
+            status: true,
+            message: 'login efetuado com sucesso!',
+            data: {
+              user,
+              token,
+            },
+          }),
+        )
       }
     }
   }

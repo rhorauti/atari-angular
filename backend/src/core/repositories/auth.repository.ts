@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm'
 import { Users } from '../entities/users'
 import { dataSource } from '../migrations'
-import { IAuthRespository, usersDTO } from './IAuthRepository'
+import { IAuthRespository, IRequestLogin } from './IAuthRepository'
 
 export class AuthRepository implements IAuthRespository {
   private repository: Repository<Users>
@@ -10,19 +10,10 @@ export class AuthRepository implements IAuthRespository {
     this.repository = dataSource.getRepository(Users)
   }
 
-  async createUser({
-    name,
-    email,
-    password,
-    avatar,
-    createdAt,
-  }: usersDTO): Promise<Users> {
+  async createUser({ email, password }: IRequestLogin): Promise<Users> {
     const user = this.repository.create({
-      name,
       email,
       password,
-      avatar,
-      createdAt,
     })
     return this.repository.save(user)
   }
