@@ -34,16 +34,26 @@ export class InputValidationComponent implements OnChanges {
       this.icon = 'close';
       this.showValidationText = true;
       if (
-        (this.validationType == 'caracteres' &&
+        (this.validationType == 'letters' &&
           this.inputValue.length >= this.validationLettersQty) ||
         (this.validationType == 'email' &&
-          /.com/gi.test(this.inputValue) &&
-          /@/gi.test(this.inputValue))
+          /\.com/gi.test(this.inputValue) &&
+          /@/gi.test(this.inputValue)) ||
+        (this.validationType == 'passwordUppercase' &&
+          /[A-Z]/g.test(this.inputValue)) ||
+        (this.validationType == 'passwordSymbol' &&
+          /[^0-9A-Za-z]/g.test(this.inputValue)) ||
+        (this.validationType == 'passwordNumber' &&
+          /[0-9]/g.test(this.inputValue)) ||
+        (this.validationType == 'passwordConfirmation' &&
+          this.inputValue == this.inputValueToCompare)
       ) {
         this.textColor = 'text-green-400';
         this.icon = 'check_circle_outline';
-        this.emitValidationResult.emit(true);
+        this.emitValidationResult?.emit(true);
       }
+    } else {
+      this.emitValidationResult?.emit(false);
     }
   }
 }

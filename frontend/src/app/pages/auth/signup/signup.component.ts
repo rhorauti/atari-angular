@@ -45,6 +45,14 @@ export class SignupComponent {
   public showPassword = false;
   public isModalActive = false;
   public isLoadingActive = false;
+  public nameValidation = false;
+  public emailValidation = false;
+  public passwordLettersValidation = false;
+  public passwordUpperCaseValidation = false;
+  public passwordNumberValidation = false;
+  public passwordSymbolValidation = false;
+  public confirmPasswordValidation = false;
+
   public modalInfo: IModalInfo = {
     modalIcon: '',
     modalTitle: '',
@@ -63,6 +71,10 @@ export class SignupComponent {
     this.signupData.name = nameValue;
   }
 
+  checkNamePasswordValidation(validationStatus: boolean) {
+    this.nameValidation = validationStatus;
+  }
+
   /**
    * getEmailValue
    * Função que pega o valor do componente input e-mail
@@ -70,6 +82,10 @@ export class SignupComponent {
    */
   getEmailValue(emailValue: string): void {
     this.signupData.email = emailValue;
+  }
+
+  checkEmailValidation(validationStatus: boolean) {
+    this.emailValidation = validationStatus;
   }
 
   /**
@@ -81,13 +97,49 @@ export class SignupComponent {
     this.signupData.password = passwordValue;
   }
 
+  checkPasswordLettersValidation(validationStatus: boolean): void {
+    this.passwordLettersValidation = validationStatus;
+  }
+
+  checkPasswordUpperCaseValidation(validationStatus: boolean): void {
+    this.passwordUpperCaseValidation = validationStatus;
+  }
+
+  checkPasswordNumberValidation(validationStatus: boolean): void {
+    this.passwordNumberValidation = validationStatus;
+  }
+
+  checkPasswordSymbolValidation(validationStatus: boolean): void {
+    this.passwordSymbolValidation = validationStatus;
+  }
+
   /**
    * getConfirmPasswordValue
    * Função que pega o valor do componente input do confirmar senha
    * @param passwordValue
    */
   getConfirmPasswordValue(passwordValue: string): void {
-    this.signupData.password = passwordValue;
+    this.signupData.confirmPassword = passwordValue;
+  }
+
+  checkConfirmPasswordValidation(validationStatus: boolean) {
+    this.confirmPasswordValidation = validationStatus;
+  }
+
+  checkAllValidation(): boolean {
+    if (
+      this.nameValidation &&
+      this.emailValidation &&
+      this.passwordLettersValidation &&
+      this.passwordUpperCaseValidation &&
+      this.passwordNumberValidation &&
+      this.passwordSymbolValidation &&
+      this.confirmPasswordValidation
+    ) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   /**

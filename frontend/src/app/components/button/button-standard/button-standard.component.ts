@@ -15,6 +15,7 @@ export class ButtonStandardComponent implements OnInit {
   @Input() btnType = 'submit';
   @Input() icon = '';
   @Input() showIcon = false;
+  @Input() isDisabled = false;
 
   public backgroundColor = '';
   public labelColor = 'text-white';

@@ -1,15 +1,16 @@
 <button
   [ngClass]="btnClass"
+  [disabled]="isDisabled"
   class="
         flex
         justify-center
-        w-full 
-        rounded-md 
+        w-full
+        rounded-md
         {{ backgroundColor }}
-        py-1.5 
-        text-sm 
-        font-semibold 
-        leading-6 
+        py-1.5
+        text-sm
+        font-semibold
+        leading-6
         {{ labelColor }}
         {{ hoverBackgroundColor }}">
   <mat-icon *ngIf="showIcon" class="mr-1 text-base">{{ icon }}</mat-icon>

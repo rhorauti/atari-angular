@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AuthApi } from '../../../core/api/http/auth.api';
-import { IModalInfo, IRequestlogin } from '../../../core/api/interfaces/IAuth';
+import { IRequestlogin } from '../../../core/api/interfaces/IAuth';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,6 +11,7 @@ import { ButtonStandardComponent } from '../../../components/button/button-stand
 import { ModalInfoComponent } from '../../../components/modal-info/modal-info.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { Router } from '@angular/router';
+import { IModalInfo } from '../../../core/api/interfaces/IModal';
 
 @Component({
   selector: 'app-login',
