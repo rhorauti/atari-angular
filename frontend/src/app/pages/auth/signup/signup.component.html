@@ -15,20 +15,21 @@
       >Nome</label
     >
     <app-input-login
-      (emitInputValue)="getEmailValue($event)"
+      (emitInputValue)="getNameValue($event)"
       [isEmail]="true"
       [showIconRight]="false"
       [iconLeft]="'person'"
       [placeholder]="'Fulano da Silva'"></app-input-login>
-    <div class="flex items-center text-red-500 mt-1">
-      <mat-icon class="text-sm min-w-fit text-center mr-1"
-        >check_circle_outline</mat-icon
-      >
-      <p class="text-xs">O nome deve ter no mímino 3 caracteres!</p>
-    </div>
   </div>
+  <app-input-validation
+    [inputValue]="signupData.name"
+    [validationType]="'caracteres'"
+    [validationLettersQty]="3"
+    [validationText]="
+      'Nome deve ter no mínimo 3 caracteres'
+    "></app-input-validation>
   <!--E-mail-->
-  <div class="my-3">
+  <div class="mt-3">
     <label
       for="email"
       class="block mb-2 text-sm font-medium leading-6 text-white"
@@ -41,8 +42,12 @@
       [iconLeft]="'email'"
       [placeholder]="'teste@exemplo.com'"></app-input-login>
   </div>
+  <app-input-validation
+    [inputValue]="signupData.email"
+    [validationType]="'email'"
+    [validationText]="'Email validado!'"></app-input-validation>
   <!--Senha-->
-  <div class="mb-4">
+  <div class="mt-3">
     <label
       for="password"
       class="block mb-2 text-sm font-medium leading-6 text-white"
@@ -50,27 +55,9 @@
     >
     <app-input-login
       (emitInputValue)="getPasswordValue($event)"></app-input-login>
-    <div class="flex items-center text-red-500 mt-1">
-      <mat-icon class="text-sm min-w-fit text-center mr-1"
-        >check_circle_outline</mat-icon
-      >
-      <p class="text-xs">A senha deve conter no mínimo 6 digitos.</p>
-    </div>
-    <div class="flex items-center text-red-500 mt-1">
-      <mat-icon class="text-sm min-w-fit text-center mr-1"
-        >check_circle_outline</mat-icon
-      >
-      <p class="text-xs">Deve conter no mínimo um carater especial.</p>
-    </div>
-    <div class="flex items-center text-red-500 mt-1">
-      <mat-icon class="text-sm min-w-fit text-center mr-1"
-        >check_circle_outline</mat-icon
-      >
-      <p class="text-xs">Deve conter no mínimo uma letra maiuscula.</p>
-    </div>
   </div>
   <!--Confirmar Senha-->
-  <div class="mb-6">
+  <div class="mt-3 mb-6">
     <label
       for="password"
       class="block mb-2 text-sm font-medium leading-6 text-white"
@@ -78,12 +65,6 @@
     >
     <app-input-login
       (emitInputValue)="getConfirmPasswordValue($event)"></app-input-login>
-    <div class="flex items-center text-red-500 mt-1">
-      <mat-icon class="text-sm min-w-fit text-center mr-1"
-        >check_circle_outline</mat-icon
-      >
-      <p class="text-xs">As senhas devem ser iguais.</p>
-    </div>
   </div>
   <!--Button-->
   <app-button-standard

@@ -6,9 +6,12 @@ import {
   IResponseLogin,
   IResponseSignUp,
 } from '../interfaces/IAuth';
+import { environment } from '../../../environments/environment';
 // import { IResponseCheckValidToken } from '../interfaces/IRedirect';
 
 export class AuthApi {
+  private readonly API = environment.apiUrl;
+
   private httpRequestService = inject(HttpRequestService);
 
   /**
@@ -19,7 +22,7 @@ export class AuthApi {
    */
   async authenticateUser(login: IRequestlogin): Promise<IResponseLogin> {
     const response = await this.httpRequestService.sendHttpRequest(
-      `http://localhost:3000/login`,
+      `${this.API}/login`,
       'POST',
       login
     );
@@ -29,7 +32,7 @@ export class AuthApi {
 
   async createNewUser(newUser: IRequestSignUp): Promise<IResponseSignUp> {
     return await this.httpRequestService.sendHttpRequest(
-      `http://localhost:3000/signup`,
+      `${this.API}/signup`,
       'POST',
       newUser
     );

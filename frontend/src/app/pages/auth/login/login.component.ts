@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { AuthApi } from '../../../core/api/app/auth.api';
+import { AuthApi } from '../../../core/api/http/auth.api';
 import { IModalInfo, IRequestlogin } from '../../../core/api/interfaces/IAuth';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
@@ -46,6 +46,7 @@ export class LoginComponent {
     modalIcon: '',
     modalTitle: '',
     modalDescription: '',
+    modalBtnCloseLabel: '',
     iconModalBackgroundColor: '',
     iconModalTextColor: '',
   };
@@ -77,6 +78,7 @@ export class LoginComponent {
       modalIcon: 'check',
       modalTitle: 'Sucesso!',
       modalDescription: message,
+      modalBtnCloseLabel: 'Fechar',
       iconModalBackgroundColor: 'bg-green-600',
       iconModalTextColor: 'text-green-100',
     };
@@ -91,6 +93,7 @@ export class LoginComponent {
       modalIcon: 'close',
       modalTitle: 'Erro!',
       modalDescription: message,
+      modalBtnCloseLabel: 'Fechar',
       iconModalBackgroundColor: 'bg-red-500',
       iconModalTextColor: 'text-white',
     };

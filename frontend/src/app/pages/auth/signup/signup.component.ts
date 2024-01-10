@@ -6,10 +6,12 @@ import { ModalInfoComponent } from '../../../components/modal-info/modal-info.co
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthApi } from '../../../core/api/app/auth.api';
-import { IModalInfo, IRequestSignUp } from '../../../core/api/interfaces/IAuth';
+import { AuthApi } from '../../../core/api/http/auth.api';
+import { IRequestSignUp } from '../../../core/api/interfaces/IAuth';
 import { HttpRequestService } from '../../../core/api/http-request.service';
 import { Router } from '@angular/router';
+import { IModalInfo } from '../../../core/api/interfaces/IModal';
+import { InputValidationComponent } from '../../../components/input-validation/input-validation.component';
 
 @Component({
   selector: 'app-signup',
@@ -22,6 +24,7 @@ import { Router } from '@angular/router';
     LoadingComponent,
     MatIconModule,
     HttpClientModule,
+    InputValidationComponent,
   ],
   providers: [AuthApi, HttpRequestService],
   templateUrl: './signup.component.html',
@@ -46,6 +49,7 @@ export class SignupComponent {
     modalIcon: '',
     modalTitle: '',
     modalDescription: '',
+    modalBtnCloseLabel: '',
     iconModalBackgroundColor: '',
     iconModalTextColor: '',
   };
@@ -95,6 +99,7 @@ export class SignupComponent {
       modalIcon: 'check',
       modalTitle: 'Sucesso!',
       modalDescription: message,
+      modalBtnCloseLabel: 'Fechar',
       iconModalBackgroundColor: 'bg-green-600',
       iconModalTextColor: 'text-green-100',
     };
@@ -109,6 +114,7 @@ export class SignupComponent {
       modalIcon: 'close',
       modalTitle: 'Erro!',
       modalDescription: message,
+      modalBtnCloseLabel: 'Fechar',
       iconModalBackgroundColor: 'bg-red-500',
       iconModalTextColor: 'text-white',
     };
