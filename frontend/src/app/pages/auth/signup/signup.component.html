@@ -19,10 +19,12 @@
       [isEmail]="true"
       [showIconRight]="false"
       [iconLeft]="'person'"
+      [borderColor]="changeNameBorderColor()"
       [placeholder]="'Fulano da Silva'"></app-input-login>
     <div class="mt-2">
       <app-input-validation
-        [inputValue]="signupData.name"
+        (emitValidationResult)="getNameValidation($event)"
+        [inputValue]="signupData.name()"
         [validationType]="'letters'"
         [validationLettersQty]="3"
         [validationText]="
@@ -42,12 +44,14 @@
       [isEmail]="true"
       [showIconRight]="false"
       [iconLeft]="'email'"
+      [borderColor]="changeEmailBorderColor()"
       [placeholder]="'teste@exemplo.com'"></app-input-login>
     <div class="mt-2">
       <app-input-validation
-        [inputValue]="signupData.email"
+        (emitValidationResult)="getEmailValidation($event)"
+        [inputValue]="signupData.email()"
         [validationType]="'email'"
-        [validationText]="'Email validado!'"></app-input-validation>
+        [validationText]="'Email valido!'"></app-input-validation>
     </div>
   </div>
   <!--Senha-->
@@ -58,34 +62,35 @@
       >Senha</label
     >
     <app-input-login
+      [borderColor]="changePasswordBorderColor()"
       (emitInputValue)="getPasswordValue($event)"></app-input-login>
     <div class="mt-2">
       <app-input-validation
-        (emitValidationResult)="checkPasswordLettersValidation($event)"
-        [inputValue]="signupData.password"
+        (emitValidationResult)="getPasswordLettersValidation($event)"
+        [inputValue]="signupData.password()"
         [validationType]="'letters'"
         [validationLettersQty]="6"
         [validationText]="
           'A senha deve ter no mínimo 6 caracteres!'
         "></app-input-validation>
       <app-input-validation
-        (emitValidationResult)="checkPasswordUpperCaseValidation($event)"
-        [inputValue]="signupData.password"
+        (emitValidationResult)="getPasswordUpperCaseValidation($event)"
+        [inputValue]="signupData.password()"
         [validationType]="'passwordUppercase'"
         [validationText]="
           'A senha deve ter no mínimo 1 letra maiúscula!'
         "></app-input-validation>
       <app-input-validation
-        (emitValidationResult)="checkPasswordNumberValidation($event)"
-        [inputValue]="signupData.password"
+        (emitValidationResult)="getPasswordNumberValidation($event)"
+        [inputValue]="signupData.password()"
         [validationType]="'passwordNumber'"
         s
         [validationText]="
           'A senha deve ter no mínimo 1 número!'
         "></app-input-validation>
       <app-input-validation
-        (emitValidationResult)="checkPasswordSymbolValidation($event)"
-        [inputValue]="signupData.password"
+        (emitValidationResult)="getPasswordSymbolValidation($event)"
+        [inputValue]="signupData.password()"
         [validationType]="'passwordSymbol'"
         [validationText]="
           'A senha deve ter no mínimo 1 caractere especial!'
@@ -100,23 +105,24 @@
       >Confirmar senha</label
     >
     <app-input-login
+      [borderColor]="changeConfirmPasswordBorderColor()"
       (emitInputValue)="getConfirmPasswordValue($event)"></app-input-login>
 
     <div class="mt-2">
       <app-input-validation
-        (emitValidationResult)="checkConfirmPasswordValidation($event)"
-        [inputValue]="signupData.confirmPassword"
+        (emitValidationResult)="getConfirmPasswordValidation($event)"
+        [inputValue]="signupData.confirmPassword()"
         [validationType]="'passwordConfirmation'"
-        [inputValueToCompare]="signupData.password"
+        [inputValueToCompare]="signupData.password()"
         [validationText]="
-          'As 2 senhas devem ser idênticas'
+          'As 2 senhas devem ser iguais'
         "></app-input-validation>
     </div>
   </div>
   <!--Button-->
   <app-button-standard
     (click)="createNewUser()"
-    [isDisabled]="checkAllValidation()"
+    [isDisabled]="!allValidationsOk()"
     [label]="'Criar'"></app-button-standard>
   <p class="mt-5 text-center text-sm text-gray-400">
     Já possui cadastro?

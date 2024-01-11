@@ -51,9 +51,9 @@ export class InputValidationComponent implements OnChanges {
         this.textColor = 'text-green-400';
         this.icon = 'check_circle_outline';
         this.emitValidationResult?.emit(true);
+      } else {
+        this.emitValidationResult?.emit(false);
       }
-    } else {
-      this.emitValidationResult?.emit(false);
     }
   }
 }

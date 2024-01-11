@@ -1,3 +1,5 @@
+import { WritableSignal } from '@angular/core';
+
 export interface IRequestlogin {
   email: string;
   password: string;
@@ -15,11 +17,11 @@ export interface IResponseLogin {
 }
 
 export interface IRequestSignUp {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  avatar: string;
+  name: WritableSignal<string>;
+  email: WritableSignal<string>;
+  password: WritableSignal<string>;
+  confirmPassword: WritableSignal<string>;
+  avatar: WritableSignal<string>;
 }
 
 export interface IResponseSignUp {
@@ -34,11 +36,12 @@ export interface IResponseSignUp {
   };
 }
 
-export interface IModalInfo {
-  modalIcon: string;
-  modalTitle: string;
-  modalDescription: string;
-  modalBtnCloseLabel: string;
-  iconModalBackgroundColor: string;
-  iconModalTextColor: string;
+export interface IFormValidation {
+  nameValidation: WritableSignal<boolean>;
+  emailValidation: WritableSignal<boolean>;
+  passwordLettersValidation: WritableSignal<boolean>;
+  passwordUpperCaseValidation: WritableSignal<boolean>;
+  passwordNumberValidation: WritableSignal<boolean>;
+  passwordSymbolValidation: WritableSignal<boolean>;
+  confirmPasswordValidation: WritableSignal<boolean>;
 }

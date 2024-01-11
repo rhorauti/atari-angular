@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, Signal, computed, inject, signal } from '@angular/core';
 import { ButtonStandardComponent } from '../../../components/button/button-standard/button-standard.component';
 import { InputLoginComponent } from '../../../components/input/input-login/input-login.component';
 import { ModalInfoComponent } from '../../../components/modal-info/modal-info.component';
@@ -7,11 +7,14 @@ import { LoadingComponent } from '../../../components/loading/loading.component'
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthApi } from '../../../core/api/http/auth.api';
-import { IRequestSignUp } from '../../../core/api/interfaces/IAuth';
 import { HttpRequestService } from '../../../core/api/http-request.service';
 import { Router } from '@angular/router';
 import { IModalInfo } from '../../../core/api/interfaces/IModal';
 import { InputValidationComponent } from '../../../components/input-validation/input-validation.component';
+import {
+  IFormValidation,
+  IRequestSignUp,
+} from '../../../core/api/interfaces/IAuth';
 
 @Component({
   selector: 'app-signup',
@@ -34,24 +37,23 @@ export class SignupComponent {
   private authApi = inject(AuthApi);
   private router = inject(Router);
 
-  signupData: IRequestSignUp = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    avatar: '',
+  public signupData: IRequestSignUp = {
+    name: signal(''),
+    email: signal(''),
+    password: signal(''),
+    confirmPassword: signal(''),
+    avatar: signal(''),
   };
 
-  public showPassword = false;
-  public isModalActive = false;
-  public isLoadingActive = false;
-  public nameValidation = false;
-  public emailValidation = false;
-  public passwordLettersValidation = false;
-  public passwordUpperCaseValidation = false;
-  public passwordNumberValidation = false;
-  public passwordSymbolValidation = false;
-  public confirmPasswordValidation = false;
+  public formValidation: IFormValidation = {
+    nameValidation: signal(false),
+    emailValidation: signal(false),
+    passwordLettersValidation: signal(false),
+    passwordUpperCaseValidation: signal(false),
+    passwordNumberValidation: signal(false),
+    passwordSymbolValidation: signal(false),
+    confirmPasswordValidation: signal(false),
+  };
 
   public modalInfo: IModalInfo = {
     modalIcon: '',
@@ -62,18 +64,33 @@ export class SignupComponent {
     iconModalTextColor: '',
   };
 
+  public showPassword = false;
+  public isModalActive = false;
+  public isLoadingActive = false;
+
   /**
    * getNameValue
    * Função que pega o valor do componente input nome
    * @param emailValue
    */
   getNameValue(nameValue: string): void {
-    this.signupData.name = nameValue;
+    this.signupData.name.set(nameValue);
   }
 
-  checkNamePasswordValidation(validationStatus: boolean) {
-    this.nameValidation = validationStatus;
+  getNameValidation(validationStatus: boolean) {
+    this.formValidation.nameValidation.set(validationStatus);
   }
+
+  changeNameBorderColor: Signal<string> = computed(() => {
+    if (
+      this.signupData.name().length > 0 &&
+      !this.formValidation.nameValidation()
+    ) {
+      return 'ring-red-400';
+    } else {
+      return 'ring-logo-blue-hover';
+    }
+  });
 
   /**
    * getEmailValue
@@ -81,12 +98,27 @@ export class SignupComponent {
    * @param emailValue
    */
   getEmailValue(emailValue: string): void {
-    this.signupData.email = emailValue;
+    this.signupData.email.set(emailValue);
   }
 
-  checkEmailValidation(validationStatus: boolean) {
-    this.emailValidation = validationStatus;
+  getEmailValidation(validationStatus: boolean): void {
+    this.formValidation.emailValidation.set(validationStatus);
   }
+
+  changeEmailBorderColor: Signal<string> = computed(() => {
+    console.log(
+      this.signupData.email().length > 0 &&
+        !this.formValidation.emailValidation()
+    );
+    if (
+      this.signupData.email().length > 0 &&
+      !this.formValidation.emailValidation()
+    ) {
+      return 'ring-red-400';
+    } else {
+      return 'ring-logo-blue-hover';
+    }
+  });
 
   /**
    * getPasswordValue
@@ -94,24 +126,47 @@ export class SignupComponent {
    * @param passwordValue
    */
   getPasswordValue(passwordValue: string): void {
-    this.signupData.password = passwordValue;
+    this.signupData.password.set(passwordValue);
   }
 
-  checkPasswordLettersValidation(validationStatus: boolean): void {
-    this.passwordLettersValidation = validationStatus;
+  getPasswordLettersValidation(validationStatus: boolean): void {
+    this.formValidation.passwordLettersValidation.set(validationStatus);
   }
 
-  checkPasswordUpperCaseValidation(validationStatus: boolean): void {
-    this.passwordUpperCaseValidation = validationStatus;
+  getPasswordUpperCaseValidation(validationStatus: boolean): void {
+    this.formValidation.passwordUpperCaseValidation.set(validationStatus);
   }
 
-  checkPasswordNumberValidation(validationStatus: boolean): void {
-    this.passwordNumberValidation = validationStatus;
+  getPasswordNumberValidation(validationStatus: boolean): void {
+    this.formValidation.passwordNumberValidation.set(validationStatus);
   }
 
-  checkPasswordSymbolValidation(validationStatus: boolean): void {
-    this.passwordSymbolValidation = validationStatus;
+  getPasswordSymbolValidation(validationStatus: boolean): void {
+    this.formValidation.passwordSymbolValidation.set(validationStatus);
   }
+
+  changePasswordBorderColor: Signal<string> = computed(() => {
+    console.log(this.signupData.password().length > 0);
+    console.log(this.formValidation.passwordLettersValidation());
+    console.log(this.formValidation.passwordUpperCaseValidation());
+    console.log(this.formValidation.passwordNumberValidation());
+    console.log(this.formValidation.passwordSymbolValidation());
+    console.log(
+      this.signupData.password().length > 0 &&
+        !this.formValidation.passwordLettersValidation()
+    );
+    if (
+      this.signupData.password().length > 0 &&
+      !this.formValidation.passwordLettersValidation() &&
+      !this.formValidation.passwordUpperCaseValidation() &&
+      !this.formValidation.passwordNumberValidation() &&
+      !this.formValidation.passwordSymbolValidation()
+    ) {
+      return 'ring-red-400';
+    } else {
+      return 'ring-logo-blue-hover';
+    }
+  });
 
   /**
    * getConfirmPasswordValue
@@ -119,28 +174,39 @@ export class SignupComponent {
    * @param passwordValue
    */
   getConfirmPasswordValue(passwordValue: string): void {
-    this.signupData.confirmPassword = passwordValue;
+    this.signupData.confirmPassword.set(passwordValue);
   }
 
-  checkConfirmPasswordValidation(validationStatus: boolean) {
-    this.confirmPasswordValidation = validationStatus;
+  getConfirmPasswordValidation(validationStatus: boolean): void {
+    this.formValidation.confirmPasswordValidation.set(validationStatus);
   }
 
-  checkAllValidation(): boolean {
+  changeConfirmPasswordBorderColor: Signal<string> = computed(() => {
     if (
-      this.nameValidation &&
-      this.emailValidation &&
-      this.passwordLettersValidation &&
-      this.passwordUpperCaseValidation &&
-      this.passwordNumberValidation &&
-      this.passwordSymbolValidation &&
-      this.confirmPasswordValidation
+      this.signupData.confirmPassword().length > 0 &&
+      !this.formValidation.confirmPasswordValidation()
+    ) {
+      return 'ring-red-400';
+    } else {
+      return 'ring-logo-blue-hover';
+    }
+  });
+
+  public allValidationsOk = computed(() => {
+    if (
+      this.formValidation.nameValidation() &&
+      this.formValidation.emailValidation() &&
+      this.formValidation.passwordLettersValidation() &&
+      this.formValidation.passwordUpperCaseValidation() &&
+      this.formValidation.passwordNumberValidation() &&
+      this.formValidation.passwordSymbolValidation() &&
+      this.formValidation.confirmPasswordValidation()
     ) {
       return false;
     } else {
       return true;
     }
-  }
+  });
 
   /**
    * handleSuccessModal
@@ -179,9 +245,9 @@ export class SignupComponent {
   async createNewUser(): Promise<void> {
     this.isLoadingActive = true;
     try {
-      if (this.signupData.email.length == 0) {
+      if (this.signupData.email().length == 0) {
         this.handleFailureModal('Campo email vazio!');
-      } else if (this.signupData.password.length == 0) {
+      } else if (this.signupData.password().length == 0) {
         this.handleFailureModal('Campo senha vazio!');
       } else {
         const response = await this.authApi.createNewUser(this.signupData);
