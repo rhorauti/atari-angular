@@ -77,10 +77,19 @@ export class SignupComponent {
     this.signupData.name.set(nameValue);
   }
 
+  /**
+   * getNameValidation
+   * Função que valida se o nome está com a quantidade mínima de caracteres estipulado.
+   * @param validationStatus
+   */
   getNameValidation(validationStatus: boolean) {
     this.formValidation.nameValidation.set(validationStatus);
   }
 
+  /**
+   * changeNameBorderColor
+   * Função computed que altera a cor da borda do input name para vermelho caso a validação seja atendida.
+   */
   changeNameBorderColor: Signal<string> = computed(() => {
     if (
       this.signupData.name().length > 0 &&
@@ -101,15 +110,20 @@ export class SignupComponent {
     this.signupData.email.set(emailValue);
   }
 
+  /**
+   * getEmailValidation
+   * Função que valida se o email possui um "@"" e ".com".
+   * @param validationStatus
+   */
   getEmailValidation(validationStatus: boolean): void {
     this.formValidation.emailValidation.set(validationStatus);
   }
 
+  /**
+   * changeEmailBorderColor
+   * Função computed que altera a cor da borda do input email para vermelho caso a validação seja atendida.
+   */
   changeEmailBorderColor: Signal<string> = computed(() => {
-    console.log(
-      this.signupData.email().length > 0 &&
-        !this.formValidation.emailValidation()
-    );
     if (
       this.signupData.email().length > 0 &&
       !this.formValidation.emailValidation()
@@ -129,37 +143,54 @@ export class SignupComponent {
     this.signupData.password.set(passwordValue);
   }
 
+  /**
+   * getPasswordLettersValidation
+   * Função que valida se a senha possui a quantidade minima de carateres estipulados.
+   * @param validationStatus
+   */
   getPasswordLettersValidation(validationStatus: boolean): void {
     this.formValidation.passwordLettersValidation.set(validationStatus);
   }
 
+  /**
+   * getPasswordUpperCaseValidation
+   * Função que valida se a senha possui a quantidade minima de letras maiusculas estipulados.
+   * @param validationStatus
+   */
   getPasswordUpperCaseValidation(validationStatus: boolean): void {
     this.formValidation.passwordUpperCaseValidation.set(validationStatus);
   }
 
+  /**
+   * getPasswordNumberValidation
+   * Função que valida se a senha possui a quantidade minima de números estipulados.
+   * @param validationStatus
+   */
   getPasswordNumberValidation(validationStatus: boolean): void {
     this.formValidation.passwordNumberValidation.set(validationStatus);
   }
 
+  /**
+   * getPasswordSymbolValidation
+   * Função que valida se a senha possui a quantidade minima de simbolos estipulados.
+   * @param validationStatus
+   */
   getPasswordSymbolValidation(validationStatus: boolean): void {
     this.formValidation.passwordSymbolValidation.set(validationStatus);
   }
 
+  /**
+   * changePasswordBorderColor
+   * Função computed que altera a cor da borda do input senha para vermelho caso as validações sejam atendidas.
+   */
   changePasswordBorderColor: Signal<string> = computed(() => {
-    console.log(this.signupData.password().length > 0);
-    console.log(this.formValidation.passwordLettersValidation());
-    console.log(this.formValidation.passwordUpperCaseValidation());
-    console.log(this.formValidation.passwordNumberValidation());
-    console.log(this.formValidation.passwordSymbolValidation());
-    console.log(
-      this.signupData.password().length > 0 &&
-        !this.formValidation.passwordLettersValidation()
-    );
-    if (
-      this.signupData.password().length > 0 &&
-      !this.formValidation.passwordLettersValidation() &&
-      !this.formValidation.passwordUpperCaseValidation() &&
-      !this.formValidation.passwordNumberValidation() &&
+    if (!this.signupData.password()) {
+      return 'ring-logo-blue-hover';
+    } else if (
+      (this.signupData.password() &&
+        !this.formValidation.passwordLettersValidation()) ||
+      !this.formValidation.passwordUpperCaseValidation() ||
+      !this.formValidation.passwordNumberValidation() ||
       !this.formValidation.passwordSymbolValidation()
     ) {
       return 'ring-red-400';
@@ -177,10 +208,19 @@ export class SignupComponent {
     this.signupData.confirmPassword.set(passwordValue);
   }
 
+  /**
+   * getConfirmPasswordValidation
+   * Função que valida se o confirmar senha está igual a senha.
+   * @param validationStatus
+   */
   getConfirmPasswordValidation(validationStatus: boolean): void {
     this.formValidation.confirmPasswordValidation.set(validationStatus);
   }
 
+  /**
+   * changeConfirmPasswordBorderColor
+   * Função computed que altera a cor da borda do input confirmar senha para vermelho caso as validações sejam atendidas.
+   */
   changeConfirmPasswordBorderColor: Signal<string> = computed(() => {
     if (
       this.signupData.confirmPassword().length > 0 &&
@@ -192,7 +232,11 @@ export class SignupComponent {
     }
   });
 
-  public allValidationsOk = computed(() => {
+  /**
+   * allValidationsOk
+   * Função computed que verifica se todas as validações estão atendidas ou não para destravar o botão criar novo usuário.
+   */
+  allValidationsOk: Signal<boolean> = computed(() => {
     if (
       this.formValidation.nameValidation() &&
       this.formValidation.emailValidation() &&
@@ -202,15 +246,15 @@ export class SignupComponent {
       this.formValidation.passwordSymbolValidation() &&
       this.formValidation.confirmPasswordValidation()
     ) {
-      return false;
-    } else {
       return true;
+    } else {
+      return false;
     }
   });
 
   /**
    * handleSuccessModal
-   * Função que popula os dados do modal no caso de email ou senha validados corretamente.
+   * Função que popula os dados do modal no caso de sucesso ao criar o usuário.
    */
   handleSuccessModal(message: string): void {
     this.modalInfo = {
@@ -225,7 +269,7 @@ export class SignupComponent {
 
   /**
    * handleFailureModal
-   * Função que popula os dados do modal no caso de email ou senha digitados incorretamente.
+   * Função que popula os dados do modal no caso de falha ao criar o usuário.
    */
   handleFailureModal(message: string): void {
     this.modalInfo = {
@@ -240,7 +284,7 @@ export class SignupComponent {
 
   /**
    * authenticateUser
-   * Função que envia os dados do usuário (email e senha) para validação do backend
+   * Função que submete os dados para o backend para criação do novo usuário.
    */
   async createNewUser(): Promise<void> {
     this.isLoadingActive = true;
@@ -268,7 +312,7 @@ export class SignupComponent {
 
   /**
    * closeModal
-   * Função que fecha o modal e direciona o usuário para a tela inicial da aplicação.
+   * Função que fecha o modal e direciona o usuário para a tela de login.
    * @param modalStatus
    */
   closeModal(modalStatus: boolean): void {
