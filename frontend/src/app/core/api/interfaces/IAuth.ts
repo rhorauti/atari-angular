@@ -16,12 +16,33 @@ export interface IResponseLogin {
   };
 }
 
+// export interface IRequestSignUp {
+//   name: WritableSignal<string>;
+//   email: WritableSignal<string>;
+//   password: WritableSignal<string>;
+//   confirmPassword: WritableSignal<string>;
+//   avatar: WritableSignal<string>;
+// }
+
+// export interface IRequestSignUp {
+//   name: string;
+//   email: string;
+//   password: string;
+//   confirmPassword: string;
+// }
+
 export interface IRequestSignUp {
   name: WritableSignal<string>;
   email: WritableSignal<string>;
   password: WritableSignal<string>;
   confirmPassword: WritableSignal<string>;
-  avatar: WritableSignal<string>;
+}
+
+export interface IRequestSignUpHttp {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export interface IResponseSignUp {

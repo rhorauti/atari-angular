@@ -10,6 +10,7 @@ export class CreateUsersTable1703816465329 implements MigrationInterface {
             name: 'id',
             type: 'int',
             isPrimary: true,
+            generationStrategy: 'increment',
           },
           {
             name: 'name',
@@ -25,9 +26,47 @@ export class CreateUsersTable1703816465329 implements MigrationInterface {
             type: 'string',
           },
           {
-            name: 'avatar',
+            name: 'createdAt',
+            type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP',
+          },
+          {
+            name: 'accessLevel',
+            type: 'int',
+            default: 1,
+          },
+          {
+            name: 'isActive',
+            type: 'boolean',
+            default: true,
+          },
+        ],
+      }),
+    )
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.createTable(
+      new Table({
+        name: 'Users',
+        columns: [
+          {
+            name: 'id',
+            type: 'int',
+            isPrimary: true,
+          },
+          {
+            name: 'name',
             type: 'string',
-            isNullable: true,
+          },
+          {
+            name: 'email',
+            type: 'string',
+            isUnique: true,
+          },
+          {
+            name: 'password',
+            type: 'string',
           },
           {
             name: 'createdAt',
@@ -37,9 +76,5 @@ export class CreateUsersTable1703816465329 implements MigrationInterface {
         ],
       }),
     )
-  }
-
-  public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('Users')
   }
 }

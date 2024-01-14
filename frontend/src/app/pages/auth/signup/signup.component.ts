@@ -42,8 +42,14 @@ export class SignupComponent {
     email: signal(''),
     password: signal(''),
     confirmPassword: signal(''),
-    avatar: signal(''),
   };
+
+  // public signupData = signal<IRequestSignUp>({
+  //   name: '',
+  //   email: '',
+  //   password: '',
+  //   confirmPassword: '',
+  // });
 
   public formValidation: IFormValidation = {
     nameValidation: signal(false),
@@ -73,6 +79,10 @@ export class SignupComponent {
    * Função que pega o valor do componente input nome
    * @param emailValue
    */
+  // getNameValue(nameValue: string): void {
+  //   this.signupData().name = nameValue;
+  // }
+
   getNameValue(nameValue: string): void {
     this.signupData.name.set(nameValue);
   }
@@ -282,6 +292,8 @@ export class SignupComponent {
     };
   }
 
+  public activeRedirectPage = false;
+
   /**
    * authenticateUser
    * Função que submete os dados para o backend para criação do novo usuário.
@@ -289,19 +301,18 @@ export class SignupComponent {
   async createNewUser(): Promise<void> {
     this.isLoadingActive = true;
     try {
-      if (this.signupData.email().length == 0) {
-        this.handleFailureModal('Campo email vazio!');
-      } else if (this.signupData.password().length == 0) {
-        this.handleFailureModal('Campo senha vazio!');
-      } else {
-        const response = await this.authApi.createNewUser(this.signupData);
-        if (!response.status) {
-          this.handleFailureModal(response.message);
-        } else {
-          this.handleSuccessModal(response.message);
-        }
+      console.log(this.signupData.name());
+      const response = await this.authApi.createNewUser({
+        name: this.signupData.name(),
+        email: this.signupData.email(),
+        password: this.signupData.password(),
+        confirmPassword: this.signupData.confirmPassword(),
+      });
+      if (response) {
+        this.handleSuccessModal(response.message);
+        this.isModalActive = true;
+        this.activeRedirectPage = true;
       }
-      this.isModalActive = true;
     } catch (e: any) {
       this.handleFailureModal(e.error.message);
       this.isModalActive = true;
@@ -317,6 +328,11 @@ export class SignupComponent {
    */
   closeModal(modalStatus: boolean): void {
     this.isModalActive = modalStatus;
+    if (this.activeRedirectPage) {
+      return this.redirectToLoginPage();
+    } else {
+      return;
+    }
   }
 
   /**

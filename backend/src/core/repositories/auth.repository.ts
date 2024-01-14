@@ -1,21 +1,28 @@
 import { Repository } from 'typeorm'
 import { Users } from '../entities/users'
 import { dataSource } from '../migrations'
-import { IAuthRespository, IRequestLogin } from './IAuthRepository'
 
-export class AuthRepository implements IAuthRespository {
+export class AuthRepository {
   private repository: Repository<Users>
 
   constructor() {
     this.repository = dataSource.getRepository(Users)
   }
 
-  async createUser({ email, password }: IRequestLogin): Promise<Users> {
-    const user = this.repository.create({
-      email,
-      password,
+  async createNewUser(
+    name: string,
+    email: string,
+    password: string,
+  ): Promise<Users> {
+    const newUser = this.repository.create({
+      name: name,
+      email: email,
+      password: password,
+      createdAt: new Date(),
+      accessLevel: 1,
+      isActive: true,
     })
-    return this.repository.save(user)
+    return this.repository.save(newUser)
   }
 
   async findUserByEmail(email: string): Promise<Users> {

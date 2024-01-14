@@ -6,5 +6,6 @@ export const dataSource = new DataSource({
   type: 'sqlite',
   database: './db.sqlite',
   entities: [Users],
+  synchronize: true,
   migrations: [CreateUsersTable1703816465329],
 })

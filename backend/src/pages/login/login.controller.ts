@@ -1,16 +1,15 @@
-import { IAuthRespository } from '@src/core/repositories/IAuthRepository'
 import jwtConfig from '@src/config/jwt.config'
 import { inject, injectable } from 'tsyringe'
 import { Request, Response } from 'express'
 import { sign } from 'jsonwebtoken'
 import { instanceToInstance } from 'class-transformer'
+import { AuthRepository } from '@src/core/repositories/auth.repository'
 
 @injectable()
-export class AuthController {
+export class LoginController {
   constructor(
-    @inject('AuthRepository') private authRepository: IAuthRespository,
+    @inject('AuthRepository') private authRepository: AuthRepository,
   ) {}
-
   async loginUser(
     request: Request,
     response: Response,

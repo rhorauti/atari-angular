@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { HttpRequestService } from '../http-request.service';
 import {
-  IRequestSignUp,
+  IRequestSignUpHttp,
   IRequestlogin,
   IResponseLogin,
   IResponseSignUp,
@@ -30,7 +30,7 @@ export class AuthApi {
     return response;
   }
 
-  async createNewUser(newUser: IRequestSignUp): Promise<IResponseSignUp> {
+  async createNewUser(newUser: IRequestSignUpHttp): Promise<IResponseSignUp> {
     return await this.httpRequestService.sendHttpRequest(
       `${this.API}/signup`,
       'POST',

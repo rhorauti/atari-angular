@@ -113,9 +113,7 @@ export class LoginComponent {
         this.handleFailureModal('Campo senha vazio!');
       } else {
         const response = await this.authApi.authenticateUser(this.loginData);
-        if (!response.status) {
-          this.handleFailureModal(response.message);
-        } else {
+        if (response) {
           this.handleSuccessModal(response.message);
         }
       }
