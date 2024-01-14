@@ -4,6 +4,7 @@ import { Request, Response } from 'express'
 import { sign } from 'jsonwebtoken'
 import { instanceToInstance } from 'class-transformer'
 import { AuthRepository } from '@src/core/repositories/auth.repository'
+import { compare } from 'bcryptjs'
 
 @injectable()
 export class LoginController {
@@ -21,13 +22,14 @@ export class LoginController {
         message: 'email inválido',
       })
     } else {
-      if (
-        user.email == request.body.email &&
-        user.password != request.body.password
-      ) {
+      const passwordConfirmed = await compare(
+        request.body.password,
+        user.password,
+      )
+      if (!passwordConfirmed) {
         return response.status(401).json({
           status: false,
-          message: 'senha inválida',
+          message: 'Senha inválida!',
         })
       } else {
         const token = sign({ userId: user.id }, jwtConfig.jwt.secret, {
