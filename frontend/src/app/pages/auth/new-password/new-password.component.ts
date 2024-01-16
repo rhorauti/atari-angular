@@ -6,18 +6,18 @@ import { ModalInfoComponent } from '../../../components/modal-info/modal-info.co
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
+import { InputValidationComponent } from '../../../components/input-validation/input-validation.component';
 import { AuthApi } from '../../../core/api/http/auth.api';
 import { HttpRequestService } from '../../../core/api/http-request.service';
-import { Router } from '@angular/router';
-import { IModalInfo } from '../../../core/api/interfaces/IModal';
-import { InputValidationComponent } from '../../../components/input-validation/input-validation.component';
 import {
-  IFormValidation,
-  IRequestSignUp,
+  IFormValidationNewPassword,
+  IRequestNewPassword,
 } from '../../../core/api/interfaces/IAuth';
+import { IModalInfo } from '../../../core/api/interfaces/IModal';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-signup',
+  selector: 'app-new-password',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,23 +30,19 @@ import {
     InputValidationComponent,
   ],
   providers: [AuthApi, HttpRequestService],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss',
+  templateUrl: './new-password.component.html',
+  styleUrl: './new-password.component.scss',
 })
-export class SignupComponent {
+export class NewPasswordComponent {
   private authApi = inject(AuthApi);
   private router = inject(Router);
 
-  public signupData: IRequestSignUp = {
-    name: signal(''),
-    email: signal(''),
+  public signupData: IRequestNewPassword = {
     password: signal(''),
     confirmPassword: signal(''),
   };
 
-  public formValidation: IFormValidation = {
-    nameValidation: signal(false),
-    emailValidation: signal(false),
+  public formValidation: IFormValidationNewPassword = {
     passwordLettersValidation: signal(false),
     passwordUpperCaseValidation: signal(false),
     passwordNumberValidation: signal(false),
@@ -66,76 +62,6 @@ export class SignupComponent {
   public showPassword = false;
   public isModalActive = false;
   public isLoadingActive = false;
-
-  /**
-   * getNameValue
-   * Função que pega o valor do componente input nome
-   * @param emailValue
-   */
-  // getNameValue(nameValue: string): void {
-  //   this.signupData().name = nameValue;
-  // }
-
-  getNameValue(nameValue: string): void {
-    this.signupData.name.set(nameValue);
-  }
-
-  /**
-   * getNameValidation
-   * Função que valida se o nome está com a quantidade mínima de caracteres estipulado.
-   * @param validationStatus
-   */
-  getNameValidation(validationStatus: boolean) {
-    this.formValidation.nameValidation.set(validationStatus);
-  }
-
-  /**
-   * changeNameBorderColor
-   * Função computed que altera a cor da borda do input name para vermelho caso a validação seja atendida.
-   */
-  changeNameBorderColor: Signal<string> = computed(() => {
-    if (
-      this.signupData.name().length > 0 &&
-      !this.formValidation.nameValidation()
-    ) {
-      return 'ring-red-400';
-    } else {
-      return 'ring-logo-blue-hover';
-    }
-  });
-
-  /**
-   * getEmailValue
-   * Função que pega o valor do componente input e-mail
-   * @param emailValue
-   */
-  getEmailValue(emailValue: string): void {
-    this.signupData.email.set(emailValue);
-  }
-
-  /**
-   * getEmailValidation
-   * Função que valida se o email possui um "@"" e ".com".
-   * @param validationStatus
-   */
-  getEmailValidation(validationStatus: boolean): void {
-    this.formValidation.emailValidation.set(validationStatus);
-  }
-
-  /**
-   * changeEmailBorderColor
-   * Função computed que altera a cor da borda do input email para vermelho caso a validação seja atendida.
-   */
-  changeEmailBorderColor: Signal<string> = computed(() => {
-    if (
-      this.signupData.email().length > 0 &&
-      !this.formValidation.emailValidation()
-    ) {
-      return 'ring-red-400';
-    } else {
-      return 'ring-logo-blue-hover';
-    }
-  });
 
   /**
    * getPasswordValue
@@ -241,8 +167,6 @@ export class SignupComponent {
    */
   allValidationsOk: Signal<boolean> = computed(() => {
     if (
-      this.formValidation.nameValidation() &&
-      this.formValidation.emailValidation() &&
       this.formValidation.passwordLettersValidation() &&
       this.formValidation.passwordUpperCaseValidation() &&
       this.formValidation.passwordNumberValidation() &&
@@ -291,13 +215,10 @@ export class SignupComponent {
    * authenticateUser
    * Função que submete os dados para o backend para criação do novo usuário.
    */
-  async createNewUser(): Promise<void> {
+  async createNewPassword(): Promise<void> {
     this.isLoadingActive = true;
     try {
-      console.log(this.signupData.name());
-      const response = await this.authApi.createNewUser({
-        name: this.signupData.name(),
-        email: this.signupData.email(),
+      const response = await this.authApi.createNewPassword({
         password: this.signupData.password(),
         confirmPassword: this.signupData.confirmPassword(),
       });

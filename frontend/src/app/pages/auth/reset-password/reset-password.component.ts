@@ -1,46 +1,40 @@
-import { Component, inject } from '@angular/core';
-import { AuthApi } from '../../../core/api/http/auth.api';
-import { IRequestlogin } from '../../../core/api/interfaces/IAuth';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpRequestService } from '../../../core/api/http-request.service';
-import { InputLoginComponent } from '../../../components/input/input-login/input-login.component';
+import { Component, inject } from '@angular/core';
 import { ButtonStandardComponent } from '../../../components/button/button-standard/button-standard.component';
+import { InputLoginComponent } from '../../../components/input/input-login/input-login.component';
+import { MatIconModule } from '@angular/material/icon';
 import { ModalInfoComponent } from '../../../components/modal-info/modal-info.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AuthApi } from '../../../core/api/http/auth.api';
+import { HttpRequestService } from '../../../core/api/http-request.service';
 import { Router } from '@angular/router';
 import { IModalInfo } from '../../../core/api/interfaces/IModal';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-reset-password',
   standalone: true,
   imports: [
-    MatIconModule,
     CommonModule,
     FormsModule,
     HttpClientModule,
-    InputLoginComponent,
     ButtonStandardComponent,
+    InputLoginComponent,
+    MatIconModule,
     ModalInfoComponent,
     LoadingComponent,
   ],
   providers: [AuthApi, HttpRequestService],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  templateUrl: './reset-password.component.html',
+  styleUrl: './reset-password.component.scss',
 })
-export class LoginComponent {
+export class ResetPasswordComponent {
   private authApi = inject(AuthApi);
   private router = inject(Router);
 
-  loginData: IRequestlogin = {
-    email: '',
-    password: '',
-    rememberMe: false,
-  };
+  email: string = '';
 
-  public showPassword = false;
   public isModalActive = false;
   public isLoadingActive = false;
   public modalInfo: IModalInfo = {
@@ -58,16 +52,7 @@ export class LoginComponent {
    * @param emailValue
    */
   getEmailValue(emailValue: string): void {
-    this.loginData.email = emailValue;
-  }
-
-  /**
-   * getPasswordValue
-   * Função que pega o valor do componente input password
-   * @param passwordValue
-   */
-  getPasswordValue(passwordValue: string): void {
-    this.loginData.password = passwordValue;
+    this.email = emailValue;
   }
 
   /**
@@ -104,15 +89,13 @@ export class LoginComponent {
    * authenticateUser
    * Função que envia os dados do usuário (email e senha) para validação do backend
    */
-  async submitUserData(): Promise<void> {
+  async getEmailValidation(): Promise<void> {
     this.isLoadingActive = true;
     try {
-      if (this.loginData.email.length == 0) {
+      if (this.email.length == 0) {
         this.handleFailureModal('Campo email vazio!');
-      } else if (this.loginData.password.length == 0) {
-        this.handleFailureModal('Campo senha vazio!');
       } else {
-        const response = await this.authApi.authenticateUser(this.loginData);
+        const response = await this.authApi.getEmailValidation(this.email);
         if (response) {
           this.handleSuccessModal(response.message);
         }
@@ -143,7 +126,11 @@ export class LoginComponent {
     this.router.navigate(['/signup']);
   }
 
-  redirectToGetEmailValidation(): void {
-    this.router.navigate(['/reset-password']);
+  /**
+   * redirectToLoginPage
+   * Função que redireciona o usuário para a tela de login.
+   */
+  redirectToLoginPage(): void {
+    this.router.navigate(['/login']);
   }
 }

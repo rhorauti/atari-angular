@@ -22,7 +22,7 @@ export class HttpRequestService {
   async sendHttpRequest(
     path: string,
     method: string,
-    data?: Record<string, any>
+    data?: Record<string, any> | string
   ): Promise<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('@authToken')}`,

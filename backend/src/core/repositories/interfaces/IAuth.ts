@@ -11,7 +11,8 @@ export interface ISignUpDTO {
   password: string
   createdAt: Date
   accessLevel: number
-  isActive: number
+  isActive: boolean
+  emailConfirmed: boolean
 }
 
 export interface IAuthRepository {

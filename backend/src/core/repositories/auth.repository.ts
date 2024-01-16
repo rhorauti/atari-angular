@@ -21,6 +21,7 @@ export class AuthRepository {
       createdAt: new Date(),
       accessLevel: 1,
       isActive: true,
+      emailConfirmed: false,
     })
     return this.repository.save(newUser)
   }

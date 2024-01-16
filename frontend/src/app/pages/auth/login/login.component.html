@@ -49,10 +49,11 @@
       >
     </div>
     <div class="text-sm max-[420px]:mt-2">
-      <a
-        href="#"
-        class="font-semibold text-logo-blue-hover hover:text-logo-blue"
-        >Esqueceu sua senha?</a
+      <span
+        (click)="redirectToGetEmailValidation()"
+        aria-hidden="true"
+        class="font-semibold leading-6 text-logo-blue-hover hover:text-logo-blue cursor-pointer">
+        Esqueceu sua senha?</span
       >
     </div>
   </div>

@@ -32,4 +32,8 @@ export class Users {
   @Column()
   @Exclude()
   isActive: boolean
+
+  @Column()
+  @Exclude()
+  emailConfirmed: boolean
 }

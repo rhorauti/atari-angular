@@ -16,21 +16,6 @@ export interface IResponseLogin {
   };
 }
 
-// export interface IRequestSignUp {
-//   name: WritableSignal<string>;
-//   email: WritableSignal<string>;
-//   password: WritableSignal<string>;
-//   confirmPassword: WritableSignal<string>;
-//   avatar: WritableSignal<string>;
-// }
-
-// export interface IRequestSignUp {
-//   name: string;
-//   email: string;
-//   password: string;
-//   confirmPassword: string;
-// }
-
 export interface IRequestSignUp {
   name: WritableSignal<string>;
   email: WritableSignal<string>;
@@ -65,4 +50,34 @@ export interface IFormValidation {
   passwordNumberValidation: WritableSignal<boolean>;
   passwordSymbolValidation: WritableSignal<boolean>;
   confirmPasswordValidation: WritableSignal<boolean>;
+}
+
+export interface IFormValidationNewPassword {
+  passwordLettersValidation: WritableSignal<boolean>;
+  passwordUpperCaseValidation: WritableSignal<boolean>;
+  passwordNumberValidation: WritableSignal<boolean>;
+  passwordSymbolValidation: WritableSignal<boolean>;
+  confirmPasswordValidation: WritableSignal<boolean>;
+}
+
+export interface IRequestNewPassword {
+  password: WritableSignal<string>;
+  confirmPassword: WritableSignal<string>;
+}
+
+export interface IRequestNewPasswordHttp {
+  password: string;
+  confirmPassword: string;
+}
+
+export interface IResponseNewPassword {
+  date: string;
+  status: boolean;
+  message: string;
+}
+
+export interface IResponseGetEmailValidation {
+  date: string;
+  status: boolean;
+  message: string;
 }

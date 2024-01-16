@@ -1,9 +1,13 @@
 import { inject } from '@angular/core';
 import { HttpRequestService } from '../http-request.service';
 import {
+  IRequestNewPassword,
+  IRequestNewPasswordHttp,
   IRequestSignUpHttp,
   IRequestlogin,
+  IResponseGetEmailValidation,
   IResponseLogin,
+  IResponseNewPassword,
   IResponseSignUp,
 } from '../interfaces/IAuth';
 import { environment } from '../../../environments/environment';
@@ -38,48 +42,23 @@ export class AuthApi {
     );
   }
 
-  /**
-   * checkValidToken
-   *
-   * Função que verifica se o token está valido ou não.
-   *
-   * @returns retorna a mensagem e o status 200(sucesso) ou 401(falha) dependendo se o token estiver válido.
-   */
-  //   async checkValidToken(
-  //     token: string | null,
-  //   ): Promise<IResponseCheckValidToken> {
-  //     return await this.httpRequestService.sendHttpRequest(
-  //       `${this.apiUrl}/check?token=${token}`,
-  //       'GET',
-  //     );
-  //   }
-  /**
-   * sendNewPassword
-   * @param newPassword Email cadastrado que será enviado na solicitação http
-   * @returns Retorna o resultado da verificação da existência do email do BD.
-   */
-  //   async sendNewPassword(
-  //     token: string | null,
-  //     newPassword: object,
-  //   ): Promise<string> {
-  //     const response = await this.httpRequestService.sendHttpRequest(
-  //       `${this.apiUrl}/changepassword?token=${token}`,
-  //       'POST',
-  //       newPassword,
-  //     );
-  //     return response;
-  //   }
-  /**
-   * sendPasswordResetEmail
-   * @param emailValue Email cadastrado que será enviado na solicitação http
-   * @returns Retorna o resultado da verificação da existência do email do BD.
-   */
-  //   async sendPasswordResetEmail(emailValue: string | any): Promise<string> {
-  //     const response = await this.httpRequestService.sendHttpRequest(
-  //       `${this.apiUrl}/recovery`,
-  //       'POST',
-  //       emailValue,
-  //     );
-  //     return response;
-  //   }
+  async getEmailValidation(
+    email: string
+  ): Promise<IResponseGetEmailValidation> {
+    return await this.httpRequestService.sendHttpRequest(
+      `${this.API}/reset-password`,
+      'POST',
+      email
+    );
+  }
+
+  async createNewPassword(
+    newPassword: IRequestNewPasswordHttp
+  ): Promise<IResponseNewPassword> {
+    return await this.httpRequestService.sendHttpRequest(
+      `${this.API}/new-password`,
+      'POST',
+      newPassword
+    );
+  }
 }

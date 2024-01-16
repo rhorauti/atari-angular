@@ -1,3 +1,4 @@
+import { EmailSender } from '@src/core/email/email'
 import { AuthRepository } from '@src/core/repositories/auth.repository'
 import { hash } from 'bcryptjs'
 import { Request, Response } from 'express'
@@ -7,6 +8,7 @@ import { inject, injectable } from 'tsyringe'
 export class SignUpController {
   constructor(
     @inject('AuthRepository') private authRepository: AuthRepository,
+    @inject('EmailSender') private emailSender: EmailSender,
   ) {}
 
   async createNewUser(
@@ -34,6 +36,7 @@ export class SignUpController {
           message: 'Erro inesperado!',
         })
       } else {
+        this.emailSender.sendEmailConfirmation(newUser)
         return response.status(200).json({
           status: true,
           message: 'Usuário cadastrado com sucesso!',
