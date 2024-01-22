@@ -8,11 +8,14 @@ export class EmailSender {
   constructor() {
     this.transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     })
   }
@@ -20,7 +23,7 @@ export class EmailSender {
   async sendEmailConfirmation(user: Users): Promise<void> {
     const token: string = jwt.sign(
       { email: user.email },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET_KEY,
       { algorithm: 'HS256', expiresIn: '72h' },
     )
     try {

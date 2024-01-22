@@ -1,4 +1,4 @@
-import { Users } from '@src/core/entities/users'
+import { Users } from '@src/entities/users'
 
 export interface ILoginDTO {
   email: string
@@ -18,4 +18,5 @@ export interface ISignUpDTO {
 export interface IAuthRepository {
   createNewUser(name: string, email: string, password: string): Promise<Users>
   findUserByEmail(email: string): Promise<Users>
+  validateEmail(email: string): Promise<Users>
 }

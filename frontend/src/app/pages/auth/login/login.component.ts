@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { AuthApi } from '../../../core/api/http/auth.api';
 import { IRequestlogin } from '../../../core/api/interfaces/IAuth';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +12,7 @@ import { ModalInfoComponent } from '../../../components/modal-info/modal-info.co
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { Router } from '@angular/router';
 import { IModalInfo } from '../../../core/api/interfaces/IModal';
+import { MenuComponent } from '../../../components/menu/menu.component';
 
 @Component({
   selector: 'app-login',
@@ -33,6 +34,8 @@ import { IModalInfo } from '../../../core/api/interfaces/IModal';
 export class LoginComponent {
   private authApi = inject(AuthApi);
   private router = inject(Router);
+
+  @ViewChild(MenuComponent) menuComponent?: MenuComponent;
 
   loginData: IRequestlogin = {
     email: '',
@@ -100,6 +103,8 @@ export class LoginComponent {
     };
   }
 
+  public isLoginSuccess = false;
+
   /**
    * authenticateUser
    * Função que envia os dados do usuário (email e senha) para validação do backend
@@ -115,6 +120,7 @@ export class LoginComponent {
         const response = await this.authApi.authenticateUser(this.loginData);
         if (response) {
           this.handleSuccessModal(response.message);
+          this.isLoginSuccess = true;
         }
       }
       this.isModalActive = true;
@@ -132,7 +138,12 @@ export class LoginComponent {
    * @param modalStatus
    */
   closeModal(modalStatus: boolean): void {
-    this.isModalActive = modalStatus;
+    if (!this.isLoginSuccess) {
+      this.isModalActive = modalStatus;
+    } else {
+      this.isModalActive = modalStatus;
+      this.router.navigate(['/welcome']);
+    }
   }
 
   /**

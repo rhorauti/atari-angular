@@ -9,4 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
 })
-export class MenuComponent {}
+export class MenuComponent {
+  public showMenu = false;
+}

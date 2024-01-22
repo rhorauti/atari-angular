@@ -81,3 +81,9 @@ export interface IResponseGetEmailValidation {
   status: boolean;
   message: string;
 }
+
+export interface IResponseCheckValidToken {
+  date: string;
+  status: boolean;
+  message: string;
+}

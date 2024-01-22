@@ -2,7 +2,7 @@ import { Repository } from 'typeorm'
 import { Users } from '../entities/users'
 import { dataSource } from '../migrations'
 
-export class AuthRepository {
+export class UserRepository {
   private repository: Repository<Users>
 
   constructor() {
@@ -31,5 +31,14 @@ export class AuthRepository {
       email: email,
     })
     return user
+  }
+
+  async validateEmail(email: string): Promise<void> {
+    await this.repository
+      .createQueryBuilder()
+      .update(Users)
+      .set({ emailConfirmed: true })
+      .where({ email: email })
+      .execute()
   }
 }
