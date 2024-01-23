@@ -11,6 +11,7 @@ import { AuthApi } from '../../../core/api/http/auth.api';
 import { HttpRequestService } from '../../../core/api/http-request.service';
 import { Router } from '@angular/router';
 import { IModalInfo } from '../../../core/api/interfaces/IModal';
+import { IRequestResetPassword } from '../../../core/api/interfaces/IAuth';
 
 @Component({
   selector: 'app-reset-password',
@@ -33,7 +34,9 @@ export class ResetPasswordComponent {
   private authApi = inject(AuthApi);
   private router = inject(Router);
 
-  email: string = '';
+  resetPasswordData: IRequestResetPassword = {
+    email: '',
+  };
 
   public isModalActive = false;
   public isLoadingActive = false;
@@ -52,7 +55,7 @@ export class ResetPasswordComponent {
    * @param emailValue
    */
   getEmailValue(emailValue: string): void {
-    this.email = emailValue;
+    this.resetPasswordData.email = emailValue;
   }
 
   /**
@@ -85,6 +88,8 @@ export class ResetPasswordComponent {
     };
   }
 
+  isEmailValid = false;
+
   /**
    * authenticateUser
    * Função que envia os dados do usuário (email e senha) para validação do backend
@@ -92,16 +97,20 @@ export class ResetPasswordComponent {
   async getEmailValidation(): Promise<void> {
     this.isLoadingActive = true;
     try {
-      if (this.email.length == 0) {
+      if (this.resetPasswordData.email.length == 0) {
         this.handleFailureModal('Campo email vazio!');
       } else {
-        const response = await this.authApi.getEmailValidation(this.email);
+        const response = await this.authApi.getEmailValidation(
+          this.resetPasswordData
+        );
         if (response) {
           this.handleSuccessModal(response.message);
+          this.isEmailValid = true;
         }
       }
       this.isModalActive = true;
     } catch (e: any) {
+      console.log(e);
       this.handleFailureModal(e.error.message);
       this.isModalActive = true;
     } finally {
@@ -115,7 +124,12 @@ export class ResetPasswordComponent {
    * @param modalStatus
    */
   closeModal(modalStatus: boolean): void {
-    this.isModalActive = modalStatus;
+    if (!this.isEmailValid) {
+      this.isModalActive = modalStatus;
+    } else {
+      this.isModalActive = modalStatus;
+      this.redirectToLoginPage();
+    }
   }
 
   /**

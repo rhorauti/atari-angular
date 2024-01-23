@@ -14,7 +14,7 @@ import {
   IRequestNewPassword,
 } from '../../../core/api/interfaces/IAuth';
 import { IModalInfo } from '../../../core/api/interfaces/IModal';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-password',
@@ -36,8 +36,10 @@ import { Router } from '@angular/router';
 export class NewPasswordComponent {
   private authApi = inject(AuthApi);
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
 
-  public signupData: IRequestNewPassword = {
+  public newPassword: IRequestNewPassword = {
+    token: '',
     password: signal(''),
     confirmPassword: signal(''),
   };
@@ -69,7 +71,7 @@ export class NewPasswordComponent {
    * @param passwordValue
    */
   getPasswordValue(passwordValue: string): void {
-    this.signupData.password.set(passwordValue);
+    this.newPassword.password.set(passwordValue);
   }
 
   /**
@@ -113,10 +115,10 @@ export class NewPasswordComponent {
    * Função computed que altera a cor da borda do input senha para vermelho caso as validações sejam atendidas.
    */
   changePasswordBorderColor: Signal<string> = computed(() => {
-    if (!this.signupData.password()) {
+    if (!this.newPassword.password()) {
       return 'ring-logo-blue-hover';
     } else if (
-      (this.signupData.password() &&
+      (this.newPassword.password() &&
         !this.formValidation.passwordLettersValidation()) ||
       !this.formValidation.passwordUpperCaseValidation() ||
       !this.formValidation.passwordNumberValidation() ||
@@ -134,7 +136,7 @@ export class NewPasswordComponent {
    * @param passwordValue
    */
   getConfirmPasswordValue(passwordValue: string): void {
-    this.signupData.confirmPassword.set(passwordValue);
+    this.newPassword.confirmPassword.set(passwordValue);
   }
 
   /**
@@ -152,7 +154,7 @@ export class NewPasswordComponent {
    */
   changeConfirmPasswordBorderColor: Signal<string> = computed(() => {
     if (
-      this.signupData.confirmPassword().length > 0 &&
+      this.newPassword.confirmPassword().length > 0 &&
       !this.formValidation.confirmPasswordValidation()
     ) {
       return 'ring-red-400';
@@ -218,9 +220,12 @@ export class NewPasswordComponent {
   async createNewPassword(): Promise<void> {
     this.isLoadingActive = true;
     try {
+      const token =
+        this.activatedRoute.snapshot.queryParamMap.get('token') || '';
       const response = await this.authApi.createNewPassword({
-        password: this.signupData.password(),
-        confirmPassword: this.signupData.confirmPassword(),
+        token: token,
+        password: this.newPassword.password(),
+        confirmPassword: this.newPassword.confirmPassword(),
       });
       if (response) {
         this.handleSuccessModal(response.message);

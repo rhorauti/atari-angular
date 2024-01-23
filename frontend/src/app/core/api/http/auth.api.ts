@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { HttpRequestService } from '../http-request.service';
 import {
   IRequestNewPasswordHttp,
+  IRequestResetPassword,
   IRequestSignUpHttp,
   IRequestlogin,
   IResponseCheckValidToken,
@@ -11,7 +12,6 @@ import {
   IResponseSignUp,
 } from '../interfaces/IAuth';
 import { environment } from '../../../environments/environment';
-// import { IResponseCheckValidToken } from '../interfaces/IRedirect';
 
 export class AuthApi {
   private readonly API = environment.apiUrl;
@@ -62,8 +62,14 @@ export class AuthApi {
     );
   }
 
+  /**
+   * getEmailValidation
+   * Função que envia um novo e-mail para o usuário para validação do e-mail
+   * @param email email informado pelo usuário
+   * @returns Promise com a data, status e mensagem
+   */
   async getEmailValidation(
-    email: string
+    email: IRequestResetPassword
   ): Promise<IResponseGetEmailValidation> {
     return await this.httpRequestService.sendHttpRequest(
       `${this.API}/reset-password`,
@@ -72,11 +78,17 @@ export class AuthApi {
     );
   }
 
+  /**
+   * createNewPassword
+   * Função que redefine a senha com base no e-mail informado na tela de redefinição de senha.
+   * @param newPassword nova senha digitada pelo usuário
+   * @returns Promise com a data, status e mensagem
+   */
   async createNewPassword(
     newPassword: IRequestNewPasswordHttp
   ): Promise<IResponseNewPassword> {
     return await this.httpRequestService.sendHttpRequest(
-      `${this.API}/new-password`,
+      `${this.API}/new-password?token=${newPassword.token}`,
       'POST',
       newPassword
     );

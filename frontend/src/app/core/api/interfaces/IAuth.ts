@@ -61,11 +61,17 @@ export interface IFormValidationNewPassword {
 }
 
 export interface IRequestNewPassword {
+  token: string | null;
   password: WritableSignal<string>;
   confirmPassword: WritableSignal<string>;
 }
 
+export interface IRequestResetPassword {
+  email: string;
+}
+
 export interface IRequestNewPasswordHttp {
+  token: string;
   password: string;
   confirmPassword: string;
 }

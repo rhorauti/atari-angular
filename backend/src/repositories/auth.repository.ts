@@ -41,4 +41,13 @@ export class UserRepository {
       .where({ email: email })
       .execute()
   }
+
+  async changePassword(email: string, password: string): Promise<void> {
+    await this.repository
+      .createQueryBuilder()
+      .update(Users)
+      .set({ password: password })
+      .where({ email: email })
+      .execute()
+  }
 }

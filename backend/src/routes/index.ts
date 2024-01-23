@@ -17,4 +17,12 @@ router.get('/email-validation', (request, response) => {
   authController.confirmUserValidation(request, response)
 })
 
+router.post('/reset-password', (request, response) => {
+  authController.getNewEmailValidation(request, response)
+})
+
+router.post('/new-password', (request, response) => {
+  authController.resetPassword(request, response)
+})
+
 export { router }

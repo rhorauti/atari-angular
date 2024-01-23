@@ -31,7 +31,7 @@ export class AuthController {
         message: 'email inválido',
       })
     } else if (user && !user.emailConfirmed) {
-      this.emailSender.sendEmailConfirmation(user)
+      this.emailSender.sendEmailConfirmationSignUp(user)
       return response.status(401).json({
         status: false,
         message:
@@ -98,7 +98,7 @@ export class AuthController {
           message: 'Erro inesperado!',
         })
       } else {
-        this.emailSender.sendEmailConfirmation(newUser)
+        this.emailSender.sendEmailConfirmationSignUp(newUser)
         return response.status(200).json({
           status: true,
           message: 'Usuário cadastrado com sucesso!',
@@ -141,6 +141,58 @@ export class AuthController {
           return response.status(200).json({
             status: true,
             message: 'Usuário validado com sucesso.',
+          })
+        }
+      }
+    })
+  }
+
+  async getNewEmailValidation(
+    request: Request,
+    response: Response,
+  ): Promise<Response | null> {
+    const user = await this.userRepository.findUserByEmail(request.body.email)
+    console.log(user)
+    if (!user) {
+      return response.status(401).json({
+        status: false,
+        message: 'Email não existe.',
+      })
+    } else {
+      this.emailSender.sendEmailConfirmationResetPassword(user)
+      return response.status(200).json({
+        status: true,
+        message: 'E-mail enviado para validação.',
+      })
+    }
+  }
+
+  async resetPassword(request: Request, response: Response): Promise<void> {
+    const token = request.query.token as string
+    JwtHandler.verifyToken(token, async (error: any, decodedUser: any) => {
+      if (error) {
+        return response.status(401).json({
+          status: false,
+          message: 'Token inválido ou expirado.',
+        })
+      } else {
+        const decodedEmail = decodedUser.email
+        const user = this.userRepository.findUserByEmail(decodedEmail)
+        const isSamePassword = await compare(
+          request.body.password,
+          (await user).password,
+        )
+        if (isSamePassword) {
+          return response.status(401).json({
+            status: false,
+            message: 'A senha digitada é igual a senha atual.',
+          })
+        } else {
+          const hashedPassword = await hash(request.body.password, 10)
+          this.userRepository.changePassword(decodedEmail, hashedPassword)
+          return response.status(200).json({
+            status: true,
+            message: 'Senha alterada com sucesso.',
           })
         }
       }
