@@ -75,21 +75,3 @@ export interface IRequestNewPasswordHttp {
   password: string;
   confirmPassword: string;
 }
-
-export interface IResponseNewPassword {
-  date: string;
-  status: boolean;
-  message: string;
-}
-
-export interface IResponseGetEmailValidation {
-  date: string;
-  status: boolean;
-  message: string;
-}
-
-export interface IResponseCheckValidToken {
-  date: string;
-  status: boolean;
-  message: string;
-}

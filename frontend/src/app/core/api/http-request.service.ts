@@ -17,11 +17,11 @@ export class HttpRequestService {
    * @param method método GET, POST, PUT , DELETE
    * @param data dados que serão enviados para o backend
    * @param authToken token de autenticação
-   * @returns Retorna uma promise
+   * @returns Retorna uma promise genérica
    */
   async sendHttpRequest(
     path: string,
-    method: string,
+    method: string = 'GET',
     data?: Record<string, any> | string
   ): Promise<any> {
     const headers = new HttpHeaders({

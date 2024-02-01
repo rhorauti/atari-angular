@@ -5,17 +5,13 @@ import {
   IRequestResetPassword,
   IRequestSignUpHttp,
   IRequestlogin,
-  IResponseCheckValidToken,
-  IResponseGetEmailValidation,
   IResponseLogin,
-  IResponseNewPassword,
   IResponseSignUp,
 } from '../interfaces/IAuth';
 import { environment } from '../../../environments/environment';
+import { IResponseCommonMessage } from '../interfaces/ICommon';
 
 export class AuthApi {
-  private readonly API = environment.apiUrl;
-
   private httpRequestService = inject(HttpRequestService);
 
   /**
@@ -26,7 +22,7 @@ export class AuthApi {
    */
   async authenticateUser(login: IRequestlogin): Promise<IResponseLogin> {
     const response = await this.httpRequestService.sendHttpRequest(
-      `${this.API}/login`,
+      `${environment.apiUrl}/login`,
       'POST',
       login
     );
@@ -39,11 +35,9 @@ export class AuthApi {
    * Função que verifica se o token está valido ou não.
    * @returns retorna a mensagem e o status 200(sucesso) ou 401(falha) dependendo se o token estiver válido.
    */
-  async checkValidToken(
-    token: string | null
-  ): Promise<IResponseCheckValidToken> {
+  async checkValidToken(token: string | null): Promise<IResponseCommonMessage> {
     return await this.httpRequestService.sendHttpRequest(
-      `${this.API}/email-validation?token=${token}`,
+      `${environment.apiUrl}/email-validation?token=${token}`,
       'GET'
     );
   }
@@ -56,7 +50,7 @@ export class AuthApi {
    */
   async createNewUser(newUser: IRequestSignUpHttp): Promise<IResponseSignUp> {
     return await this.httpRequestService.sendHttpRequest(
-      `${this.API}/signup`,
+      `${environment.apiUrl}/signup`,
       'POST',
       newUser
     );
@@ -70,9 +64,9 @@ export class AuthApi {
    */
   async getEmailValidation(
     email: IRequestResetPassword
-  ): Promise<IResponseGetEmailValidation> {
+  ): Promise<IResponseCommonMessage> {
     return await this.httpRequestService.sendHttpRequest(
-      `${this.API}/reset-password`,
+      `${environment.apiUrl}/reset-password`,
       'POST',
       email
     );
@@ -86,9 +80,9 @@ export class AuthApi {
    */
   async createNewPassword(
     newPassword: IRequestNewPasswordHttp
-  ): Promise<IResponseNewPassword> {
+  ): Promise<IResponseCommonMessage> {
     return await this.httpRequestService.sendHttpRequest(
-      `${this.API}/new-password?token=${newPassword.token}`,
+      `${environment.apiUrl}/new-password?token=${newPassword.token}`,
       'POST',
       newPassword
     );

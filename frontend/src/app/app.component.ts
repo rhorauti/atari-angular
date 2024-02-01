@@ -18,4 +18,6 @@ import { FilterComponent } from './components/filter/filter.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {}
+export class AppComponent {
+  public showMenu = true;
+}

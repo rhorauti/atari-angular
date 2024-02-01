@@ -1,13 +1,11 @@
-<!-- <div class="grid grid-cols-2 gap-2"> -->
-<!-- <div>
-    <app-menu></app-menu>
-  </div> -->
-<!-- <div class="flex flex-col justify-items-center align-middle">
-    <div>
-      <app-filter></app-filter>
+<!-- <div class="grid grid-cols-5"> -->
+<div class="flex">
+  @if (showMenu) {
+    <div class="w-48">
+      <app-menu></app-menu>
     </div>
-    <div> -->
-<router-outlet></router-outlet>
-<!-- </div>
+  }
+  <div class="w-full mx-3">
+    <router-outlet></router-outlet>
   </div>
-</div> -->
+</div>

@@ -12,3 +12,12 @@ body {
     background-color: #000000;
 }
 
+.table-td {
+  @apply py-2 px-3 whitespace-nowrap;
+}
+
+@layer components {
+  .position-negative-0-5 {
+    top: -0.1px;
+  }
+}
