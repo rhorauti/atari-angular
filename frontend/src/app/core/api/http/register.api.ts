@@ -13,13 +13,26 @@ export class RegisterCompanyApi {
   private httpRequestService = inject(HttpRequestService);
 
   /**
-   * getCompanyList
+   * getRegisterCompanyList
    * Solicita uma lista de empresas para o backend
    * @returns Promise com o status, mensagem, e os dados de id, nome, email, cadastro, telefone, cnpj, e dados cadastrais.
    */
-  async getRegistersList(
+  async getRegisterCompanyList(
     registerType: string
-  ): Promise<IResponseCompany | IResponseProduct> {
+  ): Promise<IResponseCompany> {
+    return await this.httpRequestService.sendHttpRequest(
+      `${environment.apiUrl}/${registerType}`
+    );
+  }
+
+  /**
+   * getRegisterProductsList
+   * Solicita uma lista de empresas para o backend
+   * @returns Promise com o status, mensagem, e os dados de id, nome, email, cadastro, telefone, cnpj, e dados cadastrais.
+   */
+  async getRegisterProductsList(
+    registerType: string
+  ): Promise<IResponseProduct> {
     return await this.httpRequestService.sendHttpRequest(
       `${environment.apiUrl}/${registerType}`
     );

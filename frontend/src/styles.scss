@@ -13,11 +13,11 @@ body {
 }
 
 .table-td {
-  @apply py-2 px-3 whitespace-nowrap;
+  @apply py-1.5 px-3 whitespace-nowrap;
 }
 
 @layer components {
-  .position-negative-0-5 {
+  .position-negative-top {
     top: -0.1px;
   }
 }

@@ -41,7 +41,7 @@ export class EmailSender {
         text: `Olá ${user.name}, Para confirmar seu cadastro, clique no link abaixo:`,
       })
     } catch (error) {
-      console.log(error)
+      throw Error('Erro interno do servidor!')
     }
   }
 
@@ -67,7 +67,7 @@ export class EmailSender {
         text: 'Olá, Para mudar sua senha, clique no link abaixo:',
       })
     } catch (error) {
-      console.log(error)
+      throw Error('Erro interno do servidor!')
     }
   }
 }

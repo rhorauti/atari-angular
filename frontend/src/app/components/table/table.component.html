@@ -1,168 +1,85 @@
-<div>
-  <section>
-    <div class="text-white">
-      <label for="">Filtro 1</label>
-      <div class="flex"></div>
-    </div>
-  </section>
-  <section class="overflow-auto mt-3 h-full border border-gray-500">
+<div class="overflow-auto h-full border border-gray-500">
+  @if (companiesData.data && companiesData.data.length > 0) {
     <table class="text-white w-full h-full text-sm text-center">
-      <thead
-        class="bg-gray-900 sticky position-negative-0-5 z-20 border border-gray-500">
-        <tr>
-          <th class="table-td">Id</th>
-          <th class="table-td">Name</th>
-          <th class="table-td">Lougrauro</th>
-          <th class="table-td">Numero</th>
-          <th class="table-td">Complemento</th>
-          <th class="table-td">Bairro</th>
-          <th class="table-td">Cidade</th>
-          <th class="table-td">Estado</th>
-          <th class="table-td">Ações</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-500 border border-gray-500">
-        <tr>
-          <td class="table-td">1</td>
-          <td class="table-td">Rafael Horauti</td>
-          <td class="table-td">Rua Neide de Barros Amaro</td>
-          <td class="table-td">213</td>
-          <td class="table-td">QD 10 LT 26</td>
-          <td class="table-td">Horto Florestal</td>
-          <td class="table-td">Sorocaba</td>
-          <td class="table-td">SP</td>
-          <td class="table-td">
-            <button class="bg-logo-purple mr-2 p-1">Edit</button>
-            <button class="bg-red-500 p-1">Del</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td>
-            <button class="bg-logo-purple mr-2 p-1">Edit</button>
-            <button class="bg-red-500 p-1">Del</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td>
-            <button class="bg-logo-purple mr-2 p-1">Edit</button>
-            <button class="bg-red-500 p-1">Del</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td>
-            <button class="bg-logo-purple mr-2 p-1">Edit</button>
-            <button class="bg-red-500 p-1">Del</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td>
-            <button class="bg-logo-purple mr-2 p-1">Edit</button>
-            <button class="bg-red-500 p-1">Del</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td>
-            <button class="bg-logo-purple mr-2 p-1">Edit</button>
-            <button class="bg-red-500 p-1">Del</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td>
-            <button class="bg-logo-purple mr-2 p-1">Edit</button>
-            <button class="bg-red-500 p-1">Del</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td>
-            <button class="bg-logo-purple mr-2 p-1">Edit</button>
-            <button class="bg-red-500 p-1">Del</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td>
-            <button class="bg-logo-purple mr-2 p-1">Edit</button>
-            <button class="bg-red-500 p-1">Del</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td class="py-2 px-1">1</td>
-          <td>
-            <button class="bg-logo-purple mr-2 p-1">Edit</button>
-            <button class="bg-red-500 p-1">Del</button>
-          </td>
-        </tr>
-      </tbody>
+      @if (companyData.isCnpj) {
+        <thead
+          class="bg-gray-900 sticky position-negative-top z-20 border border-gray-500">
+          <tr>
+            @for (companyTableHeader of companyTableHeaders; track $index) {
+              <th class="table-td">{{ companyTableHeader }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-500 border border-gray-500">
+          @for (
+            item of companiesData.data.slice(tableInitialIdx, tableLastIdx);
+            track $index
+          ) {
+            <tr>
+              <td class="table-td sticky left-0 bg-black">
+                {{ item.id }}
+              </td>
+              <td class="table-td">{{ item.cadastro }}</td>
+              <td class="table-td">{{ item.nome }}</td>
+              <td class="table-td">{{ item.email }}</td>
+              <td class="table-td">{{ item.telefone }}</td>
+              <td class="table-td">{{ item.cnpj }}</td>
+              <td class="table-td">{{ item.logradouro }}</td>
+              <td class="table-td">{{ item.numero }}</td>
+              <td class="table-td">{{ item.complemento }}</td>
+              <td class="table-td">{{ item.bairro }}</td>
+              <td class="table-td">{{ item.cidade }}</td>
+              <td class="table-td">{{ item.estado }}</td>
+              <td class="table-td flex gap-3">
+                <app-button-standard
+                  [showLabel]="false"
+                  [showIcon]="true"
+                  [btnType]="'warning'"></app-button-standard>
+                <app-button-standard
+                  [showLabel]="false"
+                  [showIcon]="true"
+                  [btnType]="'danger'"></app-button-standard>
+              </td>
+            </tr>
+          }
+        </tbody>
+      } @else {
+        <thead
+          class="bg-gray-900 sticky position-negative-0-5 z-20 border border-gray-500">
+          <tr>
+            @for (productTableHeader of productTableHeaders; track $index) {
+              <th class="table-td">{{ productTableHeader }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-500 border border-gray-500">
+          @for (item of productsData.data; track $index) {
+            <tr>
+              <td class="table-td">{{ item.id }}</td>
+              <td class="table-td">{{ item.cadastro }}</td>
+              <td class="table-td">{{ item.nome }}</td>
+              <td class="table-td">{{ item.cc }}</td>
+              <td class="table-td">{{ item.ncm }}</td>
+              <td class="table-td">{{ item.unidade }}</td>
+              <td class="table-td">{{ item.preco }}</td>
+              <td class="table-td">{{ item.comentario }}</td>
+              <td class="table-td">
+                <app-button-standard
+                  [showLabel]="false"
+                  [btnType]="'warning'"></app-button-standard>
+                <app-button-standard
+                  [showLabel]="false"
+                  [btnType]="'danger'"></app-button-standard>
+              </td>
+            </tr>
+          }
+        </tbody>
+      }
     </table>
-  </section>
+  } @else {
+    <p class="text-white font-semibold text-center p-4 border border-gray-500">
+      Não encontramos nenhum registro.
+    </p>
+  }
 </div>
+<app-loading [showLoading]="showLoading"></app-loading>

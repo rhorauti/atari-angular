@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Signal, computed, inject, signal } from '@angular/core';
 import { ButtonStandardComponent } from '../../../components/button/button-standard/button-standard.component';
 import { InputLoginComponent } from '../../../components/input/input-login/input-login.component';
-import { ModalInfoComponent } from '../../../components/modal-info/modal-info.component';
+import { ModalInfoComponent } from '../../../components/modal/modal-info/modal-info.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
@@ -294,7 +294,6 @@ export class SignupComponent {
   async createNewUser(): Promise<void> {
     this.isLoadingActive = true;
     try {
-      console.log(this.signupData.name());
       const response = await this.authApi.createNewUser({
         name: this.signupData.name(),
         email: this.signupData.email(),

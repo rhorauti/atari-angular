@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import { instanceToInstance } from 'class-transformer'
 import { UserRepository } from '@src/repositories/auth.repository'
 import { compare, hash } from 'bcryptjs'
-import JwtHandler from '@src/repositories/jwtService'
+import JwtHandler from '@src/services/jwtService'
 import { EmailSender } from '@src/email/email'
 
 @injectable()
@@ -93,9 +93,9 @@ export class AuthController {
         hashedPassword,
       )
       if (!newUser) {
-        return response.status(401).json({
+        return response.status(500).json({
           status: false,
-          message: 'Erro inesperado!',
+          message: 'Erro interno do servidor!',
         })
       } else {
         this.emailSender.sendEmailConfirmationSignUp(newUser)
@@ -152,7 +152,6 @@ export class AuthController {
     response: Response,
   ): Promise<Response | null> {
     const user = await this.userRepository.findUserByEmail(request.body.email)
-    console.log(user)
     if (!user) {
       return response.status(401).json({
         status: false,

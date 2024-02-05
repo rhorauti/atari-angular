@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  inject,
+} from '@angular/core';
 import { RegisterCompanyApi } from '../../core/api/http/register.api';
 import { InputSearchComponent } from '../input/input-search/input-search.component';
 import { ButtonStandardComponent } from '../button/button-standard/button-standard.component';
@@ -12,6 +19,8 @@ import {
   IResponseProduct,
 } from '../../core/api/interfaces/IRegister';
 import { IModalInfo } from '../../core/api/interfaces/IModal';
+import { LoadingComponent } from '../loading/loading.component';
+import { PaginationComponent } from '../pagination/pagination.component';
 
 @Component({
   selector: 'app-table',
@@ -21,15 +30,55 @@ import { IModalInfo } from '../../core/api/interfaces/IModal';
     InputSearchComponent,
     ButtonStandardComponent,
     HttpClientModule,
+    InputSearchComponent,
+    LoadingComponent,
   ],
-  providers: [RegisterCompanyApi, HttpRequestService],
+  providers: [RegisterCompanyApi, HttpRequestService, PaginationComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
-export class TableComponent {
+export class TableComponent implements OnInit {
   private registerApi = inject(RegisterCompanyApi);
+  private paginationComponent = inject(PaginationComponent);
+  @Input() tableInitialIdx =
+    this.paginationComponent.tableIndexInfo.tableInitialIdx;
+  @Input() tableLastIdx = this.paginationComponent.tableIndexInfo.tableLastIdx;
   @Input() registerType = '';
-  public companiesOrProductsData: IResponseCompany | IResponseProduct = {
+  @Input() showLoading = false;
+  @Output() tableDataEmitter = new EventEmitter<ICompany[] | IProduct[]>();
+  public companyTableHeaders = [
+    'Id',
+    'Cadastro',
+    'Nome',
+    'E-mail',
+    'Telefone',
+    'CPF/CNPJ',
+    'Logradouro',
+    'Numero',
+    'Complemento',
+    'Bairro',
+    'Cidade',
+    'Estado',
+    'Ação',
+  ];
+  public productTableHeaders = [
+    'Id',
+    'Cadastro',
+    'Nome',
+    'cc',
+    'ncm',
+    'Unidade',
+    'Preço',
+    'Comentários',
+    'Ação',
+  ];
+  public companiesData: IResponseCompany = {
+    date: '',
+    status: false,
+    message: '',
+    data: [],
+  };
+  public productsData: IResponseProduct = {
     date: '',
     status: false,
     message: '',
@@ -41,7 +90,8 @@ export class TableComponent {
     nome: '',
     email: '',
     telefone: '',
-    isCnpj: false,
+    isCnpj: true,
+    cnpj: '',
     logradouro: '',
     numero: 0,
     complemento: '',
@@ -69,6 +119,24 @@ export class TableComponent {
     iconModalBackgroundColor: '',
     iconModalTextColor: '',
   };
+
+  async ngOnInit() {
+    await this.getList();
+    switch (this.registerType) {
+      case 'customers':
+      case 'suppliers': {
+        this.tableDataEmitter.emit(this.companiesData.data);
+        break;
+      }
+      case 'supplier-products':
+      case 'customer-products': {
+        this.tableDataEmitter.emit(this.productsData.data);
+        break;
+      }
+      default:
+        'customers';
+    }
+  }
 
   /**
    * handleSuccessModal
@@ -107,32 +175,33 @@ export class TableComponent {
    */
   async getList(): Promise<void> {
     try {
+      this.showLoading = true;
       switch (this.registerType) {
         case 'customers': {
           const customersData =
-            await this.registerApi.getRegistersList('customers');
-          this.companiesOrProductsData.data = customersData.data;
+            await this.registerApi.getRegisterCompanyList('customers');
+          this.companiesData.data = customersData.data;
           this.handleSuccessModal(customersData.message);
           break;
         }
         case 'suppliers': {
           const suppliersData =
-            await this.registerApi.getRegistersList('suppliers');
-          this.companiesOrProductsData.data = suppliersData.data;
+            await this.registerApi.getRegisterCompanyList('suppliers');
+          this.companiesData.data = suppliersData.data;
           this.handleSuccessModal(suppliersData.message);
           break;
         }
         case 'supplier-products': {
           const supplierProdutcsData =
-            await this.registerApi.getRegistersList('supplier-products');
-          this.companiesOrProductsData.data = supplierProdutcsData.data;
+            await this.registerApi.getRegisterProductsList('supplier-products');
+          this.productsData.data = supplierProdutcsData.data;
           this.handleSuccessModal(supplierProdutcsData.message);
           break;
         }
         case 'customer-products': {
           const customerProdutcsData =
-            await this.registerApi.getRegistersList('customer-products');
-          this.companiesOrProductsData.data = customerProdutcsData.data;
+            await this.registerApi.getRegisterProductsList('customer-products');
+          this.productsData.data = customerProdutcsData.data;
           this.handleSuccessModal(customerProdutcsData.message);
           break;
         }
@@ -141,11 +210,14 @@ export class TableComponent {
       }
     } catch (e: any) {
       this.handleSuccessModal(e.error.message);
+    } finally {
+      this.showLoading = false;
     }
   }
 
   async addNew() {
     try {
+      this.showLoading = true;
       switch (this.registerType) {
         case 'customers': {
           const customersData = await this.registerApi.addNewRegister(
@@ -184,11 +256,14 @@ export class TableComponent {
       }
     } catch (e: any) {
       this.handleFailureModal(e.error.message);
+    } finally {
+      this.showLoading = false;
     }
   }
 
   async update() {
     try {
+      this.showLoading = true;
       switch (this.registerType) {
         case 'customers': {
           const customerData = await this.registerApi.updateRegister(
@@ -202,7 +277,7 @@ export class TableComponent {
         case 'suppliers': {
           const supplierData = await this.registerApi.updateRegister(
             this.companyData,
-            'customers',
+            'suppliers',
             this.companyData.id
           );
           this.handleSuccessModal(supplierData.message);
@@ -211,7 +286,7 @@ export class TableComponent {
         case 'supplier-products': {
           const supplierProdutcData = await this.registerApi.updateRegister(
             this.productData,
-            'customers',
+            'supplier-products',
             this.productData.id
           );
           this.handleSuccessModal(supplierProdutcData.message);
@@ -220,7 +295,7 @@ export class TableComponent {
         case 'customer-products': {
           const customerProdutcData = await this.registerApi.updateRegister(
             this.productData,
-            'customers',
+            'customer-products',
             this.productData.id
           );
           this.handleSuccessModal(customerProdutcData.message);
@@ -231,6 +306,54 @@ export class TableComponent {
       }
     } catch (e: any) {
       this.handleFailureModal(e.error.message);
+    } finally {
+      this.showLoading = false;
+    }
+  }
+
+  async delete(): Promise<void> {
+    try {
+      this.showLoading = true;
+      switch (this.registerType) {
+        case 'customers': {
+          const customerData = await this.registerApi.deleteRegister(
+            'customers',
+            this.companyData.id.toString()
+          );
+          this.handleSuccessModal(customerData.message);
+          break;
+        }
+        case 'suppliers': {
+          const supplierData = await this.registerApi.deleteRegister(
+            'suppliers',
+            this.companyData.id.toString()
+          );
+          this.handleSuccessModal(supplierData.message);
+          break;
+        }
+        case 'supplier-products': {
+          const supplierProdutcData = await this.registerApi.deleteRegister(
+            'supplier-products',
+            this.productData.id.toString()
+          );
+          this.handleSuccessModal(supplierProdutcData.message);
+          break;
+        }
+        case 'customer-products': {
+          const customerProdutcsData = await this.registerApi.deleteRegister(
+            'customer-products',
+            this.productData.id.toString()
+          );
+          this.handleFailureModal(customerProdutcsData.message);
+          break;
+        }
+        default:
+          'customer';
+      }
+    } catch (e: any) {
+      this.handleFailureModal(e.error.message);
+    } finally {
+      this.showLoading = false;
     }
   }
 }

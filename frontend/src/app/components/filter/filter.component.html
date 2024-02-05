@@ -1,6 +1,36 @@
-<div class="w-full bg-gray-900">
-  <div>
-    <label for="">Nome</label>
-    <input type="text" class="w-full" />
+<div class="flex justify-between items-end">
+  <div class="text-white flex gap-3">
+    <div class="flex items-center w-1/2">
+      <label class="text-sm mr-3" for="">Id</label>
+      <app-input-search></app-input-search>
+    </div>
+    <div class="w-1/2 flex items-center">
+      <label class="text-sm mr-3" for="">Nome</label>
+      <app-input-search></app-input-search>
+    </div>
+  </div>
+  <div class="flex flex-1 justify-end gap-4">
+    <div class="w-1/4">
+      <app-button-standard
+        [btnType]="'transparent'"
+        [showIcon]="true"
+        [icon]="'menu'"
+        [border]="'border'"
+        [label]="'Colunas'"></app-button-standard>
+    </div>
+    <div class="w-1/4">
+      <app-button-standard
+        [btnType]="'transparent'"
+        [showIcon]="true"
+        [icon]="'exit_to_app'"
+        [border]="'border'"
+        [label]="'svg'"></app-button-standard>
+    </div>
+    <div class="w-1/4">
+      <app-button-standard
+        [showIcon]="true"
+        [icon]="'add'"
+        [label]="'Cadastro'"></app-button-standard>
+    </div>
   </div>
 </div>

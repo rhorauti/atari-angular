@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { ButtonStandardComponent } from '../button/button-standard/button-standard.component';
+import { ButtonStandardComponent } from '../../button/button-standard/button-standard.component';
 
 @Component({
   selector: 'app-modal-info',

@@ -5,6 +5,7 @@ export interface ICompany {
   email: string;
   telefone: string;
   isCnpj: boolean;
+  cnpj: string;
   logradouro: string;
   numero: number;
   complemento: string;

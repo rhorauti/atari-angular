@@ -21,7 +21,7 @@ export class Users {
   @Exclude()
   password: string
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'varchar', length: 25 })
   @Exclude()
   createdAt: Date
 

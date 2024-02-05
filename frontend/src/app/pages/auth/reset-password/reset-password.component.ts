@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { ButtonStandardComponent } from '../../../components/button/button-standard/button-standard.component';
 import { InputLoginComponent } from '../../../components/input/input-login/input-login.component';
 import { MatIconModule } from '@angular/material/icon';
-import { ModalInfoComponent } from '../../../components/modal-info/modal-info.component';
+import { ModalInfoComponent } from '../../../components/modal/modal-info/modal-info.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -110,7 +110,6 @@ export class ResetPasswordComponent {
       }
       this.isModalActive = true;
     } catch (e: any) {
-      console.log(e);
       this.handleFailureModal(e.error.message);
       this.isModalActive = true;
     } finally {

@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpRequestService } from '../../../core/api/http-request.service';
 import { InputLoginComponent } from '../../../components/input/input-login/input-login.component';
 import { ButtonStandardComponent } from '../../../components/button/button-standard/button-standard.component';
-import { ModalInfoComponent } from '../../../components/modal-info/modal-info.component';
+import { ModalInfoComponent } from '../../../components/modal/modal-info/modal-info.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { Router } from '@angular/router';
 import { IModalInfo } from '../../../core/api/interfaces/IModal';

@@ -1,3 +1,22 @@
 <div>
-  <app-table [registerType]="'customers'"></app-table>
+  <section
+    class="text-white text-lg font-semibold mt-2 border leading-4 border-gray-500 p-2 rounded text-center">
+    <h1>Cadastro de Clientes</h1>
+  </section>
+  <section class="my-4">
+    <app-filter></app-filter>
+  </section>
+  <section>
+    <app-table
+      [registerType]="'customers'"
+      [tableInitialIdx]="tableInitialIdx"
+      [tableLastIdx]="tableLastIdx"
+      (tableDataEmitter)="getTableData($event)"></app-table>
+  </section>
+  <footer class="my-4">
+    <app-pagination
+      [tableData]="tableData"
+      (tableInitialIdx)="getTableInitialIdx($event)"
+      (tableLastIdx)="getTableLastIdx($event)"></app-pagination>
+  </footer>
 </div>
