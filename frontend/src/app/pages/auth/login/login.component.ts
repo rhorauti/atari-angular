@@ -11,7 +11,7 @@ import { ButtonStandardComponent } from '../../../components/button/button-stand
 import { ModalInfoComponent } from '../../../components/modal/modal-info/modal-info.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { Router } from '@angular/router';
-import { IModalInfo } from '../../../core/api/interfaces/IModal';
+import { IModal } from '../../../core/api/interfaces/IModal';
 import { MenuComponent } from '../../../components/menu/menu.component';
 
 @Component({
@@ -46,13 +46,9 @@ export class LoginComponent {
   public showPassword = false;
   public isModalActive = false;
   public isLoadingActive = false;
-  public modalInfo: IModalInfo = {
-    modalIcon: '',
-    modalTitle: '',
+  public modalInfo: IModal = {
+    modalType: '',
     modalDescription: '',
-    modalBtnCloseLabel: '',
-    iconModalBackgroundColor: '',
-    iconModalTextColor: '',
   };
 
   /**
@@ -79,12 +75,8 @@ export class LoginComponent {
    */
   handleSuccessModal(message: string): void {
     this.modalInfo = {
-      modalIcon: 'check',
-      modalTitle: 'Sucesso!',
+      modalType: 'success',
       modalDescription: message,
-      modalBtnCloseLabel: 'Fechar',
-      iconModalBackgroundColor: 'bg-green-600',
-      iconModalTextColor: 'text-green-100',
     };
   }
 
@@ -94,12 +86,8 @@ export class LoginComponent {
    */
   handleFailureModal(message: string): void {
     this.modalInfo = {
-      modalIcon: 'close',
-      modalTitle: 'Erro!',
+      modalType: 'failure',
       modalDescription: message,
-      modalBtnCloseLabel: 'Fechar',
-      iconModalBackgroundColor: 'bg-red-500',
-      iconModalTextColor: 'text-white',
     };
   }
 

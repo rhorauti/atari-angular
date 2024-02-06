@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthApi } from '../../../core/api/http/auth.api';
 import { HttpRequestService } from '../../../core/api/http-request.service';
 import { Router } from '@angular/router';
-import { IModalInfo } from '../../../core/api/interfaces/IModal';
+import { IModal } from '../../../core/api/interfaces/IModal';
 import { IRequestResetPassword } from '../../../core/api/interfaces/IAuth';
 
 @Component({
@@ -40,13 +40,9 @@ export class ResetPasswordComponent {
 
   public isModalActive = false;
   public isLoadingActive = false;
-  public modalInfo: IModalInfo = {
-    modalIcon: '',
-    modalTitle: '',
+  public modalInfo: IModal = {
+    modalType: '',
     modalDescription: '',
-    modalBtnCloseLabel: '',
-    iconModalBackgroundColor: '',
-    iconModalTextColor: '',
   };
 
   /**
@@ -64,12 +60,8 @@ export class ResetPasswordComponent {
    */
   handleSuccessModal(message: string): void {
     this.modalInfo = {
-      modalIcon: 'check',
-      modalTitle: 'Sucesso!',
+      modalType: 'success',
       modalDescription: message,
-      modalBtnCloseLabel: 'Fechar',
-      iconModalBackgroundColor: 'bg-green-600',
-      iconModalTextColor: 'text-green-100',
     };
   }
 
@@ -79,12 +71,8 @@ export class ResetPasswordComponent {
    */
   handleFailureModal(message: string): void {
     this.modalInfo = {
-      modalIcon: 'close',
-      modalTitle: 'Erro!',
+      modalType: 'failure',
       modalDescription: message,
-      modalBtnCloseLabel: 'Fechar',
-      iconModalBackgroundColor: 'bg-red-500',
-      iconModalTextColor: 'text-white',
     };
   }
 

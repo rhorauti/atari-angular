@@ -3,7 +3,7 @@
     <table class="text-white w-full h-full text-sm text-center">
       @if (companyData.isCnpj) {
         <thead
-          class="bg-gray-900 sticky position-negative-top z-20 border border-gray-500">
+          class="bg-gray-900 sticky position-negative-top z-1 border border-gray-500">
           <tr>
             @for (companyTableHeader of companyTableHeaders; track $index) {
               <th class="table-td">{{ companyTableHeader }}</th>
@@ -36,6 +36,7 @@
                   [showIcon]="true"
                   [btnType]="'warning'"></app-button-standard>
                 <app-button-standard
+                  (click)="activeCompanyModalConfirmation(item)"
                   [showLabel]="false"
                   [showIcon]="true"
                   [btnType]="'danger'"></app-button-standard>
@@ -68,6 +69,7 @@
                   [showLabel]="false"
                   [btnType]="'warning'"></app-button-standard>
                 <app-button-standard
+                  (click)="activeProdutModalConfirmation(item)"
                   [showLabel]="false"
                   [btnType]="'danger'"></app-button-standard>
               </td>
@@ -82,4 +84,15 @@
     </p>
   }
 </div>
+<app-modal-confirmation
+  [showModal]="isModalConfirmationActive"
+  [modalDescription]="modalConfirmation.modalDescription"
+  [modalType]="modalConfirmation.modalType"
+  (emitCancelModal)="cancelModalConfirmation($event)"
+  (emitOkModal)="okModalConfirmation($event)"></app-modal-confirmation>
+<app-modal-info
+  [showModal]="isModalInfoActive"
+  [modalDescription]="modalInfo.modalDescription"
+  [modalType]="modalInfo.modalType"
+  (emitCloseModal)="closeModalInfo($event)"></app-modal-info>
 <app-loading [showLoading]="showLoading"></app-loading>

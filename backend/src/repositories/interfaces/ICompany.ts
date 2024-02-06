@@ -13,6 +13,10 @@ export interface ICompanyDTO {
   estado: string
 }
 
+export interface ICompanyDTOExtended extends ICompanyDTO {
+  id: number
+}
+
 export interface IResponseCompany {
   date: string
   status: boolean

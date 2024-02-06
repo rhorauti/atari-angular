@@ -1,11 +1,11 @@
 import { AuthController } from '@src/controllers/auth.controller'
-import { RegisterController } from '@src/controllers/customer.controller'
+import { CustomerController } from '@src/controllers/customer.controller'
 import { Router } from 'express'
 import { container } from 'tsyringe'
 
 const router = Router()
 const authController = container.resolve(AuthController)
-const registerController = container.resolve(RegisterController)
+const customerController = container.resolve(CustomerController)
 
 router.post('/login', (request, response) => {
   authController.loginUser(request, response)
@@ -27,12 +27,20 @@ router.post('/new-password', (request, response) => {
   authController.resetPassword(request, response)
 })
 
-router.post('/customers', (request, response) => {
-  registerController.addNewCustomer(request, response, 'customers')
+router.get('/customers', (request, response) => {
+  customerController.getCustomersList(response)
 })
 
-router.get('/customers', (request, response) => {
-  registerController.getCustomersList(response)
+router.post('/customers', (request, response) => {
+  customerController.addNewCustomer(request, response)
+})
+
+router.put('/customers/:id', (request, response) => {
+  customerController.updateCustomer(request, response)
+})
+
+router.delete('/customers/:id', (request, response) => {
+  customerController.deleteCustomer(request, response)
 })
 
 export { router }

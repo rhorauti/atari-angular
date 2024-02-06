@@ -1,16 +1,16 @@
-import { RegisterRepository } from '@src/repositories/customer.repository'
+import { CustomerRepository } from '@src/repositories/customer.repository'
 import { Request, Response } from 'express'
 import { inject, injectable } from 'tsyringe'
 
 @injectable()
-export class RegisterController {
+export class CustomerController {
   constructor(
-    @inject('RegisterRepository')
-    private registerRepository: RegisterRepository,
+    @inject('CustomerRepository')
+    private customerRepository: CustomerRepository,
   ) {}
 
   async getCustomersList(response: Response): Promise<Response> {
-    const customersList = await this.registerRepository.getCustomersList()
+    const customersList = await this.customerRepository.getCustomersList()
     if (!customersList) {
       return response.status(400).json({
         status: false,
@@ -28,22 +28,20 @@ export class RegisterController {
   async addNewCustomer(
     request: Request,
     response: Response,
-    registerType: string,
   ): Promise<Response> {
-    const customer = await this.registerRepository.findCustomerByName(
+    const customer = await this.customerRepository.findCustomerByName(
       request.body.nome,
     )
     if (customer) {
       return response.status(401).json({
         status: false,
-        message: 'Cliente já existe!',
+        message: `Cliente ${customer.nome} já existe!`,
       })
     } else {
-      const newCompany = await this.registerRepository.addNewCompany(
-        registerType,
+      const newCustomer = await this.customerRepository.addNewCompany(
         request.body,
       )
-      if (!newCompany) {
+      if (!newCustomer) {
         return response.status(500).json({
           status: false,
           message: 'Erro interno do sevidor!',
@@ -51,10 +49,52 @@ export class RegisterController {
       } else {
         return response.status(200).json({
           status: true,
-          message: 'Cliente registrado com sucesso!',
-          data: newCompany,
+          message: `Cliente ${newCustomer.nome} registrado com sucesso!`,
+          data: newCustomer,
         })
       }
+    }
+  }
+
+  async updateCustomer(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const customer = await this.customerRepository.findCustomerById(
+      Number(request.params.id),
+    )
+    if (!customer) {
+      return response.status(400).json({
+        status: false,
+        message: 'Cliente não encontrado!',
+      })
+    } else {
+      this.customerRepository.updateCompany(request.body, request.params.id)
+      return response.status(200).json({
+        status: true,
+        message: `Cliente ${request.body.name} registrado com sucesso!`,
+      })
+    }
+  }
+
+  async deleteCustomer(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const customer = await this.customerRepository.findCustomerById(
+      Number(request.params.id),
+    )
+    if (!customer) {
+      return response.status(400).json({
+        status: false,
+        message: 'Cliente não encontrando!',
+      })
+    } else {
+      await this.customerRepository.deleteCompany(request.params.id)
+      return response.status(200).json({
+        status: true,
+        message: `Cliente ${customer.nome} excluido com sucesso!`,
+      })
     }
   }
 }

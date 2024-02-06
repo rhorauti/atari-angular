@@ -82,7 +82,7 @@ export class RegisterCompanyApi {
   ): Promise<IResponseCommonMessage> {
     return await this.httpRequestService.sendHttpRequest(
       `${environment.apiUrl}/${registerType}/${registerTypeId}`,
-      'DEL'
+      'DELETE'
     );
   }
 }

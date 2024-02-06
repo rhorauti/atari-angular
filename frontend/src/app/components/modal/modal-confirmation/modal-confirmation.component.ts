@@ -6,17 +6,23 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { ButtonStandardComponent } from '../../button/button-standard/button-standard.component';
+import { MatIconModule } from '@angular/material/icon';
+import { ModalBaseComponent } from '../modal-base/modal-base.component';
 
 @Component({
-  selector: 'app-modal-info',
+  selector: 'app-modal-confirmation',
   standalone: true,
-  imports: [CommonModule, MatIconModule, ButtonStandardComponent],
-  templateUrl: './modal-info.component.html',
-  styleUrl: './modal-info.component.scss',
+  imports: [
+    CommonModule,
+    MatIconModule,
+    ButtonStandardComponent,
+    ModalBaseComponent,
+  ],
+  templateUrl: './modal-confirmation.component.html',
+  styleUrl: './modal-confirmation.component.scss',
 })
-export class ModalInfoComponent implements OnChanges {
+export class ModalConfirmationComponent implements OnChanges {
   @Input() modalType = '';
   @Input() showModal = false;
   @Input() modalIcon = 'check';
@@ -30,24 +36,21 @@ export class ModalInfoComponent implements OnChanges {
 
   ngOnChanges() {
     switch (this.modalType) {
-      case 'success': {
-        this.modalIcon = 'check';
-        this.modalTitle = 'Sucesso!';
-        this.iconModalBackgroundColor = 'bg-green-600';
-        this.iconModalTextColor = 'text-green-100';
-        break;
-      }
-      case 'failure': {
-        this.modalIcon = 'close';
-        this.modalTitle = 'Erro!';
-        this.iconModalBackgroundColor = 'bg-red-500';
+      case 'confirmation': {
+        this.modalIcon = 'question_answer';
+        this.iconModalBackgroundColor = 'bg-yellow-500';
         this.iconModalTextColor = 'text-white';
+        this.modalTitle = 'Alerta!';
         break;
       }
     }
   }
 
-  sendCloseEmitterEvent(): void {
-    this.emitCloseModal.emit(false);
+  sendCancelEmitterEvent(): void {
+    this.emitCancelModal.emit(false);
+  }
+
+  sendOkEmitterEvent(): void {
+    this.emitOkModal.emit(false);
   }
 }

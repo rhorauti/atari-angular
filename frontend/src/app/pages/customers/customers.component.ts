@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FilterComponent } from '../../components/filter/filter.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { ICompany, IProduct } from '../../core/api/interfaces/IRegister';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-customers',
@@ -18,7 +19,12 @@ import { ICompany, IProduct } from '../../core/api/interfaces/IRegister';
     FilterComponent,
     PaginationComponent,
   ],
-  providers: [RegisterCompanyApi, HttpRequestService, PaginationComponent],
+  providers: [
+    RegisterCompanyApi,
+    HttpRequestService,
+    MatIconModule,
+    PaginationComponent,
+  ],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss',
 })

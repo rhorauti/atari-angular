@@ -13,7 +13,7 @@ export class ButtonStandardComponent implements OnInit {
   @Input() label = 'Entrar';
   @Input() btnClass = '';
   @Input() btnType = 'submit';
-  @Input() icon = '';
+  @Input() btnIcon = '';
   @Input() showIcon = false;
   @Input() showLabel = true;
   @Input() width = 'w-full';
@@ -34,17 +34,24 @@ export class ButtonStandardComponent implements OnInit {
       }
       case 'close': {
         this.backgroundColor = 'bg-black';
+        this.label = 'Fechar';
         this.hoverBackgroundColor = 'hover:bg-gray-800';
         break;
       }
       case 'cancel': {
         this.backgroundColor = 'bg-red-500';
-        this.hoverBackgroundColor = 'hover:bg-red-300';
+        this.showIcon = true;
+        this.btnIcon = 'close';
+        this.label = 'Cancelar';
+        this.hoverBackgroundColor = 'hover:bg-red-400';
         break;
       }
       case 'success': {
         this.backgroundColor = 'bg-green-600';
-        this.hoverBackgroundColor = 'hover:bg-logo-blue-hover';
+        this.showIcon = true;
+        this.btnIcon = 'save';
+        this.label = 'Prosseguir';
+        this.hoverBackgroundColor = 'hover:bg-green-500';
         break;
       }
       case 'transparent': {
@@ -54,21 +61,23 @@ export class ButtonStandardComponent implements OnInit {
         break;
       }
       case 'warning': {
-        this.backgroundColor = 'bg-yellow-500';
-        this.hoverBackgroundColor = 'hover:bg-yellow-400';
-        this.icon = 'edit';
+        this.backgroundColor = 'bg-yellow-400';
+        this.hoverBackgroundColor = 'hover:bg-yellow-300';
+        this.btnIcon = 'edit';
         this.height = 'h-6';
         this.border = 'border border-gray-500';
         this.textColor = 'text-black';
+        this.label = '';
         break;
       }
       case 'danger': {
         this.backgroundColor = 'bg-red-500';
         this.hoverBackgroundColor = 'hover:bg-red-400';
-        this.icon = 'delete_outline';
+        this.btnIcon = 'delete_outline';
         this.height = 'h-6';
         this.border = 'border border-gray-500';
         this.textColor = 'text-black';
+        this.label = '';
         break;
       }
       default:

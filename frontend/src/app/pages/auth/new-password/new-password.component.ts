@@ -13,7 +13,7 @@ import {
   IFormValidationNewPassword,
   IRequestNewPassword,
 } from '../../../core/api/interfaces/IAuth';
-import { IModalInfo } from '../../../core/api/interfaces/IModal';
+import { IModal } from '../../../core/api/interfaces/IModal';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -52,13 +52,9 @@ export class NewPasswordComponent {
     confirmPasswordValidation: signal(false),
   };
 
-  public modalInfo: IModalInfo = {
-    modalIcon: '',
-    modalTitle: '',
+  public modalInfo: IModal = {
+    modalType: '',
     modalDescription: '',
-    modalBtnCloseLabel: '',
-    iconModalBackgroundColor: '',
-    iconModalTextColor: '',
   };
 
   public showPassword = false;
@@ -187,12 +183,8 @@ export class NewPasswordComponent {
    */
   handleSuccessModal(message: string): void {
     this.modalInfo = {
-      modalIcon: 'check',
-      modalTitle: 'Sucesso!',
+      modalType: 'success',
       modalDescription: message,
-      modalBtnCloseLabel: 'Fechar',
-      iconModalBackgroundColor: 'bg-green-600',
-      iconModalTextColor: 'text-green-100',
     };
   }
 
@@ -202,12 +194,8 @@ export class NewPasswordComponent {
    */
   handleFailureModal(message: string): void {
     this.modalInfo = {
-      modalIcon: 'close',
-      modalTitle: 'Erro!',
+      modalType: 'failure',
       modalDescription: message,
-      modalBtnCloseLabel: 'Fechar',
-      iconModalBackgroundColor: 'bg-red-500',
-      iconModalTextColor: 'text-white',
     };
   }
 

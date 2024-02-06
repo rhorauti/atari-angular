@@ -30,10 +30,13 @@
               </div>
             </div>
           </div>
-          <div class="mt-6">
+          <div class="mt-6 grid grid-cols-2 gap-2">
             <app-button-standard
-              [btnType]="'close'"
-              (click)="sendCloseEmitterEvent()"></app-button-standard>
+              [btnType]="'cancel'"
+              (click)="sendCancelEmitterEvent()"></app-button-standard>
+            <app-button-standard
+              [btnType]="'success'"
+              (click)="sendOkEmitterEvent()"></app-button-standard>
           </div>
         </div>
       </div>

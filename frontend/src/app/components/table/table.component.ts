@@ -18,9 +18,11 @@ import {
   IResponseCompany,
   IResponseProduct,
 } from '../../core/api/interfaces/IRegister';
-import { IModalInfo } from '../../core/api/interfaces/IModal';
+import { IModal } from '../../core/api/interfaces/IModal';
 import { LoadingComponent } from '../loading/loading.component';
 import { PaginationComponent } from '../pagination/pagination.component';
+import { ModalInfoComponent } from '../modal/modal-info/modal-info.component';
+import { ModalConfirmationComponent } from '../modal/modal-confirmation/modal-confirmation.component';
 
 @Component({
   selector: 'app-table',
@@ -32,6 +34,8 @@ import { PaginationComponent } from '../pagination/pagination.component';
     HttpClientModule,
     InputSearchComponent,
     LoadingComponent,
+    ModalInfoComponent,
+    ModalConfirmationComponent,
   ],
   providers: [RegisterCompanyApi, HttpRequestService, PaginationComponent],
   templateUrl: './table.component.html',
@@ -40,6 +44,8 @@ import { PaginationComponent } from '../pagination/pagination.component';
 export class TableComponent implements OnInit {
   private registerApi = inject(RegisterCompanyApi);
   private paginationComponent = inject(PaginationComponent);
+  public isModalInfoActive = false;
+  public isModalConfirmationActive = false;
   @Input() tableInitialIdx =
     this.paginationComponent.tableIndexInfo.tableInitialIdx;
   @Input() tableLastIdx = this.paginationComponent.tableIndexInfo.tableLastIdx;
@@ -110,14 +116,13 @@ export class TableComponent implements OnInit {
     fileName: '',
     comentario: '',
   };
-
-  public modalInfo: IModalInfo = {
-    modalIcon: '',
-    modalTitle: '',
+  public modalInfo: IModal = {
+    modalType: '',
     modalDescription: '',
-    modalBtnCloseLabel: '',
-    iconModalBackgroundColor: '',
-    iconModalTextColor: '',
+  };
+  public modalConfirmation: IModal = {
+    modalType: '',
+    modalDescription: '',
   };
 
   async ngOnInit() {
@@ -138,19 +143,42 @@ export class TableComponent implements OnInit {
     }
   }
 
+  activeCompanyModalConfirmation(item: ICompany): void {
+    switch (this.registerType) {
+      case 'customers':
+      case 'suppliers': {
+        this.companyData = item;
+        this.modalConfirmation.modalType = 'confirmation';
+        this.modalConfirmation.modalDescription = `Deseja excluir ${this.companyData.nome}?`;
+        this.isModalConfirmationActive = true;
+        break;
+      }
+    }
+  }
+
+  activeProdutModalConfirmation(item: IProduct): void {
+    switch (this.registerType) {
+      case 'supplier-products':
+      case 'customer-products': {
+        this.productData = item;
+        this.modalConfirmation.modalType = 'confirmation';
+        this.modalConfirmation.modalDescription = `Deseja excluir ${this.productData.nome}?`;
+        this.isModalConfirmationActive = true;
+        break;
+      }
+    }
+  }
+
   /**
    * handleSuccessModal
    * Função que popula os dados do modal no caso de email ou senha validados corretamente.
    */
   handleSuccessModal(message: string): void {
     this.modalInfo = {
-      modalIcon: 'check',
-      modalTitle: 'Sucesso!',
+      modalType: 'success',
       modalDescription: message,
-      modalBtnCloseLabel: 'Fechar',
-      iconModalBackgroundColor: 'bg-green-600',
-      iconModalTextColor: 'text-green-100',
     };
+    console.log(this.modalInfo);
   }
 
   /**
@@ -159,12 +187,8 @@ export class TableComponent implements OnInit {
    */
   handleFailureModal(message: string): void {
     this.modalInfo = {
-      modalIcon: 'close',
-      modalTitle: 'Erro!',
+      modalType: 'failure',
       modalDescription: message,
-      modalBtnCloseLabel: 'Fechar',
-      iconModalBackgroundColor: 'bg-red-500',
-      iconModalTextColor: 'text-white',
     };
   }
 
@@ -181,35 +205,31 @@ export class TableComponent implements OnInit {
           const customersData =
             await this.registerApi.getRegisterCompanyList('customers');
           this.companiesData.data = customersData.data;
-          this.handleSuccessModal(customersData.message);
           break;
         }
         case 'suppliers': {
           const suppliersData =
             await this.registerApi.getRegisterCompanyList('suppliers');
           this.companiesData.data = suppliersData.data;
-          this.handleSuccessModal(suppliersData.message);
           break;
         }
         case 'supplier-products': {
           const supplierProdutcsData =
             await this.registerApi.getRegisterProductsList('supplier-products');
           this.productsData.data = supplierProdutcsData.data;
-          this.handleSuccessModal(supplierProdutcsData.message);
           break;
         }
         case 'customer-products': {
           const customerProdutcsData =
             await this.registerApi.getRegisterProductsList('customer-products');
           this.productsData.data = customerProdutcsData.data;
-          this.handleSuccessModal(customerProdutcsData.message);
           break;
         }
         default:
           'customers';
       }
     } catch (e: any) {
-      this.handleSuccessModal(e.error.message);
+      this.handleFailureModal(e.error.message);
     } finally {
       this.showLoading = false;
     }
@@ -311,40 +331,44 @@ export class TableComponent implements OnInit {
     }
   }
 
-  async delete(): Promise<void> {
+  async delete(id: number): Promise<void> {
     try {
       this.showLoading = true;
       switch (this.registerType) {
         case 'customers': {
           const customerData = await this.registerApi.deleteRegister(
             'customers',
-            this.companyData.id.toString()
+            id.toString()
           );
           this.handleSuccessModal(customerData.message);
+          this.isModalInfoActive = true;
           break;
         }
         case 'suppliers': {
           const supplierData = await this.registerApi.deleteRegister(
             'suppliers',
-            this.companyData.id.toString()
+            id.toString()
           );
           this.handleSuccessModal(supplierData.message);
+          this.isModalInfoActive = true;
           break;
         }
         case 'supplier-products': {
           const supplierProdutcData = await this.registerApi.deleteRegister(
             'supplier-products',
-            this.productData.id.toString()
+            id.toString()
           );
           this.handleSuccessModal(supplierProdutcData.message);
+          this.isModalInfoActive = true;
           break;
         }
         case 'customer-products': {
           const customerProdutcsData = await this.registerApi.deleteRegister(
             'customer-products',
-            this.productData.id.toString()
+            id.toString()
           );
           this.handleFailureModal(customerProdutcsData.message);
+          this.isModalInfoActive = true;
           break;
         }
         default:
@@ -352,8 +376,41 @@ export class TableComponent implements OnInit {
       }
     } catch (e: any) {
       this.handleFailureModal(e.error.message);
+      this.isModalInfoActive = true;
     } finally {
       this.showLoading = false;
     }
+  }
+
+  /**
+   * closeModal
+   * Função que fecha o modal e direciona o usuário para a tela inicial da aplicação.
+   * @param modalStatus
+   */
+  closeModalInfo(modalStatus: boolean): void {
+    this.isModalInfoActive = modalStatus;
+  }
+  /**
+   * cancelModalConfirmation
+   * Método de fechar o modal.
+   * @param modalStatus boolean false que vem do componente modal
+   */
+  cancelModalConfirmation(modalStatus: boolean): void {
+    this.isModalConfirmationActive = modalStatus;
+  }
+  /**
+   * okModalConfirmation
+   * Método que salva a ação solicitada.
+   * @param modalStatus boolean false que vem do componente modal
+   */
+  async okModalConfirmation(modalStatus: boolean): Promise<void> {
+    this.isModalConfirmationActive = modalStatus;
+    switch (this.registerType) {
+      case 'customers':
+      case 'suppliers': {
+        await this.delete(this.companyData.id);
+      }
+    }
+    this.getList();
   }
 }
