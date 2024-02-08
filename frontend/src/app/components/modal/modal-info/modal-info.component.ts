@@ -8,11 +8,17 @@ import {
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonStandardComponent } from '../../button/button-standard/button-standard.component';
+import { ModalBaseComponent } from '../modal-base/modal-base.component';
 
 @Component({
   selector: 'app-modal-info',
   standalone: true,
-  imports: [CommonModule, MatIconModule, ButtonStandardComponent],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    ButtonStandardComponent,
+    ModalBaseComponent,
+  ],
   templateUrl: './modal-info.component.html',
   styleUrl: './modal-info.component.scss',
 })

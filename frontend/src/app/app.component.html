@@ -1,10 +1,12 @@
-<div class="flex h-screen w-full overflow-hidden">
+<div
+  class="flex h-screen w-full overflow-hidden"
+  [ngClass]="showMenu ? '' : 'justify-center'">
   @if (showMenu) {
     <div class="w-48">
       <app-menu></app-menu>
     </div>
   }
-  <div class="mx-3 w-5/6">
+  <div [ngClass]="showMenu ? 'w-5/6 mx-3' : 'w-[97%]'">
     <router-outlet></router-outlet>
   </div>
 </div>

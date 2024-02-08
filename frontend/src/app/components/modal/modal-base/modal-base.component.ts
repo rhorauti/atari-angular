@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -11,6 +11,17 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ModalBaseComponent {
   @Input() showModal = false;
-  @Input() footerClass = '';
+  @Input() title = '';
+  @Input() showHeader = false;
+  @Input() showCloseBtn = false;
+  @Input() headerClass = '';
+  @Input() isModalForm = false;
   @Input() bodyClass = '';
+  @Input() showFooter = false;
+  @Input() footerClass = '';
+  @Output() emitCloseModal = new EventEmitter<boolean>();
+
+  closeModal(): void {
+    this.emitCloseModal.emit(false);
+  }
 }

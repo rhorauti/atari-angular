@@ -8,7 +8,7 @@ import {
   inject,
 } from '@angular/core';
 import { RegisterCompanyApi } from '../../core/api/http/register.api';
-import { InputSearchComponent } from '../input/input-search/input-search.component';
+import { InputFormComponent } from '../input/input-form/input-form.component';
 import { ButtonStandardComponent } from '../button/button-standard/button-standard.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpRequestService } from '../../core/api/http-request.service';
@@ -29,10 +29,10 @@ import { ModalConfirmationComponent } from '../modal/modal-confirmation/modal-co
   standalone: true,
   imports: [
     CommonModule,
-    InputSearchComponent,
+    InputFormComponent,
     ButtonStandardComponent,
     HttpClientModule,
-    InputSearchComponent,
+    InputFormComponent,
     LoadingComponent,
     ModalInfoComponent,
     ModalConfirmationComponent,
@@ -178,7 +178,6 @@ export class TableComponent implements OnInit {
       modalType: 'success',
       modalDescription: message,
     };
-    console.log(this.modalInfo);
   }
 
   /**

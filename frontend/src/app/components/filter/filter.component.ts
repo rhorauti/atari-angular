@@ -1,13 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ButtonStandardComponent } from '../button/button-standard/button-standard.component';
-import { InputSearchComponent } from '../input/input-search/input-search.component';
+import { InputFormComponent } from '../input/input-form/input-form.component';
 
 @Component({
   selector: 'app-filter',
   standalone: true,
-  imports: [CommonModule, ButtonStandardComponent, InputSearchComponent],
+  imports: [CommonModule, ButtonStandardComponent, InputFormComponent],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss',
 })
-export class FilterComponent {}
+export class FilterComponent {
+  @Output() showModalNewRegisterEmitter = new EventEmitter<boolean>();
+
+  showNewRegister(): void {
+    this.showModalNewRegisterEmitter.emit(true);
+  }
+}

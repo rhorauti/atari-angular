@@ -8,6 +8,7 @@ import { FilterComponent } from '../../components/filter/filter.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { ICompany, IProduct } from '../../core/api/interfaces/IRegister';
 import { MatIconModule } from '@angular/material/icon';
+import { ModalFormCompanyComponent } from '../../components/modal/modal-form-company/modal-form-company.component';
 
 @Component({
   selector: 'app-customers',
@@ -18,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
     HttpClientModule,
     FilterComponent,
     PaginationComponent,
+    ModalFormCompanyComponent,
   ],
   providers: [
     RegisterCompanyApi,
@@ -34,6 +36,7 @@ export class CustomersComponent {
   public tableInitialIdx =
     this.paginationComponent.tableIndexInfo.tableInitialIdx;
   public tableLastIdx = this.paginationComponent.tableIndexInfo.tableLastIdx;
+  public modalNewCustomerActive = false;
 
   getTableData(tableData: ICompany[] | IProduct[]): void {
     this.tableData = tableData;
@@ -45,5 +48,9 @@ export class CustomersComponent {
 
   getTableLastIdx(tableLastIdx: number) {
     this.tableLastIdx = tableLastIdx;
+  }
+
+  showModalNewCustomer(showModal: boolean) {
+    this.modalNewCustomerActive = showModal;
   }
 }

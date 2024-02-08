@@ -1,16 +1,17 @@
-<div class="flex justify-between items-end">
-  <div class="text-white flex gap-3">
-    <div class="flex items-center w-1/2">
-      <label class="text-sm mr-3" for="">Id</label>
-      <app-input-search></app-input-search>
+<div
+  class="flex flex-col lg:flex-row lg:justify-between lg:items-end w-full gap-6">
+  <div class="text-white flex flex-col lg:flex-row gap-3">
+    <div class="lg:w-1/2 flex flex-col lg:flex-row lg:items-center gap-3">
+      <label class="text-sm" for="">Id</label>
+      <app-input-form [inputClass]="'text-white'"></app-input-form>
     </div>
-    <div class="w-1/2 flex items-center">
-      <label class="text-sm mr-3" for="">Nome</label>
-      <app-input-search></app-input-search>
+    <div class="lg:w-1/2 flex flex-col lg:flex-row lg:items-center gap-3">
+      <label class="text-sm" for="">Nome</label>
+      <app-input-form [inputClass]="'text-white'"></app-input-form>
     </div>
   </div>
-  <div class="flex flex-1 justify-end gap-4">
-    <div class="w-1/4">
+  <div class="flex flex-1 flex-col lg:flex-row lg:justify-end gap-6">
+    <div class="lg:w-1/4">
       <app-button-standard
         [btnType]="'transparent'"
         [showIcon]="true"
@@ -18,7 +19,7 @@
         [border]="'border'"
         [label]="'Colunas'"></app-button-standard>
     </div>
-    <div class="w-1/4">
+    <div class="lg:w-1/4">
       <app-button-standard
         [btnType]="'transparent'"
         [showIcon]="true"
@@ -26,8 +27,9 @@
         [border]="'border'"
         [label]="'svg'"></app-button-standard>
     </div>
-    <div class="w-1/4">
+    <div class="lg:w-1/4">
       <app-button-standard
+        (click)="showNewRegister()"
         [showIcon]="true"
         [btnIcon]="'add'"
         [label]="'Cadastro'"></app-button-standard>
