@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
   inject,
@@ -41,7 +42,7 @@ import { ModalConfirmationComponent } from '../modal/modal-confirmation/modal-co
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
   private registerApi = inject(RegisterCompanyApi);
   private paginationComponent = inject(PaginationComponent);
   public isModalInfoActive = false;
@@ -51,6 +52,7 @@ export class TableComponent implements OnInit {
   @Input() tableLastIdx = this.paginationComponent.tableIndexInfo.tableLastIdx;
   @Input() registerType = '';
   @Input() showLoading = false;
+  @Input() tableUpdated = false;
   @Output() tableDataEmitter = new EventEmitter<ICompany[] | IProduct[]>();
   public companyTableHeaders = [
     'Id',
@@ -143,6 +145,10 @@ export class TableComponent implements OnInit {
     }
   }
 
+  ngOnChanges(): void {
+    this.getList();
+  }
+
   activeCompanyModalConfirmation(item: ICompany): void {
     switch (this.registerType) {
       case 'customers':
@@ -156,7 +162,7 @@ export class TableComponent implements OnInit {
     }
   }
 
-  activeProdutModalConfirmation(item: IProduct): void {
+  activeProductModalConfirmation(item: IProduct): void {
     switch (this.registerType) {
       case 'supplier-products':
       case 'customer-products': {

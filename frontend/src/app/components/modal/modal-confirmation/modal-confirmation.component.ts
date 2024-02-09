@@ -9,6 +9,7 @@ import {
 import { ButtonStandardComponent } from '../../button/button-standard/button-standard.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ModalBaseComponent } from '../modal-base/modal-base.component';
+import { ModalCheckComponent } from '../modal-check/modal-check.component';
 
 @Component({
   selector: 'app-modal-confirmation',
@@ -18,6 +19,7 @@ import { ModalBaseComponent } from '../modal-base/modal-base.component';
     MatIconModule,
     ButtonStandardComponent,
     ModalBaseComponent,
+    ModalCheckComponent,
   ],
   templateUrl: './modal-confirmation.component.html',
   styleUrl: './modal-confirmation.component.scss',

@@ -53,4 +53,10 @@ export class CustomersComponent {
   showModalNewCustomer(showModal: boolean) {
     this.modalNewCustomerActive = showModal;
   }
+
+  public tableIsUpdated = false;
+
+  updateCustomerList(isTrue: boolean): void {
+    this.tableIsUpdated = isTrue;
+  }
 }

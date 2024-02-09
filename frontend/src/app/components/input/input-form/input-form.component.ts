@@ -14,6 +14,7 @@ export class InputFormComponent {
   @Input() showSearchIcon = true;
   @Input() showRightIcon = true;
   @Input() placeholder = '';
+  @Input() inputType = 'text';
   @Input() inputClass = 'border-gray-500';
   @Input() isEmail = false;
   @Input() isDisabled = false;

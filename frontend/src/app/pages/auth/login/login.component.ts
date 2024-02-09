@@ -130,7 +130,7 @@ export class LoginComponent {
       this.isModalActive = modalStatus;
     } else {
       this.isModalActive = modalStatus;
-      this.router.navigate(['/welcome']);
+      this.router.navigate(['/customers']);
     }
   }
 

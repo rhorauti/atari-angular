@@ -10,6 +10,7 @@
   <section>
     <app-table
       [registerType]="'customers'"
+      [tableUpdated]="tableIsUpdated"
       [tableInitialIdx]="tableInitialIdx"
       [tableLastIdx]="tableLastIdx"
       (tableDataEmitter)="getTableData($event)"></app-table>
@@ -23,4 +24,5 @@
 </div>
 <app-modal-form-company
   (closeModalEmitter)="modalNewCustomerActive = false"
+  (updateCustomerListEmitter)="updateCustomerList($event)"
   [showModalNewCustomer]="modalNewCustomerActive"></app-modal-form-company>

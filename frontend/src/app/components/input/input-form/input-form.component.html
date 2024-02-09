@@ -2,10 +2,11 @@
   <input
     [(ngModel)]="inputValue"
     [disabled]="isDisabled"
+    [type]="inputType"
     (input)="sendInputValue($event)"
     autocomplete="current-password"
     placeholder="{{ placeholder }}"
-    class="bg-transparent rounded w-full py-2 pl-3 pr-10 border border-gray-500 sm:text-sm sm:leading-5"
+    class="bg-transparent rounded w-full py-2 pl-3 pr-10 border disabled:bg-gray-100 border-gray-500 sm:text-sm sm:leading-5"
     [ngClass]="inputClass" />
   @if (showRightIcon) {
     <div class="absolute inset-y-0 -right-2 flex items-center pr-3">

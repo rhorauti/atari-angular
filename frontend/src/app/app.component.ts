@@ -19,5 +19,5 @@ import { FilterComponent } from './components/filter/filter.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  public showMenu = true;
+  public showMenu = false;
 }

@@ -3,7 +3,7 @@
     <table class="text-white w-full h-full text-sm text-center">
       @if (companyData.isCnpj) {
         <thead
-          class="bg-gray-900 sticky position-negative-top z-1 border border-gray-500">
+          class="bg-gray-900 sticky position-negative-top border border-gray-500">
           <tr>
             @for (companyTableHeader of companyTableHeaders; track $index) {
               <th class="table-td">{{ companyTableHeader }}</th>
@@ -69,7 +69,7 @@
                   [showLabel]="false"
                   [btnType]="'warning'"></app-button-standard>
                 <app-button-standard
-                  (click)="activeProdutModalConfirmation(item)"
+                  (click)="activeProductModalConfirmation(item)"
                   [showLabel]="false"
                   [btnType]="'danger'"></app-button-standard>
               </td>

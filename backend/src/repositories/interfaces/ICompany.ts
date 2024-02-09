@@ -1,4 +1,5 @@
 export interface ICompanyDTO {
+  id: number
   cadastro: string
   nome: string
   email: string

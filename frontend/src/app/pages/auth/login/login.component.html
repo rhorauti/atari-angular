@@ -70,15 +70,7 @@
   </p>
 </div>
 <app-loading [showLoading]="isLoadingActive"></app-loading>
-<!-- <app-modal-info
-  [showModal]="isModalActive"
-  [modalIcon]="modalInfo.modalIcon"
-  [iconModalTextColor]="modalInfo.iconModalTextColor"
-  [iconModalBackgroundColor]="modalInfo.iconModalBackgroundColor"
-  [modalDescription]="modalInfo.modalDescription"
-  [modalTitle]="modalInfo.modalTitle"
-  [btnCloseLabel]="modalInfo.modalBtnCloseLabel"
-  (emitCloseModal)="closeModal($event)"></app-modal-info> -->
 <app-modal-info
+  [showModal]="isModalActive"
   [modalType]="modalInfo.modalType"
   (emitCloseModal)="closeModal($event)"></app-modal-info>

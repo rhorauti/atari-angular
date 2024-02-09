@@ -29,6 +29,8 @@ export class CustomerRepository {
    * @param registerData Os dados que vem do frontend para registrar no banco de dados.
    */
   async addNewCompany(registerData: ICompanyDTO): Promise<Customers> {
+    delete registerData.id
+    console.log(registerData)
     const newCustomer = this.customersRepository.create(registerData)
     return this.customersRepository.save(newCustomer)
   }
