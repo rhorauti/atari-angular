@@ -34,13 +34,16 @@ import { formatarData } from '../../../core/utils/proto';
 })
 export class ModalFormCompanyComponent {
   @ViewChildren('inputModal') inputModal?: QueryList<InputFormComponent>;
-  @Input() showModalNewCustomer = false;
-  @Output() closeModalEmitter = new EventEmitter<boolean>();
+
+  @Input() isEditData = false;
   public isModalCheckActive = false;
   public isModalInfoActive = false;
-  public companyData: ICompany = {
+
+  @Input() companyData: ICompany = {
     id: 0,
-    cadastro: formatarData(new Date().toString()),
+    cadastro: formatarData(
+      new Date().toISOString().split('T')[0] + ' 00:00:00'
+    ),
     nome: '',
     email: '',
     telefone: '',
@@ -53,20 +56,112 @@ export class ModalFormCompanyComponent {
     cidade: '',
     estado: '',
   };
-  public modalInfo: IModal = {
+
+  @Input() companiesData: ICompany[] = [];
+
+  /**
+   * showModalCheck
+   * Abre o modal check caso o usuário tenha preenchido pelo menos o nome do usuário. Caso não, é mostrado uma mensagem para preencher pelo menos o nome.
+   */
+  showModalCheck(): void {
+    if (this.companyData.nome.length == 0) {
+      this.handleFailureModal('Favor preencher o campo nome!');
+      this.isModalInfoActive = true;
+      // } else if (
+      //   this.companiesData.some(company => company.id == this.companyData.id)
+      // ) {
+      // const companySelected = this.companiesData.find(
+      //   company => company.id == this.companyData.id
+      // );
+      // if (
+      //   companySelected &&
+      //   companySelected.nome == this.companyData.nome.trim() &&
+      //   companySelected.email == this.companyData.email.trim() &&
+      //   companySelected.telefone == this.companyData.telefone.trim() &&
+      //   companySelected.cnpj == this.companyData.cnpj.trim() &&
+      //   companySelected.logradouro == this.companyData.logradouro.trim() &&
+      //   companySelected.numero == this.companyData.numero &&
+      //   companySelected.complemento == this.companyData.complemento.trim() &&
+      //   companySelected.bairro == this.companyData.bairro.trim() &&
+      //   companySelected.cidade == this.companyData.cidade.trim() &&
+      //   companySelected.estado == this.companyData.estado.trim()
+      // ) {
+      //   this.handleFailureModal('Os dados são iguais aos dados iniciais!');
+      //   this.isModalInfoActive = true;
+      // }
+    } else {
+      this.isModalCheckActive = true;
+    }
+  }
+
+  /**
+   * closeModalCheck
+   * Função que fecha o modal check ao clicar no botão cancelar
+   * @param isFalse boolean false
+   */
+  closeModalCheck(isFalse: boolean): void {
+    this.isModalCheckActive = isFalse;
+  }
+
+  // /**
+  //  * changeModalCheckStatus
+  //  * Função que altera o status do botão presseguir do modal-form para false
+  //  * @param isFalse status false que vem do modal check
+  //  */
+  // changeModalCheckStatus(isFalse: boolean): void {
+  //   this.isModalCheckActive = isFalse;
+  // }
+
+  @Output() closeModalFormEmitter = new EventEmitter<boolean>();
+
+  /**
+   * closeModalForm
+   * Emite um evento para o componente pai para fechar o modal.
+   */
+  closeModalForm(): void {
+    this.clearForm();
+    this.closeModalFormEmitter.emit(false);
+  }
+
+  /**
+   * closeModal
+   * Fecha o modal info.
+   * @param isFalse
+   */
+  closeModalInfo(isFalse: boolean): void {
+    this.isModalInfoActive = isFalse;
+  }
+
+  // Variável do modal info que é acionado quando o registro é feito com sucesso.
+  public isModalInfoRegisterOkActive = false;
+  public modalInfoRegisterOk: IModal = {
     modalType: '',
     modalDescription: '',
   };
+  @Input() isModalFormCompanyActive = false;
+  @Output() updateCustomerListEmitter = new EventEmitter<boolean>();
 
-  sendCancelEmitterEvent() {
-    this.clearForm();
-    this.closeModalEmitter.emit(false);
+  closeModalFormAfterOk(isFalse: boolean): void {
+    this.isModalInfoActive = isFalse;
+    this.isModalCheckActive = isFalse;
+    this.updateCustomerListEmitter.emit(true);
+    this.closeModalForm();
   }
 
-  clearForm() {
+  @Output() isEditDataEmitter = new EventEmitter<boolean>();
+
+  resetEditDataAndUpdateTable(): void {
+    this.isEditDataEmitter.emit(false);
+  }
+
+  /**
+   * clearForm
+   * Limpa o formulário modal-form
+   */
+  clearForm(): void {
     this.inputModal?.forEach(input => input.clearInput());
     this.companyData.id = 0;
-    this.companyData.cadastro = new Date().toString();
+    this.companyData.cadastro = formatarData(new Date().toString());
     this.companyData.nome = '';
     this.companyData.email = '';
     this.companyData.telefone = '';
@@ -80,9 +175,14 @@ export class ModalFormCompanyComponent {
     this.companyData.estado = '';
   }
 
+  public modalInfo: IModal = {
+    modalType: '',
+    modalDescription: '',
+  };
+
   /**
    * handleSuccessModal
-   * Função que popula os dados do modal no caso de email ou senha validados corretamente.
+   * Função que popula os dados do modal e mostra para o usuário caso o registro seja validado corretamente.
    */
   handleSuccessModal(message: string): void {
     this.modalInfo = {
@@ -93,7 +193,7 @@ export class ModalFormCompanyComponent {
 
   /**
    * handleFailureModal
-   * Função que popula os dados do modal no caso de email ou senha digitados incorretamente.
+   * Função que popula os dados do modal e mostra para o usuário caso o registro seja validado incorretamente.
    */
   handleFailureModal(message: string): void {
     this.modalInfo = {
@@ -102,49 +202,6 @@ export class ModalFormCompanyComponent {
     };
   }
 
-  /**
-   * showModalCheck
-   * Abre o modal que o usuário verifica se os dados digitados estão corretos.
-   */
-  showModalCheck(): void {
-    if (this.companyData.nome.length == 0) {
-      this.handleFailureModal('Favor preencher o campo nome!');
-      this.isModalInfoActive = true;
-    } else {
-      this.isModalCheckActive = true;
-    }
-  }
-
-  /**
-   * changeModalCheckStatus
-   * Função que altera o status do botão presseguir do modal-form para false
-   * @param isFalse status false que vem do modal check
-   */
-  changeModalCheckStatus(isFalse: boolean): void {
-    this.isModalCheckActive = isFalse;
-  }
-
-  closeModalCheck(isFalse: boolean): void {
-    this.isModalCheckActive = isFalse;
-  }
-
-  /**
-   * closeModal
-   * Função que fecha o modal e direciona o usuário para a tela inicial da aplicação.
-   * @param isFalse
-   */
-  closeModalInfo(isFalse: boolean): void {
-    this.isModalInfoActive = isFalse;
-  }
-
-  @Output() updateCustomerListEmitter = new EventEmitter<boolean>();
-
-  closeModalForm(isFalse: boolean): void {
-    this.showModalNewCustomer = isFalse;
-    this.isModalCheckActive = isFalse;
-    this.isModalInfoActive = isFalse;
-    this.updateCustomerListEmitter.emit(true);
-  }
   /**
    * getInputIdValue
    * Função que pega o id enviado pelo componente input e salva no objeto companyData do modal.

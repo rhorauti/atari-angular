@@ -1,9 +1,9 @@
 <app-modal-base
-  [showModal]="showModalNewCustomer"
+  [showModal]="isModalFormCompanyActive"
   [showHeader]="true"
   [isModalForm]="true"
   [title]="'Cadastro de novo cliente'"
-  (emitCloseModal)="showModalNewCustomer = false">
+  (emitCloseModal)="closeModalForm()">
   <div class="body-block">
     @if (companyData.id != 0) {
       <div class="md:grid md:grid-cols-2 gap-4">
@@ -11,6 +11,7 @@
           <div class="gap-2">
             <label class="font-semibold text-sm" for="">Id</label>
             <app-input-form
+              [inputValue]="this.companyData.id.toString()"
               [isDisabled]="true"
               [showRightIcon]="false"
               (emitInputValue)="getInputIdValue($event)"
@@ -20,6 +21,7 @@
             <label class="font-semibold text-sm" for="">Cadastro</label>
             <app-input-form
               #inputModal
+              [inputValue]="this.companyData.cadastro"
               [isDisabled]="true"
               [showRightIcon]="false"
               (emitInputValue)="getInputCadastroValue($event)"
@@ -29,6 +31,7 @@
             <label class="font-semibold text-sm" for="">Nome</label>
             <app-input-form
               #inputModal
+              [inputValue]="this.companyData.nome"
               [showRightIcon]="false"
               (emitInputValue)="getInputNomeValue($event)"
               [inputClass]="'text-black h-9'"></app-input-form>
@@ -37,6 +40,7 @@
             <label class="font-semibold text-sm" for="">E-mail</label>
             <app-input-form
               #inputModal
+              [inputValue]="this.companyData.email"
               [showRightIcon]="false"
               (emitInputValue)="getInputEmailValue($event)"
               [inputClass]="'text-black h-9'"></app-input-form>
@@ -45,6 +49,7 @@
             <label class="font-semibold text-sm" for="">Telefone</label>
             <app-input-form
               #inputModal
+              [inputValue]="this.companyData.telefone"
               [showRightIcon]="false"
               (emitInputValue)="getInputTelefoneValue($event)"
               [inputClass]="'text-black h-9'"></app-input-form>
@@ -53,6 +58,7 @@
             <label class="font-semibold text-sm" for="">CNPJ/CPF</label>
             <app-input-form
               #inputModal
+              [inputValue]="this.companyData.cnpj"
               [showRightIcon]="false"
               (emitInputValue)="getInputCnpjValue($event)"
               [inputClass]="'text-black h-9'"></app-input-form>
@@ -63,6 +69,7 @@
             <label class="font-semibold text-sm" for="">Logradouro</label>
             <app-input-form
               #inputModal
+              [inputValue]="this.companyData.logradouro"
               [showRightIcon]="false"
               (emitInputValue)="getInputLogradouroValue($event)"
               [inputClass]="'text-black h-9'"></app-input-form>
@@ -71,6 +78,7 @@
             <label class="font-semibold text-sm" for="">Número</label>
             <app-input-form
               #inputModal
+              [inputValue]="this.companyData.numero.toString()"
               [showRightIcon]="false"
               (emitInputValue)="getInputNumeroValue($event)"
               [inputClass]="'text-black h-9'"></app-input-form>
@@ -79,6 +87,7 @@
             <label class="font-semibold text-sm" for="">Complemento</label>
             <app-input-form
               #inputModal
+              [inputValue]="this.companyData.complemento"
               [showRightIcon]="false"
               (emitInputValue)="getInputComplementoValue($event)"
               [inputClass]="'text-black h-9'"></app-input-form>
@@ -87,6 +96,7 @@
             <label class="font-semibold text-sm" for="">Bairro</label>
             <app-input-form
               #inputModal
+              [inputValue]="this.companyData.bairro"
               [showRightIcon]="false"
               (emitInputValue)="getInputBairroValue($event)"
               [inputClass]="'text-black h-9'"></app-input-form>
@@ -95,6 +105,7 @@
             <label class="font-semibold text-sm" for="">Cidade</label>
             <app-input-form
               #inputModal
+              [inputValue]="this.companyData.cidade"
               [showRightIcon]="false"
               (emitInputValue)="getInputCidadeValue($event)"
               [inputClass]="'text-black h-9'"></app-input-form>
@@ -103,6 +114,7 @@
             <label class="font-semibold text-sm" for="">Estado</label>
             <app-input-form
               #inputModal
+              [inputValue]="this.companyData.estado"
               [showRightIcon]="false"
               (emitInputValue)="getInputEstadoValue($event)"
               [inputClass]="'text-black h-9'"></app-input-form>
@@ -202,7 +214,7 @@
   <div class="footer-block grid grid-cols-3 gap-3 mt-5">
     <app-button-standard
       [btnType]="'cancel'"
-      (click)="sendCancelEmitterEvent()"></app-button-standard>
+      (click)="closeModalForm()"></app-button-standard>
     <app-button-standard
       [btnType]="'clear'"
       (click)="clearForm()"></app-button-standard>
@@ -213,13 +225,14 @@
 </app-modal-base>
 <app-modal-check
   [companyData]="companyData"
+  [isEditData]="isEditData"
   [isModalCheckActive]="isModalCheckActive"
-  (changeBtnProsseguirStatusEmitter)="changeModalCheckStatus($event)"
-  (closeModalFormEmitter)="closeModalForm($event)"
+  (isEditDataEmitter)="resetEditDataAndUpdateTable()"
+  (closeModalFormEmitter)="closeModalFormAfterOk($event)"
   (closeModalCheckEmitter)="closeModalCheck($event)">
 </app-modal-check>
 <app-modal-info
   [showModal]="isModalInfoActive"
   [modalType]="modalInfo.modalType"
   [modalDescription]="modalInfo.modalDescription"
-  (emitCloseModal)="closeModalInfo($event)"></app-modal-info>
+  (closeModalEmitter)="closeModalInfo($event)"></app-modal-info>

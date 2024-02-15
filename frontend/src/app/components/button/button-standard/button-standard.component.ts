@@ -63,11 +63,19 @@ export class ButtonStandardComponent implements OnInit {
         this.hoverBackgroundColor = 'hover:bg-green-500';
         break;
       }
-      case 'success': {
+      case 'success-save': {
         this.backgroundColor = 'bg-green-600';
         this.showIcon = true;
         this.btnIcon = 'save';
-        this.label = 'Salvar';
+        this.label = 'Adicionar';
+        this.hoverBackgroundColor = 'hover:bg-green-500';
+        break;
+      }
+      case 'success-edit': {
+        this.backgroundColor = 'bg-green-600';
+        this.showIcon = true;
+        this.btnIcon = 'save';
+        this.label = 'Alterar';
         this.hoverBackgroundColor = 'hover:bg-green-500';
         break;
       }

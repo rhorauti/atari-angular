@@ -30,20 +30,19 @@ export class CustomerRepository {
    */
   async addNewCompany(registerData: ICompanyDTO): Promise<Customers> {
     delete registerData.id
-    console.log(registerData)
     const newCustomer = this.customersRepository.create(registerData)
     return this.customersRepository.save(newCustomer)
   }
 
   async updateCompany(
     companyData: ICompanyDTOExtended,
-    CompanyId: string,
+    companyId: string,
   ): Promise<void> {
-    await this.repository
+    await this.customersRepository
       .createQueryBuilder()
       .update(Customers)
       .set(companyData)
-      .where('id = :id', { id: CompanyId })
+      .where('id = :id', { id: companyId })
       .execute()
   }
 

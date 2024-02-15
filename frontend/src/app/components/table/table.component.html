@@ -1,98 +1,103 @@
 <div class="overflow-auto h-full border border-gray-500">
   @if (companiesData.data && companiesData.data.length > 0) {
     <table class="text-white w-full h-full text-sm text-center">
-      @if (companyData.isCnpj) {
-        <thead
-          class="bg-gray-900 sticky position-negative-top border border-gray-500">
-          <tr>
-            @for (companyTableHeader of companyTableHeaders; track $index) {
-              <th class="table-td">{{ companyTableHeader }}</th>
-            }
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-500 border border-gray-500">
-          @for (
-            item of companiesData.data.slice(tableInitialIdx, tableLastIdx);
-            track $index
-          ) {
-            <tr>
-              <td class="table-td bg-black">
-                {{ item.id }}
-              </td>
-              <td class="table-td">{{ item.cadastro }}</td>
-              <td class="table-td">{{ item.nome }}</td>
-              <td class="table-td">{{ item.email }}</td>
-              <td class="table-td">{{ item.telefone }}</td>
-              <td class="table-td">{{ item.cnpj }}</td>
-              <td class="table-td">{{ item.logradouro }}</td>
-              <td class="table-td">{{ item.numero }}</td>
-              <td class="table-td">{{ item.complemento }}</td>
-              <td class="table-td">{{ item.bairro }}</td>
-              <td class="table-td">{{ item.cidade }}</td>
-              <td class="table-td">{{ item.estado }}</td>
-              <td class="table-td flex gap-3">
-                <app-button-standard
-                  [showLabel]="false"
-                  [showIcon]="true"
-                  [btnType]="'warning'"></app-button-standard>
-                <app-button-standard
-                  (click)="activeCompanyModalConfirmation(item)"
-                  [showLabel]="false"
-                  [showIcon]="true"
-                  [btnType]="'danger'"></app-button-standard>
-              </td>
-            </tr>
+      <thead class="bg-gray-900 border border-gray-500">
+        <tr>
+          @for (companyTableHeader of companyTableHeaders; track $index) {
+            <th class="table-td">{{ companyTableHeader }}</th>
           }
-        </tbody>
-      } @else {
-        <thead
-          class="bg-gray-900 sticky position-negative-0-5 z-20 border border-gray-500">
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-500 border border-gray-500">
+        @for (
+          company of companiesData.data.slice(tableInitialIdx, tableLastIdx);
+          track $index
+        ) {
           <tr>
-            @for (productTableHeader of productTableHeaders; track $index) {
-              <th class="table-td">{{ productTableHeader }}</th>
-            }
+            <td class="table-td bg-black">
+              {{ company.id }}
+            </td>
+            <td class="table-td">{{ company.cadastro }}</td>
+            <td class="table-td">{{ company.nome }}</td>
+            <td class="table-td">{{ company.email }}</td>
+            <td class="table-td">{{ company.telefone }}</td>
+            <td class="table-td">{{ company.cnpj }}</td>
+            <td class="table-td">{{ company.logradouro }}</td>
+            <td class="table-td">{{ company.numero }}</td>
+            <td class="table-td">{{ company.complemento }}</td>
+            <td class="table-td">{{ company.bairro }}</td>
+            <td class="table-td">{{ company.cidade }}</td>
+            <td class="table-td">{{ company.estado }}</td>
+            <td class="table-td flex gap-3">
+              <app-button-standard
+                (click)="showModalFormToEditCompany(company)"
+                [showLabel]="false"
+                [showIcon]="true"
+                [btnType]="'warning'"></app-button-standard>
+              <app-button-standard
+                (click)="showModalAskToDeleteCompany(company)"
+                [showLabel]="false"
+                [showIcon]="true"
+                [btnType]="'danger'"></app-button-standard>
+            </td>
           </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-500 border border-gray-500">
-          @for (item of productsData.data; track $index) {
-            <tr>
-              <td class="table-td">{{ item.id }}</td>
-              <td class="table-td">{{ item.cadastro }}</td>
-              <td class="table-td">{{ item.nome }}</td>
-              <td class="table-td">{{ item.cc }}</td>
-              <td class="table-td">{{ item.ncm }}</td>
-              <td class="table-td">{{ item.unidade }}</td>
-              <td class="table-td">{{ item.preco }}</td>
-              <td class="table-td">{{ item.comentario }}</td>
-              <td class="table-td">
-                <app-button-standard
-                  [showLabel]="false"
-                  [btnType]="'warning'"></app-button-standard>
-                <app-button-standard
-                  (click)="activeProductModalConfirmation(item)"
-                  [showLabel]="false"
-                  [btnType]="'danger'"></app-button-standard>
-              </td>
-            </tr>
+        }
+      </tbody>
+    </table>
+  } @else if (productsData.data && productsData.data.length > 0) {
+    <table>
+      <thead class="bg-gray-900 border border-gray-500">
+        <tr>
+          @for (productTableHeader of productTableHeaders; track $index) {
+            <th class="table-td">{{ productTableHeader }}</th>
           }
-        </tbody>
-      }
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-500 border border-gray-500">
+        @for (product of productsData.data; track $index) {
+          <tr>
+            <td class="table-td">{{ product.id }}</td>
+            <td class="table-td">{{ product.cadastro }}</td>
+            <td class="table-td">{{ product.nome }}</td>
+            <td class="table-td">{{ product.cc }}</td>
+            <td class="table-td">{{ product.ncm }}</td>
+            <td class="table-td">{{ product.unidade }}</td>
+            <td class="table-td">{{ product.preco }}</td>
+            <td class="table-td">{{ product.comentario }}</td>
+            <td class="table-td">
+              <app-button-standard
+                (click)="showModalFormToEditProduct(product)"
+                [showLabel]="false"
+                [btnType]="'warning'"></app-button-standard>
+              <app-button-standard
+                (click)="showModalAskToDeleteProduct(product)"
+                [showLabel]="false"
+                [btnType]="'danger'"></app-button-standard>
+            </td>
+          </tr>
+        }
+      </tbody>
     </table>
   } @else {
-    <p class="text-white font-semibold text-center p-4 border border-gray-500">
-      Não encontramos nenhum registro.
-    </p>
+    <p>Nenhum registro encontrado!</p>
   }
 </div>
-<app-modal-confirmation
-  [showModal]="isModalConfirmationActive"
-  [modalDescription]="modalConfirmation.modalDescription"
-  [modalType]="modalConfirmation.modalType"
-  (emitCancelModal)="cancelModalConfirmation($event)"
-  (emitOkModal)="okModalConfirmation($event)"></app-modal-confirmation>
+<app-modal-form-company
+  [isModalFormCompanyActive]="isModalFormCompanyActive"
+  [companyData]="companyData"
+  [companiesData]="companiesData.data"
+  [isEditData]="isEditData"
+  (isEditDataEmitter)="setEditDataToFalse()"
+  (closeModalFormEmitter)="closeModalFormCompany()"></app-modal-form-company>
+<app-modal-ask
+  [showModal]="isModalAskActive"
+  [modalDescription]="modalAsk.modalDescription"
+  [modalType]="modalAsk.modalType"
+  (cancelEmitter)="closeModalAsk($event)"
+  (actionOkEmitter)="OnModalAskActionOk()"></app-modal-ask>
 <app-modal-info
   [showModal]="isModalInfoActive"
   [modalDescription]="modalInfo.modalDescription"
   [modalType]="modalInfo.modalType"
-  (emitCloseModal)="closeModalInfo($event)"></app-modal-info>
+  (closeModalEmitter)="closeModalInfo($event)"></app-modal-info>
 <app-loading [showLoading]="showLoading"></app-loading>

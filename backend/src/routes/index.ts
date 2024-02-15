@@ -35,7 +35,7 @@ router.post('/customers', (request, response) => {
   customerController.addNewCustomer(request, response)
 })
 
-router.put('/customers/:id', (request, response) => {
+router.put('/customers/:id', async (request, response) => {
   customerController.updateCustomer(request, response)
 })
 

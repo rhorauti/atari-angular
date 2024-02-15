@@ -20,7 +20,7 @@ export class InputFormComponent {
   @Input() isDisabled = false;
   @Output() emitInputValue = new EventEmitter<string>();
 
-  public inputValue = '';
+  @Input() inputValue = '';
   public showPassword = false;
 
   clearInput(): void {

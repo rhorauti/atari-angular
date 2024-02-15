@@ -69,10 +69,13 @@ export class CustomerController {
         message: 'Cliente não encontrado!',
       })
     } else {
-      this.customerRepository.updateCompany(request.body, request.params.id)
+      await this.customerRepository.updateCompany(
+        request.body,
+        request.params.id,
+      )
       return response.status(200).json({
         status: true,
-        message: `Cliente ${request.body.name} registrado com sucesso!`,
+        message: `Cliente ${request.body.nome} alterado com sucesso!`,
       })
     }
   }

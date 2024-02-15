@@ -37,7 +37,6 @@ interface IFormData {
 })
 export class ModalCheckComponent implements OnChanges {
   constructor(private registerCompanyApi: RegisterCompanyApi) {}
-  @Input() isModalCheckActive = false;
   @Input() companyData: ICompany = {
     id: 0,
     cadastro: '',
@@ -53,20 +52,12 @@ export class ModalCheckComponent implements OnChanges {
     cidade: '',
     estado: '',
   };
-  @Output() closeModalCheckEmitter = new EventEmitter<boolean>();
-  @Output() changeBtnProsseguirStatusEmitter = new EventEmitter<boolean>();
   public firstIdx1 = 0;
   public firstIdx2 = 0;
   public lastIdx1 = 0;
   public lastIdx2 = 0;
   public sizeArrayFormData = 8;
   public arrayFormData: IFormData[] = [{ title: '', description: '' }];
-  public showLoading = false;
-  public isModalInfoActive = false;
-  public modalInfo: IModal = {
-    modalType: '',
-    modalDescription: '',
-  };
 
   ngOnChanges() {
     const arrayKeys = Object.keys(this.companyData);
@@ -82,13 +73,44 @@ export class ModalCheckComponent implements OnChanges {
     }
   }
 
+  @Input() isModalCheckActive = false;
+
   showModalCheck() {
     this.isModalCheckActive = true;
   }
 
+  @Output() closeModalCheckEmitter = new EventEmitter<boolean>();
+
   closeModalCheck() {
     this.closeModalCheckEmitter.emit(false);
   }
+
+  public isModalInfoActive = false;
+  @Output() changeBtnProsseguirStatusFormEmitter = new EventEmitter<boolean>();
+  @Output() closeModalFormEmitter = new EventEmitter<boolean>();
+
+  public isModalResultOk = false;
+
+  /**
+   * closeModalInfo
+   * Fecha o formulário de double-check e registra os dados caso o usuário clique em salvar e caso cancele reseta o botão prosseguir do modal form.
+   * @param isFalse boolean false
+   */
+  closeModalInfoAfterRegisterOk(isFalse: boolean): void {
+    if (!this.isModalResultOk) {
+      this.isModalInfoActive = isFalse;
+      this.closeModalCheck();
+    } else {
+      this.isModalInfoActive = isFalse;
+      this.closeModalCheck();
+      this.closeModalFormEmitter.emit(false);
+    }
+  }
+
+  public modalInfo: IModal = {
+    modalType: '',
+    modalDescription: '',
+  };
 
   /**
    * handleSuccessModal
@@ -112,18 +134,18 @@ export class ModalCheckComponent implements OnChanges {
     };
   }
 
-  public isRegisterSuccess = false;
+  public showLoading = false;
 
   async registerData() {
     this.showLoading = true;
     try {
-      const newRegisterResponse = await this.registerCompanyApi.addNewRegister(
+      const newRegisterResponse = await this.registerCompanyApi.addNewCustomer(
         this.companyData,
         'customers'
       );
       this.handleSuccessModal(newRegisterResponse.message);
+      this.isModalResultOk = true;
       this.isModalInfoActive = true;
-      this.isRegisterSuccess = true;
     } catch (e: any) {
       this.handleFailureModal(e.error.message);
       this.isModalInfoActive = true;
@@ -132,15 +154,26 @@ export class ModalCheckComponent implements OnChanges {
     }
   }
 
-  @Output() closeModalFormEmitter = new EventEmitter<boolean>();
+  @Input() isEditData = false;
+  @Output() isEditDataEmitter = new EventEmitter<boolean>();
 
-  closeModalInfo(isFalse: boolean): void {
-    this.isModalCheckActive = isFalse;
-    this.isModalInfoActive = isFalse;
-    if (!this.isRegisterSuccess) {
-      this.changeBtnProsseguirStatusEmitter.emit(false);
-    } else {
-      this.closeModalFormEmitter.emit(false);
+  async editData(): Promise<void> {
+    this.showLoading = true;
+    try {
+      const customerData = await this.registerCompanyApi.updateCompany(
+        this.companyData,
+        'customers',
+        this.companyData.id
+      );
+      this.handleSuccessModal(customerData.message);
+      this.isModalResultOk = true;
+      this.isModalInfoActive = true;
+      this.isEditDataEmitter.emit(false);
+    } catch (e: any) {
+      this.handleFailureModal(e.error.message);
+      this.isModalInfoActive = true;
+    } finally {
+      this.showLoading = false;
     }
   }
 }

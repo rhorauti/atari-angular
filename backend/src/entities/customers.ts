@@ -6,7 +6,7 @@ export class Customers {
   id: number
 
   @Column({ type: 'varchar', length: 25 })
-  cadastro: Date
+  cadastro: string
 
   @Column({ type: 'varchar', length: 100 })
   nome: string

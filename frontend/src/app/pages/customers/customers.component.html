@@ -11,6 +11,7 @@
     <app-table
       [registerType]="'customers'"
       [tableUpdated]="tableIsUpdated"
+      (tableUpdatedEmitter)="changeTableUpdatedToFalse($event)"
       [tableInitialIdx]="tableInitialIdx"
       [tableLastIdx]="tableLastIdx"
       (tableDataEmitter)="getTableData($event)"></app-table>
@@ -23,6 +24,8 @@
   </footer>
 </div>
 <app-modal-form-company
-  (closeModalEmitter)="modalNewCustomerActive = false"
+  (closeModalFormEmitter)="closeModalForm($event)"
   (updateCustomerListEmitter)="updateCustomerList($event)"
-  [showModalNewCustomer]="modalNewCustomerActive"></app-modal-form-company>
+  [isModalFormCompanyActive]="
+    isModalNewCustomerActive
+  "></app-modal-form-company>

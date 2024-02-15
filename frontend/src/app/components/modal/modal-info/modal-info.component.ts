@@ -30,7 +30,6 @@ export class ModalInfoComponent implements OnChanges {
   @Input() iconModalTextColor = 'text-green-100';
   @Input() modalTitle = 'Sucesso!';
   @Input() modalDescription = 'Dados registrados com sucesso!';
-  @Output() emitCloseModal = new EventEmitter<boolean>();
   @Output() emitCancelModal = new EventEmitter<boolean>();
   @Output() emitOkModal = new EventEmitter<boolean>();
 
@@ -53,7 +52,13 @@ export class ModalInfoComponent implements OnChanges {
     }
   }
 
-  sendCloseEmitterEvent(): void {
-    this.emitCloseModal.emit(false);
+  @Output() closeModalEmitter = new EventEmitter<boolean>();
+
+  /**
+   * closeModalInfo
+   * Emite um evento para o componente pai para fechar o modal Info.
+   */
+  closeModalInfo(): void {
+    this.closeModalEmitter.emit(false);
   }
 }

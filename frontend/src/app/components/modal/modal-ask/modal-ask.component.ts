@@ -12,7 +12,7 @@ import { ModalBaseComponent } from '../modal-base/modal-base.component';
 import { ModalCheckComponent } from '../modal-check/modal-check.component';
 
 @Component({
-  selector: 'app-modal-confirmation',
+  selector: 'app-modal-ask',
   standalone: true,
   imports: [
     CommonModule,
@@ -21,20 +21,18 @@ import { ModalCheckComponent } from '../modal-check/modal-check.component';
     ModalBaseComponent,
     ModalCheckComponent,
   ],
-  templateUrl: './modal-confirmation.component.html',
-  styleUrl: './modal-confirmation.component.scss',
+  templateUrl: './modal-ask.component.html',
+  styleUrl: './modal-ask.component.scss',
 })
-export class ModalConfirmationComponent implements OnChanges {
-  @Input() modalType = '';
+export class ModalAskComponent implements OnChanges {
   @Input() showModal = false;
-  @Input() modalIcon = 'check';
-  @Input() iconModalBackgroundColor = 'bg-green-600';
-  @Input() iconModalTextColor = 'text-green-100';
-  @Input() modalTitle = 'Sucesso!';
-  @Input() modalDescription = 'Dados registrados com sucesso!';
-  @Output() emitCloseModal = new EventEmitter<boolean>();
-  @Output() emitCancelModal = new EventEmitter<boolean>();
-  @Output() emitOkModal = new EventEmitter<boolean>();
+  @Input() modalDescription = '';
+
+  @Input() modalType = '';
+  @Input() modalIcon = '';
+  @Input() iconModalBackgroundColor = '';
+  @Input() iconModalTextColor = '';
+  @Input() modalTitle = '';
 
   ngOnChanges() {
     switch (this.modalType) {
@@ -48,11 +46,15 @@ export class ModalConfirmationComponent implements OnChanges {
     }
   }
 
-  sendCancelEmitterEvent(): void {
-    this.emitCancelModal.emit(false);
+  @Output() cancelEmitter = new EventEmitter<boolean>();
+
+  cancel(): void {
+    this.cancelEmitter.emit(false);
   }
 
-  sendOkEmitterEvent(): void {
-    this.emitOkModal.emit(false);
+  @Output() actionOkEmitter = new EventEmitter<boolean>();
+
+  OnActionOk(): void {
+    this.actionOkEmitter.emit(false);
   }
 }

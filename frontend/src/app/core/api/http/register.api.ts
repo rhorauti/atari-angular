@@ -43,31 +43,48 @@ export class RegisterCompanyApi {
    * Adiciona um novo registro no banco de dados.
    * @returns Promise com o status e mensagem.
    */
-  async addNewRegister(
-    registerData: ICompany,
+  async addNewCustomer(
+    customerData: ICompany,
     registerType: string
   ): Promise<IResponseCommonMessage> {
     return await this.httpRequestService.sendHttpRequest(
       `${environment.apiUrl}/${registerType}`,
       'POST',
-      registerData
+      customerData
     );
   }
 
   /**
    * updateCompany
-   * Solicita uma lista de empresas para o backend
+   * Atualiza os dados da empresa.
    * @returns Promise com o status e mensagem.
    */
-  async updateRegister(
-    registerData: ICompany | IProduct,
+  async updateCompany(
+    companyData: ICompany,
     registerType: string,
-    registerTypeId: number
+    companyId: number
   ): Promise<IResponseCommonMessage> {
     return await this.httpRequestService.sendHttpRequest(
-      `${environment.apiUrl}/${registerType}/${registerTypeId}`,
+      `${environment.apiUrl}/${registerType}/${companyId.toString()}`,
       'PUT',
-      registerData
+      companyData
+    );
+  }
+
+  /**
+   * updateProduct
+   * Atualiza os dados do produto
+   * @returns Promise com o status e mensagem.
+   */
+  async updateProduct(
+    productData: IProduct,
+    registerType: string,
+    productId: number
+  ): Promise<IResponseCommonMessage> {
+    return await this.httpRequestService.sendHttpRequest(
+      `${environment.apiUrl}/${registerType}/${productId}`,
+      'PUT',
+      productData
     );
   }
 

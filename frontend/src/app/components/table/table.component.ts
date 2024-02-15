@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   inject,
 } from '@angular/core';
@@ -23,7 +22,8 @@ import { IModal } from '../../core/api/interfaces/IModal';
 import { LoadingComponent } from '../loading/loading.component';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { ModalInfoComponent } from '../modal/modal-info/modal-info.component';
-import { ModalConfirmationComponent } from '../modal/modal-confirmation/modal-confirmation.component';
+import { ModalAskComponent } from '../modal/modal-ask/modal-ask.component';
+import { ModalFormCompanyComponent } from '../modal/modal-form-company/modal-form-company.component';
 
 @Component({
   selector: 'app-table',
@@ -36,23 +36,23 @@ import { ModalConfirmationComponent } from '../modal/modal-confirmation/modal-co
     InputFormComponent,
     LoadingComponent,
     ModalInfoComponent,
-    ModalConfirmationComponent,
+    ModalAskComponent,
+    ModalFormCompanyComponent,
   ],
   providers: [RegisterCompanyApi, HttpRequestService, PaginationComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
-export class TableComponent implements OnInit, OnChanges {
+export class TableComponent implements OnChanges {
   private registerApi = inject(RegisterCompanyApi);
   private paginationComponent = inject(PaginationComponent);
   public isModalInfoActive = false;
-  public isModalConfirmationActive = false;
+  public isModalAskActive = false;
   @Input() tableInitialIdx =
     this.paginationComponent.tableIndexInfo.tableInitialIdx;
   @Input() tableLastIdx = this.paginationComponent.tableIndexInfo.tableLastIdx;
-  @Input() registerType = '';
   @Input() showLoading = false;
-  @Input() tableUpdated = false;
+
   @Output() tableDataEmitter = new EventEmitter<ICompany[] | IProduct[]>();
   public companyTableHeaders = [
     'Id',
@@ -80,6 +80,13 @@ export class TableComponent implements OnInit, OnChanges {
     'Comentários',
     'Ação',
   ];
+
+  public modalAsk: IModal = {
+    modalType: '',
+    modalDescription: '',
+  };
+
+  @Input() registerType = '';
   public companiesData: IResponseCompany = {
     date: '',
     status: false,
@@ -118,17 +125,10 @@ export class TableComponent implements OnInit, OnChanges {
     fileName: '',
     comentario: '',
   };
-  public modalInfo: IModal = {
-    modalType: '',
-    modalDescription: '',
-  };
-  public modalConfirmation: IModal = {
-    modalType: '',
-    modalDescription: '',
-  };
 
-  async ngOnInit() {
-    await this.getList();
+  @Output() tableUpdatedEmitter = new EventEmitter<boolean>();
+
+  emitTableData(): void {
     switch (this.registerType) {
       case 'customers':
       case 'suppliers': {
@@ -145,35 +145,108 @@ export class TableComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(): void {
-    this.getList();
+  @Input() tableUpdated = false;
+
+  async resetTable(): Promise<void> {
+    await this.getList();
+    this.emitTableData();
+    this.tableUpdatedEmitter.emit(false);
   }
 
-  activeCompanyModalConfirmation(item: ICompany): void {
+  async ngOnChanges(): Promise<void> {
+    this.resetTable();
+  }
+
+  showModalAskToDeleteCompany(company: ICompany): void {
     switch (this.registerType) {
       case 'customers':
       case 'suppliers': {
-        this.companyData = item;
-        this.modalConfirmation.modalType = 'confirmation';
-        this.modalConfirmation.modalDescription = `Deseja excluir ${this.companyData.nome}?`;
-        this.isModalConfirmationActive = true;
+        this.companyData = company;
+        this.modalAsk.modalType = 'confirmation';
+        this.modalAsk.modalDescription = `Deseja excluir ${this.companyData.nome}?`;
+        this.isModalAskActive = true;
         break;
       }
     }
   }
 
-  activeProductModalConfirmation(item: IProduct): void {
+  showModalAskToDeleteProduct(product: IProduct): void {
     switch (this.registerType) {
       case 'supplier-products':
       case 'customer-products': {
-        this.productData = item;
-        this.modalConfirmation.modalType = 'confirmation';
-        this.modalConfirmation.modalDescription = `Deseja excluir ${this.productData.nome}?`;
-        this.isModalConfirmationActive = true;
+        this.productData = product;
+        this.modalAsk.modalType = 'confirmation';
+        this.modalAsk.modalDescription = `Deseja excluir ${this.productData.nome}?`;
+        this.isModalAskActive = true;
         break;
       }
     }
   }
+
+  public isModalFormCompanyActive = false;
+  public isEditData = false;
+
+  showModalFormToEditCompany(companyData: ICompany): void {
+    this.companyData = companyData;
+    this.isEditData = true;
+    this.isModalFormCompanyActive = true;
+  }
+
+  setEditDataToFalse(): void {
+    this.isEditData = false;
+    this.resetTable();
+  }
+
+  public isModalFormProductActive = false;
+
+  showModalFormToEditProduct(productData: IProduct): void {
+    this.productData = productData;
+    this.isModalFormProductActive = true;
+  }
+
+  closeModalFormCompany(): void {
+    this.isModalFormCompanyActive = false;
+  }
+
+  closeModalFormProduct(): void {
+    this.isModalFormCompanyActive = false;
+  }
+
+  /**
+   * closeModal
+   * Função que fecha o modal info.
+   * @param isFalse
+   */
+  closeModalInfo(isFalse: boolean): void {
+    this.isModalInfoActive = isFalse;
+  }
+  /**
+   * cancelModalConfirmation
+   * Método de fechar o modal confirmation
+   * @param isFalse boolean false que vem do componente modal
+   */
+  closeModalAsk(isFalse: boolean): void {
+    this.isModalAskActive = isFalse;
+  }
+  /**
+   * okModalConfirmation
+   * Método que salva a ação solicitada.
+   */
+  async OnModalAskActionOk(): Promise<void> {
+    switch (this.registerType) {
+      case 'customers':
+      case 'suppliers': {
+        await this.delete(this.companyData.id);
+        this.closeModalAsk(false);
+        this.getList();
+      }
+    }
+  }
+
+  public modalInfo: IModal = {
+    modalType: '',
+    modalDescription: '',
+  };
 
   /**
    * handleSuccessModal
@@ -245,7 +318,7 @@ export class TableComponent implements OnInit, OnChanges {
       this.showLoading = true;
       switch (this.registerType) {
         case 'customers': {
-          const customersData = await this.registerApi.addNewRegister(
+          const customersData = await this.registerApi.addNewCustomer(
             this.companyData,
             'customers'
           );
@@ -253,7 +326,7 @@ export class TableComponent implements OnInit, OnChanges {
           break;
         }
         case 'suppliers': {
-          const supplierData = await this.registerApi.addNewRegister(
+          const supplierData = await this.registerApi.addNewCustomer(
             this.companyData,
             'customers'
           );
@@ -261,7 +334,7 @@ export class TableComponent implements OnInit, OnChanges {
           break;
         }
         case 'supplier-products': {
-          const supplierProdutcData = await this.registerApi.addNewRegister(
+          const supplierProdutcData = await this.registerApi.addNewCustomer(
             this.companyData,
             'supplier-products'
           );
@@ -269,7 +342,7 @@ export class TableComponent implements OnInit, OnChanges {
           break;
         }
         case 'customer-products': {
-          const customerProdutcData = await this.registerApi.addNewRegister(
+          const customerProdutcData = await this.registerApi.addNewCustomer(
             this.companyData,
             'customer-products'
           );
@@ -291,7 +364,7 @@ export class TableComponent implements OnInit, OnChanges {
       this.showLoading = true;
       switch (this.registerType) {
         case 'customers': {
-          const customerData = await this.registerApi.updateRegister(
+          const customerData = await this.registerApi.updateCompany(
             this.companyData,
             'customers',
             this.companyData.id
@@ -300,7 +373,7 @@ export class TableComponent implements OnInit, OnChanges {
           break;
         }
         case 'suppliers': {
-          const supplierData = await this.registerApi.updateRegister(
+          const supplierData = await this.registerApi.updateCompany(
             this.companyData,
             'suppliers',
             this.companyData.id
@@ -309,7 +382,7 @@ export class TableComponent implements OnInit, OnChanges {
           break;
         }
         case 'supplier-products': {
-          const supplierProdutcData = await this.registerApi.updateRegister(
+          const supplierProdutcData = await this.registerApi.updateProduct(
             this.productData,
             'supplier-products',
             this.productData.id
@@ -318,7 +391,7 @@ export class TableComponent implements OnInit, OnChanges {
           break;
         }
         case 'customer-products': {
-          const customerProdutcData = await this.registerApi.updateRegister(
+          const customerProdutcData = await this.registerApi.updateProduct(
             this.productData,
             'customer-products',
             this.productData.id
@@ -385,37 +458,5 @@ export class TableComponent implements OnInit, OnChanges {
     } finally {
       this.showLoading = false;
     }
-  }
-
-  /**
-   * closeModal
-   * Função que fecha o modal e direciona o usuário para a tela inicial da aplicação.
-   * @param modalStatus
-   */
-  closeModalInfo(modalStatus: boolean): void {
-    this.isModalInfoActive = modalStatus;
-  }
-  /**
-   * cancelModalConfirmation
-   * Método de fechar o modal.
-   * @param modalStatus boolean false que vem do componente modal
-   */
-  cancelModalConfirmation(modalStatus: boolean): void {
-    this.isModalConfirmationActive = modalStatus;
-  }
-  /**
-   * okModalConfirmation
-   * Método que salva a ação solicitada.
-   * @param modalStatus boolean false que vem do componente modal
-   */
-  async okModalConfirmation(modalStatus: boolean): Promise<void> {
-    this.isModalConfirmationActive = modalStatus;
-    switch (this.registerType) {
-      case 'customers':
-      case 'suppliers': {
-        await this.delete(this.companyData.id);
-      }
-    }
-    this.getList();
   }
 }

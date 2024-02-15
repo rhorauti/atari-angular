@@ -38,7 +38,9 @@ export class HttpRequestService {
         );
       }
       case 'PUT': {
-        return await lastValueFrom(this.httpClient.put(path, { headers }));
+        return await lastValueFrom(
+          this.httpClient.put(path, data, { headers })
+        );
       }
       case 'DELETE': {
         return await lastValueFrom(this.httpClient.delete(path, { headers }));

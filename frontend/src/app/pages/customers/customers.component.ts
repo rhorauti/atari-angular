@@ -33,30 +33,46 @@ import { ModalFormCompanyComponent } from '../../components/modal/modal-form-com
 export class CustomersComponent {
   constructor(private paginationComponent: PaginationComponent) {}
   public tableData = [{}];
-  public tableInitialIdx =
-    this.paginationComponent.tableIndexInfo.tableInitialIdx;
-  public tableLastIdx = this.paginationComponent.tableIndexInfo.tableLastIdx;
-  public modalNewCustomerActive = false;
 
   getTableData(tableData: ICompany[] | IProduct[]): void {
     this.tableData = tableData;
   }
 
+  public tableInitialIdx =
+    this.paginationComponent.tableIndexInfo.tableInitialIdx;
+
   getTableInitialIdx(tableInitialIdx: number) {
     this.tableInitialIdx = tableInitialIdx;
   }
+
+  public tableLastIdx = this.paginationComponent.tableIndexInfo.tableLastIdx;
 
   getTableLastIdx(tableLastIdx: number) {
     this.tableLastIdx = tableLastIdx;
   }
 
-  showModalNewCustomer(showModal: boolean) {
-    this.modalNewCustomerActive = showModal;
+  public isModalNewCustomerActive = false;
+
+  showModalNewCustomer(isTrue: boolean) {
+    this.isModalNewCustomerActive = isTrue;
+  }
+
+  closeModalNewCustomer(isFalse: boolean): void {
+    this.isModalNewCustomerActive = isFalse;
+  }
+
+  closeModalForm(isFalse: boolean): void {
+    this.isModalNewCustomerActive = isFalse;
   }
 
   public tableIsUpdated = false;
 
   updateCustomerList(isTrue: boolean): void {
     this.tableIsUpdated = isTrue;
+    this.closeModalForm(false);
+  }
+
+  changeTableUpdatedToFalse(isFalse: boolean): void {
+    this.tableIsUpdated = isFalse;
   }
 }

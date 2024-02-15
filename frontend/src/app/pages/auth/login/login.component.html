@@ -73,4 +73,5 @@
 <app-modal-info
   [showModal]="isModalActive"
   [modalType]="modalInfo.modalType"
-  (emitCloseModal)="closeModal($event)"></app-modal-info>
+  [modalDescription]="modalInfo.modalDescription"
+  (closeModalEmitter)="closeModal($event)"></app-modal-info>
