@@ -5,15 +5,26 @@
   </section>
   <section class="my-4">
     <app-filter
-      (showModalNewRegisterEmitter)="showModalNewCustomer($event)"></app-filter>
+      [tableHeadersData]="tableHeadersData"
+      (isTableHeaderActiveEmitter)="getTableHeadersActiveStatus($event)"
+      (showModalNewRegisterEmitter)="showModalNewCustomer($event)"
+      (clearInputIdEmitter)="clearInputId()"
+      (clearInputNameEmitter)="clearInputName()"
+      (registerIdEmitter)="getRegisterId($event)"
+      (registerNameEmitter)="getRegisterName($event)"></app-filter>
   </section>
   <section>
     <app-table
+      #tableComponent
       [registerType]="'customers'"
       [tableUpdated]="tableIsUpdated"
-      (tableUpdatedEmitter)="changeTableUpdatedToFalse($event)"
       [tableInitialIdx]="tableInitialIdx"
       [tableLastIdx]="tableLastIdx"
+      [registerIdFilter]="registerId"
+      [registerNameFilter]="registerName"
+      [companyTableHeaders]="tableHeadersData"
+      (tableUpdatedEmitter)="changeTableUpdatedToFalse($event)"
+      (tableHeadersDataEmitter)="getTableHeadersData($event)"
       (tableDataEmitter)="getTableData($event)"></app-table>
   </section>
   <footer class="my-4">

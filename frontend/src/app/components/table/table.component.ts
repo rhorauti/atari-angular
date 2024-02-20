@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   inject,
 } from '@angular/core';
@@ -25,6 +26,12 @@ import { ModalInfoComponent } from '../modal/modal-info/modal-info.component';
 import { ModalAskComponent } from '../modal/modal-ask/modal-ask.component';
 import { ModalFormCompanyComponent } from '../modal/modal-form-company/modal-form-company.component';
 
+export interface ICompanyTableHeaders {
+  id: number;
+  isChecked: boolean;
+  name: string;
+}
+
 @Component({
   selector: 'app-table',
   standalone: true,
@@ -43,7 +50,7 @@ import { ModalFormCompanyComponent } from '../modal/modal-form-company/modal-for
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
-export class TableComponent implements OnChanges {
+export class TableComponent implements OnChanges, OnInit {
   private registerApi = inject(RegisterCompanyApi);
   private paginationComponent = inject(PaginationComponent);
   public isModalInfoActive = false;
@@ -52,23 +59,8 @@ export class TableComponent implements OnChanges {
     this.paginationComponent.tableIndexInfo.tableInitialIdx;
   @Input() tableLastIdx = this.paginationComponent.tableIndexInfo.tableLastIdx;
   @Input() showLoading = false;
-
   @Output() tableDataEmitter = new EventEmitter<ICompany[] | IProduct[]>();
-  public companyTableHeaders = [
-    'Id',
-    'Cadastro',
-    'Nome',
-    'E-mail',
-    'Telefone',
-    'CPF/CNPJ',
-    'Logradouro',
-    'Numero',
-    'Complemento',
-    'Bairro',
-    'Cidade',
-    'Estado',
-    'Ação',
-  ];
+  @Input() companyTableHeaders: ICompanyTableHeaders[] = [];
   public productTableHeaders = [
     'Id',
     'Cadastro',
@@ -126,18 +118,20 @@ export class TableComponent implements OnChanges {
     comentario: '',
   };
 
-  @Output() tableUpdatedEmitter = new EventEmitter<boolean>();
+  @Output() tableHeadersDataEmitter = new EventEmitter();
 
   emitTableData(): void {
     switch (this.registerType) {
       case 'customers':
       case 'suppliers': {
-        this.tableDataEmitter.emit(this.companiesData.data);
+        this.tableDataEmitter.emit(this.companiesDataFilter);
+        this.tableHeadersDataEmitter.emit(this.companyTableHeaders);
         break;
       }
       case 'supplier-products':
       case 'customer-products': {
         this.tableDataEmitter.emit(this.productsData.data);
+        this.tableHeadersDataEmitter.emit(this.productTableHeaders);
         break;
       }
       default:
@@ -146,15 +140,51 @@ export class TableComponent implements OnChanges {
   }
 
   @Input() tableUpdated = false;
+  @Output() tableUpdatedEmitter = new EventEmitter<boolean>();
 
   async resetTable(): Promise<void> {
     await this.getList();
+    this.companiesDataFilter = this.companiesData.data;
     this.emitTableData();
     this.tableUpdatedEmitter.emit(false);
   }
 
+  async ngOnInit(): Promise<void> {
+    await this.resetTable();
+  }
+
+  @Input() registerIdFilter = 0;
+  @Input() registerNameFilter = '';
+
+  public companiesDataFilter: ICompany[] = [];
+
+  filterTable(): void {
+    if (this.registerIdFilter == 0 && this.registerNameFilter.length == 0) {
+      this.companiesDataFilter = this.companiesData.data;
+    } else if (this.registerIdFilter == 0) {
+      this.companiesDataFilter = this.companiesData.data.filter(company =>
+        company.nome
+          .toLowerCase()
+          .includes(this.registerNameFilter.toLowerCase())
+      );
+    } else {
+      this.companiesDataFilter = this.companiesData.data.filter(
+        company =>
+          company.id.toString().includes(this.registerIdFilter.toString()) &&
+          company.nome
+            .toLowerCase()
+            .includes(this.registerNameFilter.toLowerCase())
+      );
+    }
+    this.tableDataEmitter.emit(this.companiesDataFilter);
+  }
+
   async ngOnChanges(): Promise<void> {
-    this.resetTable();
+    if (this.tableUpdated) {
+      await this.resetTable();
+    } else {
+      this.filterTable();
+    }
   }
 
   showModalAskToDeleteCompany(company: ICompany): void {
@@ -187,7 +217,7 @@ export class TableComponent implements OnChanges {
   public isEditData = false;
 
   showModalFormToEditCompany(companyData: ICompany): void {
-    this.companyData = companyData;
+    this.companyData = { ...companyData };
     this.isEditData = true;
     this.isModalFormCompanyActive = true;
   }
@@ -238,7 +268,8 @@ export class TableComponent implements OnChanges {
       case 'suppliers': {
         await this.delete(this.companyData.id);
         this.closeModalAsk(false);
-        this.getList();
+        this.resetTable();
+        break;
       }
     }
   }

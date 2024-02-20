@@ -7,7 +7,7 @@
     >
   </div>
   <input
-    [(ngModel)]="inputValue"
+    [ngModel]="inputValue"
     (input)="sendInputValue($event)"
     [type]="isEmail ? 'text' : showPassword ? 'text' : 'password'"
     autocomplete="current-password"

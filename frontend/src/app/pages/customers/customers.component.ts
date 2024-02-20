@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { TableComponent } from '../../components/table/table.component';
+import {
+  ICompanyTableHeaders,
+  TableComponent,
+} from '../../components/table/table.component';
 import { CommonModule } from '@angular/common';
 import { RegisterCompanyApi } from '../../core/api/http/register.api';
 import { HttpRequestService } from '../../core/api/http-request.service';
@@ -38,6 +41,30 @@ export class CustomersComponent {
     this.tableData = tableData;
   }
 
+  public tableHeadersData: ICompanyTableHeaders[] = [
+    { id: 0, isChecked: true, name: 'Id' },
+    { id: 1, isChecked: true, name: 'Cadastro' },
+    { id: 2, isChecked: true, name: 'Nome' },
+    { id: 3, isChecked: true, name: 'E-mail' },
+    { id: 4, isChecked: true, name: 'Telefone' },
+    { id: 5, isChecked: true, name: 'CPF/CNPJ' },
+    { id: 6, isChecked: true, name: 'Logradouro' },
+    { id: 7, isChecked: true, name: 'Numero' },
+    { id: 8, isChecked: true, name: 'Complemento' },
+    { id: 9, isChecked: true, name: 'Bairro' },
+    { id: 10, isChecked: true, name: 'Cidade' },
+    { id: 11, isChecked: true, name: 'Estado' },
+    { id: 12, isChecked: true, name: 'Ação' },
+  ];
+
+  getTableHeadersData(headersData: ICompanyTableHeaders[]): void {
+    this.tableHeadersData = headersData;
+  }
+
+  getTableHeadersActiveStatus(tableHeadersData: ICompanyTableHeaders[]): void {
+    this.tableHeadersData = tableHeadersData;
+  }
+
   public tableInitialIdx =
     this.paginationComponent.tableIndexInfo.tableInitialIdx;
 
@@ -49,6 +76,26 @@ export class CustomersComponent {
 
   getTableLastIdx(tableLastIdx: number) {
     this.tableLastIdx = tableLastIdx;
+  }
+
+  public registerId = 0;
+
+  getRegisterId(id: number): void {
+    this.registerId = id;
+  }
+
+  clearInputId(): void {
+    this.registerId = 0;
+  }
+
+  public registerName = '';
+
+  getRegisterName(nome: string): void {
+    this.registerName = nome;
+  }
+
+  clearInputName(): void {
+    this.registerName = '';
   }
 
   public isModalNewCustomerActive = false;

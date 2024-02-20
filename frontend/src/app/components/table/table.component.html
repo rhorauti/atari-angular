@@ -1,50 +1,85 @@
 <div class="overflow-auto h-full border border-gray-500">
-  @if (companiesData.data && companiesData.data.length > 0) {
+  @if (registerType == 'customers') {
     <table class="text-white w-full h-full text-sm text-center">
       <thead class="bg-gray-900 border border-gray-500">
         <tr>
-          @for (companyTableHeader of companyTableHeaders; track $index) {
-            <th class="table-td">{{ companyTableHeader }}</th>
+          @if (companiesDataFilter.length > 0) {
+            @for (companyTableHeader of companyTableHeaders; track $index) {
+              @if (companyTableHeader.isChecked) {
+                <th class="table-td">{{ companyTableHeader.name }}</th>
+              }
+            }
+          } @else {
+            <th class="table-td text-lg">Tabela de clientes</th>
           }
         </tr>
       </thead>
+
       <tbody class="divide-y divide-gray-500 border border-gray-500">
         @for (
-          company of companiesData.data.slice(tableInitialIdx, tableLastIdx);
+          company of companiesDataFilter.slice(tableInitialIdx, tableLastIdx);
           track $index
         ) {
           <tr>
-            <td class="table-td bg-black">
-              {{ company.id }}
-            </td>
-            <td class="table-td">{{ company.cadastro }}</td>
-            <td class="table-td">{{ company.nome }}</td>
-            <td class="table-td">{{ company.email }}</td>
-            <td class="table-td">{{ company.telefone }}</td>
-            <td class="table-td">{{ company.cnpj }}</td>
-            <td class="table-td">{{ company.logradouro }}</td>
-            <td class="table-td">{{ company.numero }}</td>
-            <td class="table-td">{{ company.complemento }}</td>
-            <td class="table-td">{{ company.bairro }}</td>
-            <td class="table-td">{{ company.cidade }}</td>
-            <td class="table-td">{{ company.estado }}</td>
-            <td class="table-td flex gap-3">
-              <app-button-standard
-                (click)="showModalFormToEditCompany(company)"
-                [showLabel]="false"
-                [showIcon]="true"
-                [btnType]="'warning'"></app-button-standard>
-              <app-button-standard
-                (click)="showModalAskToDeleteCompany(company)"
-                [showLabel]="false"
-                [showIcon]="true"
-                [btnType]="'danger'"></app-button-standard>
-            </td>
+            @if (companyTableHeaders[0].isChecked) {
+              <td class="table-td bg-black">
+                {{ company.id }}
+              </td>
+            }
+            @if (companyTableHeaders[1].isChecked) {
+              <td class="table-td">{{ company.cadastro }}</td>
+            }
+            @if (companyTableHeaders[2].isChecked) {
+              <td class="table-td">{{ company.nome }}</td>
+            }
+            @if (companyTableHeaders[3].isChecked) {
+              <td class="table-td">{{ company.email }}</td>
+            }
+            @if (companyTableHeaders[4].isChecked) {
+              <td class="table-td">{{ company.telefone }}</td>
+            }
+            @if (companyTableHeaders[5].isChecked) {
+              <td class="table-td">{{ company.cnpj }}</td>
+            }
+            @if (companyTableHeaders[6].isChecked) {
+              <td class="table-td">{{ company.logradouro }}</td>
+            }
+            @if (companyTableHeaders[7].isChecked) {
+              <td class="table-td">{{ company.numero }}</td>
+            }
+            @if (companyTableHeaders[8].isChecked) {
+              <td class="table-td">{{ company.complemento }}</td>
+            }
+            @if (companyTableHeaders[9].isChecked) {
+              <td class="table-td">{{ company.bairro }}</td>
+            }
+            @if (companyTableHeaders[10].isChecked) {
+              <td class="table-td">{{ company.cidade }}</td>
+            }
+            @if (companyTableHeaders[11].isChecked) {
+              <td class="table-td">{{ company.estado }}</td>
+            }
+            @if (companyTableHeaders[12].isChecked) {
+              <td class="table-td flex justify-center gap-3">
+                <app-button-standard
+                  (click)="showModalFormToEditCompany(company)"
+                  [showLabel]="false"
+                  [showIcon]="true"
+                  [btnType]="'warning'"></app-button-standard>
+                <app-button-standard
+                  (click)="showModalAskToDeleteCompany(company)"
+                  [showLabel]="false"
+                  [showIcon]="true"
+                  [btnType]="'danger'"></app-button-standard>
+              </td>
+            }
           </tr>
+        } @empty {
+          <p class="p-3 text-base font-semibold">Nenhum registro encontrado!</p>
         }
       </tbody>
     </table>
-  } @else if (productsData.data && productsData.data.length > 0) {
+  } @else if (registerType == 'products') {
     <table>
       <thead class="bg-gray-900 border border-gray-500">
         <tr>
@@ -54,7 +89,10 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-500 border border-gray-500">
-        @for (product of productsData.data; track $index) {
+        @for (
+          product of productsData.data.slice(tableInitialIdx, tableLastIdx);
+          track $index
+        ) {
           <tr>
             <td class="table-td">{{ product.id }}</td>
             <td class="table-td">{{ product.cadastro }}</td>

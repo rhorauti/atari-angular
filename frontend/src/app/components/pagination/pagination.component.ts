@@ -30,6 +30,18 @@ export class PaginationComponent implements OnChanges {
     tableLastIdx: 9,
   };
 
+  findInitialIdx(): void {
+    if (this.pageInfo.currentPage && this.pageInfo.qtyRegisterPerPage) {
+      this.tableIndexInfo.tableInitialIdx =
+        this.pageInfo.currentPage == 1
+          ? 0
+          : (this.pageInfo.currentPage - 1) * this.pageInfo.qtyRegisterPerPage;
+      this.tableInitialIdx.emit(this.tableIndexInfo.tableInitialIdx);
+    } else {
+      this.tableInitialIdx.emit(this.tableIndexInfo.tableInitialIdx);
+    }
+  }
+
   findLastIdx(): void {
     if (this.pageInfo.currentPage && this.pageInfo.qtyRegisterPerPage) {
       this.tableIndexInfo.tableLastIdx =
@@ -40,7 +52,16 @@ export class PaginationComponent implements OnChanges {
     }
   }
 
-  ngOnChanges(): void {
+  findCurrentPage(): void {
+    if (this.pageInfo.currentPage > this.pageInfo.lastPage) {
+      this.tableIndexInfo = {
+        tableInitialIdx: 0,
+        tableLastIdx: 9,
+      };
+    }
+  }
+
+  findLastPage(): void {
     if (
       this.tableData &&
       this.pageInfo.qtyRegisterPerPage &&
@@ -49,23 +70,18 @@ export class PaginationComponent implements OnChanges {
       this.pageInfo.lastPage = Math.ceil(
         this.tableData.length / this.pageInfo.qtyRegisterPerPage
       );
-      this.findLastIdx();
     } else {
-      this.tableLastIdx.emit(this.tableIndexInfo.tableLastIdx);
+      this.pageInfo.lastPage = 1;
     }
   }
 
-  emitTableInitialIdxValue(): void {
-    if (this.pageInfo.currentPage && this.pageInfo.qtyRegisterPerPage) {
-      this.tableIndexInfo.tableInitialIdx =
-        this.pageInfo.currentPage == 1
-          ? 0
-          : (this.pageInfo.currentPage - 1) * this.pageInfo.qtyRegisterPerPage;
-      this.findLastIdx();
-      this.tableInitialIdx.emit(this.tableIndexInfo.tableInitialIdx);
-    } else {
-      this.tableInitialIdx.emit(this.tableIndexInfo.tableInitialIdx);
-    }
+  ngOnChanges(): void {
+    this.findLastPage();
+    this.findCurrentPage();
+    this.findInitialIdx();
+    this.findLastIdx();
+    console.log(this.pageInfo);
+    console.log(this.tableIndexInfo);
   }
 
   goBackPage(): void {
@@ -75,7 +91,8 @@ export class PaginationComponent implements OnChanges {
       } else {
         this.pageInfo.currentPage -= 1;
       }
-      this.emitTableInitialIdxValue();
+      this.findInitialIdx();
+      this.findLastIdx();
     } else {
       return;
     }
@@ -88,7 +105,8 @@ export class PaginationComponent implements OnChanges {
       } else {
         this.pageInfo.currentPage += 1;
       }
-      this.emitTableInitialIdxValue();
+      this.findInitialIdx();
+      this.findLastIdx();
     } else {
       return;
     }

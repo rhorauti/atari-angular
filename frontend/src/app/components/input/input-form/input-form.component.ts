@@ -22,9 +22,11 @@ export class InputFormComponent {
 
   @Input() inputValue = '';
   public showPassword = false;
+  @Output() clearInputEmitter = new EventEmitter<boolean>();
 
   clearInput(): void {
     this.inputValue = '';
+    this.clearInputEmitter.emit(true);
   }
 
   sendInputValue(inputData: Event): void {
