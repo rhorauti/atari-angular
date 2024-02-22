@@ -16,6 +16,7 @@ import { ModalCheckComponent } from '../modal-check/modal-check.component';
 import { ModalInfoComponent } from '../modal-info/modal-info.component';
 import { IModal } from '../../../core/api/interfaces/IModal';
 import { formatarData } from '../../../core/utils/proto';
+import { SelectComponent } from '../../select/select.component';
 
 @Component({
   selector: 'app-modal-form-company',
@@ -28,12 +29,14 @@ import { formatarData } from '../../../core/utils/proto';
     ModalInfoComponent,
     InputFormComponent,
     ButtonStandardComponent,
+    SelectComponent,
   ],
   templateUrl: './modal-form-company.component.html',
   styleUrl: './modal-form-company.component.scss',
 })
 export class ModalFormCompanyComponent {
   @ViewChildren('inputModal') inputModal?: QueryList<InputFormComponent>;
+  @ViewChildren('selectModal') selectModal?: QueryList<SelectComponent>;
 
   @Input() isEditData = false;
   public isModalCheckActive = false;
@@ -67,28 +70,6 @@ export class ModalFormCompanyComponent {
     if (this.companyData.nome.length == 0) {
       this.handleFailureModal('Favor preencher o campo nome!');
       this.isModalInfoActive = true;
-      // } else if (
-      //   this.companiesData.some(company => company.id == this.companyData.id)
-      // ) {
-      // const companySelected = this.companiesData.find(
-      //   company => company.id == this.companyData.id
-      // );
-      // if (
-      //   companySelected &&
-      //   companySelected.nome == this.companyData.nome.trim() &&
-      //   companySelected.email == this.companyData.email.trim() &&
-      //   companySelected.telefone == this.companyData.telefone.trim() &&
-      //   companySelected.cnpj == this.companyData.cnpj.trim() &&
-      //   companySelected.logradouro == this.companyData.logradouro.trim() &&
-      //   companySelected.numero == this.companyData.numero &&
-      //   companySelected.complemento == this.companyData.complemento.trim() &&
-      //   companySelected.bairro == this.companyData.bairro.trim() &&
-      //   companySelected.cidade == this.companyData.cidade.trim() &&
-      //   companySelected.estado == this.companyData.estado.trim()
-      // ) {
-      //   this.handleFailureModal('Os dados são iguais aos dados iniciais!');
-      //   this.isModalInfoActive = true;
-      // }
     } else {
       this.isModalCheckActive = true;
     }
@@ -102,15 +83,6 @@ export class ModalFormCompanyComponent {
   closeModalCheck(isFalse: boolean): void {
     this.isModalCheckActive = isFalse;
   }
-
-  // /**
-  //  * changeModalCheckStatus
-  //  * Função que altera o status do botão presseguir do modal-form para false
-  //  * @param isFalse status false que vem do modal check
-  //  */
-  // changeModalCheckStatus(isFalse: boolean): void {
-  //   this.isModalCheckActive = isFalse;
-  // }
 
   @Output() closeModalFormEmitter = new EventEmitter<boolean>();
 
@@ -160,6 +132,7 @@ export class ModalFormCompanyComponent {
    */
   clearForm(): void {
     this.inputModal?.forEach(input => input.clearInput());
+    this.selectModal?.forEach(select => select.clearSelect());
     this.companyData.id = 0;
     this.companyData.cadastro = formatarData(new Date().toString());
     this.companyData.nome = '';
@@ -172,7 +145,7 @@ export class ModalFormCompanyComponent {
     this.companyData.complemento = '';
     this.companyData.bairro = '';
     this.companyData.cidade = '';
-    this.companyData.estado = '';
+    this.companyData.estado = 'Selecione um item';
   }
 
   public modalInfo: IModal = {
@@ -294,11 +267,12 @@ export class ModalFormCompanyComponent {
     this.companyData.cidade = cidade;
   }
   /**
-   * getInputEstadoValue
+   * getSelectEstadoValue
    * Função que pega o estado enviado pelo componente input e salva no objeto companyData do modal.
    * @param estado estado da empresa
    */
-  getInputEstadoValue(estado: string): void {
+  getSelectEstadoValue(estado: string): void {
     this.companyData.estado = estado;
+    console.log(this.companyData.estado);
   }
 }

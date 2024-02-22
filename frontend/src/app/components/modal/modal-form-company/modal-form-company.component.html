@@ -112,12 +112,11 @@
           </div>
           <div class="gap-2">
             <label class="font-semibold text-sm" for="">Estado</label>
-            <app-input-form
-              #inputModal
-              [inputValue]="this.companyData.estado"
-              [showRightIcon]="false"
-              (emitInputValue)="getInputEstadoValue($event)"
-              [inputClass]="'text-black h-9'"></app-input-form>
+            <app-select
+              #selectModal
+              [selectType]="'estado'"
+              [selectValue]="this.companyData.estado"
+              (selectValueEmitter)="getSelectEstadoValue($event)"></app-select>
           </div>
         </div>
       </div>
@@ -201,11 +200,10 @@
           </div>
           <div class="gap-2">
             <label class="font-semibold text-sm" for="">Estado</label>
-            <app-input-form
-              #inputModal
-              [showRightIcon]="false"
-              (emitInputValue)="getInputEstadoValue($event)"
-              [inputClass]="'text-black h-9'"></app-input-form>
+            <app-select
+              #selectModal
+              [selectType]="'estado'"
+              (selectValueEmitter)="getSelectEstadoValue($event)"></app-select>
           </div>
         </div>
       </div>
