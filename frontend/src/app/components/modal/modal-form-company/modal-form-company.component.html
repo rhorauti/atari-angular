@@ -49,6 +49,7 @@
             <label class="font-semibold text-sm" for="">Telefone</label>
             <app-input-form
               #inputModal
+              [maskType]="'telefone'"
               [inputValue]="this.companyData.telefone"
               [showRightIcon]="false"
               (emitInputValue)="getInputTelefoneValue($event)"
@@ -58,6 +59,7 @@
             <label class="font-semibold text-sm" for="">CNPJ/CPF</label>
             <app-input-form
               #inputModal
+              [maskType]="'cpf'"
               [inputValue]="this.companyData.cnpj"
               [showRightIcon]="false"
               (emitInputValue)="getInputCnpjValue($event)"
@@ -143,6 +145,7 @@
             <label class="font-semibold text-sm" for="">Telefone</label>
             <app-input-form
               #inputModal
+              [maskType]="'telefone'"
               [showRightIcon]="false"
               (emitInputValue)="getInputTelefoneValue($event)"
               [inputClass]="'text-black h-9'"></app-input-form>
@@ -151,6 +154,7 @@
             <label class="font-semibold text-sm" for="">CNPJ/CPF</label>
             <app-input-form
               #inputModal
+              [maskType]="'cpf'"
               [showRightIcon]="false"
               (emitInputValue)="getInputCnpjValue($event)"
               [inputClass]="'text-black h-9'"></app-input-form>

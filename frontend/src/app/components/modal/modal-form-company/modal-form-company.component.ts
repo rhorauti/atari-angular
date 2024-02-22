@@ -67,8 +67,31 @@ export class ModalFormCompanyComponent {
    * Abre o modal check caso o usuário tenha preenchido pelo menos o nome do usuário. Caso não, é mostrado uma mensagem para preencher pelo menos o nome.
    */
   showModalCheck(): void {
-    if (this.companyData.nome.length == 0) {
-      this.handleFailureModal('Favor preencher o campo nome!');
+    if (this.companyData.nome.length < 3) {
+      this.handleFailureModal(
+        'Favor preencher o campo nome com no mínimo 3 caracteres!'
+      );
+      this.isModalInfoActive = true;
+    } else if (
+      this.companyData.email.length > 0 &&
+      (!/\.com/gi.test(this.companyData.email) ||
+        !/@/gi.test(this.companyData.email))
+    ) {
+      this.handleFailureModal('Campo e-mail inválido!');
+      this.isModalInfoActive = true;
+    } else if (
+      this.companyData.telefone.length > 0 &&
+      this.companyData.telefone.length < 19
+    ) {
+      this.handleFailureModal('Campo telefone inválido!');
+      this.isModalInfoActive = true;
+    } else if (
+      this.companyData.cnpj.length > 0 &&
+      (this.companyData.cnpj.length < 14 ||
+        (this.companyData.cnpj.length > 14 &&
+          this.companyData.cnpj.length < 18))
+    ) {
+      this.handleFailureModal('Campo CNPJ/CPF inválido!');
       this.isModalInfoActive = true;
     } else {
       this.isModalCheckActive = true;
