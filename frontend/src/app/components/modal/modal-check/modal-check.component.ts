@@ -137,7 +137,6 @@ export class ModalCheckComponent implements OnChanges {
   public showLoading = false;
 
   async registerData() {
-    console.log(this.companyData);
     this.showLoading = true;
     try {
       const newRegisterResponse = await this.registerCompanyApi.addNewCustomer(

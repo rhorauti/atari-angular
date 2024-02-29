@@ -293,6 +293,5 @@ export class ModalFormCompanyComponent {
    */
   getSelectEstadoValue(estado: string): void {
     this.companyData.estado = estado;
-    console.log(this.companyData.estado);
   }
 }

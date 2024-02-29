@@ -6,6 +6,7 @@ import { ResetPasswordComponent } from './pages/auth/reset-password/reset-passwo
 import { NewPasswordComponent } from './pages/auth/new-password/new-password.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { RedirectComponent } from './pages/auth/redirect/redirect.component';
+import { SuppliersComponent } from './pages/suppliers/suppliers.component';
 
 export const routes: Routes = [
   {
@@ -15,10 +16,6 @@ export const routes: Routes = [
   {
     path: 'signup',
     component: SignupComponent,
-  },
-  {
-    path: 'customers',
-    component: CustomersComponent,
   },
   {
     path: 'reset-password',
@@ -35,6 +32,14 @@ export const routes: Routes = [
   {
     path: 'welcome',
     component: WelcomeComponent,
+  },
+  {
+    path: 'customers',
+    component: CustomersComponent,
+  },
+  {
+    path: 'suppliers',
+    component: SuppliersComponent,
   },
   {
     path: '**',

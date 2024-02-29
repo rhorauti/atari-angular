@@ -2,7 +2,7 @@
   [showModal]="isModalFormCompanyActive"
   [showHeader]="true"
   [isModalForm]="true"
-  [title]="'Cadastro de novo cliente'"
+  [title]="isEditForm ? 'Alterar dados da empresa' : 'Cadastro de nova empresa'"
   (emitCloseModal)="closeModalForm()">
   <div class="body-block">
     @if (companyData.id != 0) {
