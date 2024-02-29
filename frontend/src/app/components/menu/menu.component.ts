@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -10,5 +10,10 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './menu.component.scss',
 })
 export class MenuComponent {
-  public showMenu = false;
+  @Input() isSideBarActive = false;
+  @Output() isSideBarActiveEmitter = new EventEmitter<boolean>();
+
+  hideSideBar(): void {
+    this.isSideBarActiveEmitter.emit(false);
+  }
 }

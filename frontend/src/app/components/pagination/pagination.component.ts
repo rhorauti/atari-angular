@@ -18,6 +18,7 @@ import { IPage } from './IPage';
 })
 export class PaginationComponent implements OnChanges {
   @Input() tableData = [{}];
+  @Input() isPaginationReset = false;
   @Output() tableInitialIdx = new EventEmitter<number>();
   @Output() tableLastIdx = new EventEmitter<number>();
   public pageInfo: IPage = {
@@ -29,6 +30,14 @@ export class PaginationComponent implements OnChanges {
     tableInitialIdx: 0,
     tableLastIdx: 9,
   };
+
+  resetPagination(): void {
+    this.pageInfo = {
+      currentPage: 1,
+      lastPage: 1,
+      qtyRegisterPerPage: 9,
+    };
+  }
 
   findInitialIdx(): void {
     if (this.pageInfo.currentPage && this.pageInfo.qtyRegisterPerPage) {
@@ -52,15 +61,6 @@ export class PaginationComponent implements OnChanges {
     }
   }
 
-  findCurrentPage(): void {
-    if (this.pageInfo.currentPage > this.pageInfo.lastPage) {
-      this.tableIndexInfo = {
-        tableInitialIdx: 0,
-        tableLastIdx: 9,
-      };
-    }
-  }
-
   findLastPage(): void {
     if (
       this.tableData &&
@@ -76,12 +76,12 @@ export class PaginationComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
+    if (this.isPaginationReset) {
+      this.resetPagination();
+    }
     this.findLastPage();
-    this.findCurrentPage();
     this.findInitialIdx();
     this.findLastIdx();
-    console.log(this.pageInfo);
-    console.log(this.tableIndexInfo);
   }
 
   goBackPage(): void {

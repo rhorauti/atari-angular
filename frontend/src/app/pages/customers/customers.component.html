@@ -25,11 +25,13 @@
       [companyTableHeaders]="tableHeadersData"
       (tableUpdatedEmitter)="changeTableUpdatedToFalse($event)"
       (tableHeadersDataEmitter)="getTableHeadersData($event)"
+      (resetPaginationEmitter)="resetPagination()"
       (tableDataEmitter)="getTableData($event)"></app-table>
   </section>
   <footer class="my-4">
     <app-pagination
       [tableData]="tableData"
+      [isPaginationReset]="isPaginationReset"
       (tableInitialIdx)="getTableInitialIdx($event)"
       (tableLastIdx)="getTableLastIdx($event)"></app-pagination>
   </footer>

@@ -93,7 +93,7 @@ export class TableComponent implements OnChanges, OnInit {
   };
   public companyData: ICompany = {
     id: 0,
-    cadastro: '',
+    cadastro: new Date(),
     nome: '',
     email: '',
     telefone: '',
@@ -214,17 +214,20 @@ export class TableComponent implements OnChanges, OnInit {
   }
 
   public isModalFormCompanyActive = false;
-  public isEditData = false;
+  public isEditForm = false;
 
   showModalFormToEditCompany(companyData: ICompany): void {
     this.companyData = { ...companyData };
-    this.isEditData = true;
+    this.isEditForm = true;
     this.isModalFormCompanyActive = true;
   }
 
-  setEditDataToFalse(): void {
-    this.isEditData = false;
+  @Output() resetPaginationEmitter = new EventEmitter<boolean>();
+
+  resetEditFormAndUpdateTable(): void {
+    this.isEditForm = false;
     this.resetTable();
+    this.resetPaginationEmitter.emit(true);
   }
 
   public isModalFormProductActive = false;

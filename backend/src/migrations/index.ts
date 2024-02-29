@@ -5,10 +5,13 @@ import { Customers } from '@src/entities/customers'
 import { CreateCustomersTable1706807152246 } from './1706807152246-CreateCustomersTable'
 
 export const dataSource = new DataSource({
-  type: 'sqlite',
-  database: './db.sqlite',
+  type: 'mysql',
+  host: 'localhost',
+  port: 3306,
+  username: 'root',
+  password: 'Rkazuo4474!',
+  database: 'atari',
   entities: [Users, Customers],
-  synchronize: true,
   migrations: [
     CreateUsersTable1703816465329,
     CreateCustomersTable1706807152246,

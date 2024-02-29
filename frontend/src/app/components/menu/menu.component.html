@@ -1,41 +1,71 @@
-<div class="flex h-full grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
-  <div class="flex h-16 shrink-0 items-center">
-    <img
-      class="h-8 w-auto"
-      src="../../../assets/images/logo.png"
-      alt="Your Company" />
+@if (isSideBarActive) {
+  <div
+    class="flex h-full grow flex-col gap-y-3 overflow-y-auto bg-gray-900 px-6">
+    <div class="flex justify-between items-center h-16 shrink-0">
+      <div class="flex items-center cursor-pointer">
+        <a routerLink="/welcome">
+          <img
+            class="h-8 w-auto"
+            src="../../../assets/images/logo.png"
+            alt="Your Company" />
+        </a>
+        <p class="font-semibold text-gray-400 ml-3">Atari</p>
+      </div>
+      <mat-icon
+        (click)="hideSideBar()"
+        class="text-white bg-gray-800 rounded-full cursor-pointer"
+        >keyboard_arrow_left</mat-icon
+      >
+    </div>
+    <nav class="flex flex-1 flex-col text-gray-400 hover:text-white">
+      <div class="flex justify-between cursor-pointer">
+        <h2 class="mb-3">Cadastros</h2>
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </div>
+      <ul role="list" class="flex flex-1 flex-col mx-2 space-y-1">
+        <li>
+          <a
+            routerLink="/customers"
+            class="bg-gray-800 text-white flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+            Clientes
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="text-gray-400 hover:text-white hover:bg-gray-800 flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+            Fornecedores
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+            Atari
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="text-gray-400 hover:text-white hover:bg-gray-800 flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+            Compras
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="text-gray-400 hover:text-white hover:bg-gray-800 flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+            Vendas
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+            Misc
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
-  <nav class="flex flex-1 flex-col text-gray-400 hover:text-white">
-    <h2 class="mb-3">Cadastros</h2>
-    <ul role="list" class="flex flex-1 flex-col mx-2 space-y-1">
-      <li>
-        <a
-          href="#"
-          class="bg-gray-800 text-white flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-          Clientes
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          class="text-gray-400 hover:bg-gray-800 flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-          Fornecedores
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-          Atari
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-          Compras
-        </a>
-      </li>
-    </ul>
-  </nav>
-</div>
+}

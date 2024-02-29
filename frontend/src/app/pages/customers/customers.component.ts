@@ -122,4 +122,10 @@ export class CustomersComponent {
   changeTableUpdatedToFalse(isFalse: boolean): void {
     this.tableIsUpdated = isFalse;
   }
+
+  public isPaginationReset = false;
+
+  resetPagination(): void {
+    this.isPaginationReset = true;
+  }
 }

@@ -11,6 +11,11 @@ export class CustomerController {
 
   async getCustomersList(response: Response): Promise<Response> {
     const customersList = await this.customerRepository.getCustomersList()
+    customersList.sort((a, b) => {
+      if (a.id > b.id) {
+        return -1
+      }
+    })
     if (!customersList) {
       return response.status(400).json({
         status: false,

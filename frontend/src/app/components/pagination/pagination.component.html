@@ -1,29 +1,31 @@
-<nav
-  class="text-white text-sm flex justify-between align-middle border border-gray-500 py-2 px-3 rounded">
-  <div
-    (click)="goBackPage()"
-    class="flex items-center"
-    [ngClass]="
-      pageInfo.currentPage && pageInfo.currentPage <= 1
-        ? 'text-gray-500 cursor-not-allowed'
-        : 'cursor-pointer hover:text-gray-300'
-    ">
-    <mat-icon>arrow_back</mat-icon>
-    <span class="ml-2">Anterior</span>
-  </div>
-  <div class="flex items-center gap-2">
-    <span>{{ pageInfo.currentPage }}</span
-    ><span>de</span> <span>{{ pageInfo.lastPage }}</span>
-  </div>
-  <div
-    (click)="goForwardPage()"
-    class="flex items-center cursor-pointer"
-    [ngClass]="
-      pageInfo.currentPage == pageInfo.lastPage
-        ? 'text-gray-500 cursor-not-allowed'
-        : 'cursor-pointer hover:text-gray-300'
-    ">
-    <span class="mr-2">Próximo</span>
-    <mat-icon>arrow_forward</mat-icon>
-  </div>
-</nav>
+@if (tableData.length > 0) {
+  <nav
+    class="text-white text-sm flex justify-between align-middle border border-gray-500 py-1.5 px-3 rounded">
+    <div
+      (click)="goBackPage()"
+      class="flex items-center"
+      [ngClass]="
+        pageInfo.currentPage && pageInfo.currentPage <= 1
+          ? 'text-gray-500 cursor-not-allowed'
+          : 'cursor-pointer hover:text-gray-300'
+      ">
+      <mat-icon>arrow_back</mat-icon>
+      <span class="ml-2">Anterior</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span>{{ pageInfo.currentPage }}</span
+      ><span>de</span> <span>{{ pageInfo.lastPage }}</span>
+    </div>
+    <div
+      (click)="goForwardPage()"
+      class="flex items-center cursor-pointer"
+      [ngClass]="
+        pageInfo.currentPage == pageInfo.lastPage
+          ? 'text-gray-500 cursor-not-allowed'
+          : 'cursor-pointer hover:text-gray-300'
+      ">
+      <span class="mr-2">Próximo</span>
+      <mat-icon>arrow_forward</mat-icon>
+    </div>
+  </nav>
+}

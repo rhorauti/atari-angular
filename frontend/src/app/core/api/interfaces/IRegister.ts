@@ -1,6 +1,6 @@
 export interface ICompany {
   id: number;
-  cadastro: string;
+  cadastro: Date;
   nome: string;
   email: string;
   telefone: string;

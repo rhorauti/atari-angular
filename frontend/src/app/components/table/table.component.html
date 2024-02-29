@@ -27,7 +27,9 @@
               </td>
             }
             @if (companyTableHeaders[1].isChecked) {
-              <td class="table-td">{{ company.cadastro }}</td>
+              <td class="table-td">
+                {{ company.cadastro | date: 'dd/MM/YYYY' }}
+              </td>
             }
             @if (companyTableHeaders[2].isChecked) {
               <td class="table-td">{{ company.nome }}</td>
@@ -116,16 +118,14 @@
         }
       </tbody>
     </table>
-  } @else {
-    <p>Nenhum registro encontrado!</p>
   }
 </div>
 <app-modal-form-company
   [isModalFormCompanyActive]="isModalFormCompanyActive"
   [companyData]="companyData"
   [companiesData]="companiesData.data"
-  [isEditData]="isEditData"
-  (isEditDataEmitter)="setEditDataToFalse()"
+  [isEditForm]="isEditForm"
+  (resetEditFormEmitter)="resetEditFormAndUpdateTable()"
   (closeModalFormEmitter)="closeModalFormCompany()"></app-modal-form-company>
 <app-modal-ask
   [showModal]="isModalAskActive"

@@ -39,7 +39,7 @@ export class ModalCheckComponent implements OnChanges {
   constructor(private registerCompanyApi: RegisterCompanyApi) {}
   @Input() companyData: ICompany = {
     id: 0,
-    cadastro: '',
+    cadastro: new Date(),
     nome: '',
     email: '',
     telefone: '',
@@ -137,6 +137,7 @@ export class ModalCheckComponent implements OnChanges {
   public showLoading = false;
 
   async registerData() {
+    console.log(this.companyData);
     this.showLoading = true;
     try {
       const newRegisterResponse = await this.registerCompanyApi.addNewCustomer(
@@ -154,8 +155,8 @@ export class ModalCheckComponent implements OnChanges {
     }
   }
 
-  @Input() isEditData = false;
-  @Output() isEditDataEmitter = new EventEmitter<boolean>();
+  @Input() isEditForm = false;
+  @Output() resetEditFormEmitter = new EventEmitter<boolean>();
 
   async editData(): Promise<void> {
     this.showLoading = true;
@@ -168,7 +169,7 @@ export class ModalCheckComponent implements OnChanges {
       this.handleSuccessModal(customerData.message);
       this.isModalResultOk = true;
       this.isModalInfoActive = true;
-      this.isEditDataEmitter.emit(false);
+      this.resetEditFormEmitter.emit(false);
     } catch (e: any) {
       this.handleFailureModal(e.error.message);
       this.isModalInfoActive = true;

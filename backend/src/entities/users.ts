@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  Timestamp,
 } from 'typeorm'
 
 @Entity('Users')
@@ -21,9 +22,9 @@ export class Users {
   @Exclude()
   password: string
 
-  @CreateDateColumn({ type: 'varchar', length: 25 })
+  @CreateDateColumn({ type: 'timestamp' })
   @Exclude()
-  createdAt: Date
+  createdAt: Timestamp
 
   @Column()
   @Exclude()

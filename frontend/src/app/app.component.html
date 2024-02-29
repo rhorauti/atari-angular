@@ -1,12 +1,22 @@
 <div
   class="flex h-screen w-full overflow-auto"
-  [ngClass]="showMenu ? '' : 'justify-center'">
-  @if (showMenu) {
+  [ngClass]="isSideBarActive ? '' : 'justify-center'">
+  @if (isSideBarActive) {
     <div class="w-48">
-      <app-menu></app-menu>
+      <app-menu
+        [isSideBarActive]="isSideBarActive"
+        (isSideBarActiveEmitter)="isSideBarActive = false"></app-menu>
+    </div>
+  } @else {
+    <div class="w-10 bg-gray-900 py-4 px-2">
+      <mat-icon
+        (click)="isSideBarActive = true"
+        class="text-white bg-gray-800 rounded-full cursor-pointer"
+        >keyboard_arrow_right</mat-icon
+      >
     </div>
   }
-  <div [ngClass]="showMenu ? 'w-5/6 mx-3' : 'w-[97%]'">
+  <div [ngClass]="isSideBarActive ? 'w-5/6 mx-3' : 'w-[97%] mx-3'">
     <router-outlet></router-outlet>
   </div>
 </div>

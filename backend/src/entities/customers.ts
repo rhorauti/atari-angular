@@ -1,12 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from 'typeorm'
 
 @Entity('Customers')
 export class Customers {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({ type: 'varchar', length: 25 })
-  cadastro: string
+  @Column({ type: 'timestamp' })
+  cadastro: Timestamp
 
   @Column({ type: 'varchar', length: 100 })
   nome: string

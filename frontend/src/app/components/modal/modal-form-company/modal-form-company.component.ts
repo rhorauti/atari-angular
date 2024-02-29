@@ -15,7 +15,6 @@ import { ICompany } from '../../../core/api/interfaces/IRegister';
 import { ModalCheckComponent } from '../modal-check/modal-check.component';
 import { ModalInfoComponent } from '../modal-info/modal-info.component';
 import { IModal } from '../../../core/api/interfaces/IModal';
-import { formatarData } from '../../../core/utils/proto';
 import { SelectComponent } from '../../select/select.component';
 
 @Component({
@@ -38,15 +37,13 @@ export class ModalFormCompanyComponent {
   @ViewChildren('inputModal') inputModal?: QueryList<InputFormComponent>;
   @ViewChildren('selectModal') selectModal?: QueryList<SelectComponent>;
 
-  @Input() isEditData = false;
+  @Input() isEditForm = false;
   public isModalCheckActive = false;
   public isModalInfoActive = false;
 
   @Input() companyData: ICompany = {
     id: 0,
-    cadastro: formatarData(
-      new Date().toISOString().split('T')[0] + ' 00:00:00'
-    ),
+    cadastro: new Date(),
     nome: '',
     email: '',
     telefone: '',
@@ -143,10 +140,10 @@ export class ModalFormCompanyComponent {
     this.closeModalForm();
   }
 
-  @Output() isEditDataEmitter = new EventEmitter<boolean>();
+  @Output() resetEditFormEmitter = new EventEmitter<boolean>();
 
-  resetEditDataAndUpdateTable(): void {
-    this.isEditDataEmitter.emit(false);
+  resetEditForm(): void {
+    this.resetEditFormEmitter.emit(false);
   }
 
   /**
@@ -157,7 +154,7 @@ export class ModalFormCompanyComponent {
     this.inputModal?.forEach(input => input.clearInput());
     this.selectModal?.forEach(select => select.clearSelect());
     this.companyData.id = 0;
-    this.companyData.cadastro = formatarData(new Date().toString());
+    this.companyData.cadastro = new Date();
     this.companyData.nome = '';
     this.companyData.email = '';
     this.companyData.telefone = '';
@@ -168,7 +165,7 @@ export class ModalFormCompanyComponent {
     this.companyData.complemento = '';
     this.companyData.bairro = '';
     this.companyData.cidade = '';
-    this.companyData.estado = 'Selecione um item';
+    this.companyData.estado = '';
   }
 
   public modalInfo: IModal = {
@@ -212,7 +209,7 @@ export class ModalFormCompanyComponent {
    * @param cadastro cadastro da empresa
    */
   getInputCadastroValue(cadastro: string): void {
-    this.companyData.cadastro = cadastro;
+    this.companyData.cadastro = new Date(cadastro);
   }
   /**
    * getInputNomeValue
