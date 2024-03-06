@@ -1,11 +1,13 @@
 import { AuthController } from '@src/controllers/auth.controller'
 import { CustomerController } from '@src/controllers/customer.controller'
+import { SupplierController } from '@src/controllers/supplier.controller'
 import { Router } from 'express'
 import { container } from 'tsyringe'
 
 const router = Router()
 const authController = container.resolve(AuthController)
 const customerController = container.resolve(CustomerController)
+const supplierController = container.resolve(SupplierController)
 
 router.post('/login', (request, response) => {
   authController.loginUser(request, response)
@@ -41,6 +43,22 @@ router.put('/customers/:id', async (request, response) => {
 
 router.delete('/customers/:id', (request, response) => {
   customerController.deleteCustomer(request, response)
+})
+
+router.get('/suppliers', (request, response) => {
+  supplierController.getSuppliersList(response)
+})
+
+router.post('/suppliers', (request, response) => {
+  supplierController.addNewSupplier(request, response)
+})
+
+router.put('/suppliers/:id', async (request, response) => {
+  supplierController.updateSupplier(request, response)
+})
+
+router.delete('/suppliers/:id', (request, response) => {
+  supplierController.deleteSupplier(request, response)
 })
 
 export { router }

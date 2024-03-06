@@ -39,11 +39,12 @@ export class ButtonStandardComponent implements OnInit {
         break;
       }
       case 'cancel': {
-        this.backgroundColor = 'bg-red-500';
+        this.backgroundColor = 'bg-black';
+        this.textColor = 'text-white';
         this.showIcon = true;
         this.btnIcon = 'close';
-        this.label = 'Cancelar';
-        this.hoverBackgroundColor = 'hover:bg-red-400';
+        this.label = 'Fechar';
+        this.hoverBackgroundColor = 'hover:bg-gray-700';
         break;
       }
       case 'clear': {
@@ -80,11 +81,11 @@ export class ButtonStandardComponent implements OnInit {
         break;
       }
       case 'success-delete': {
-        this.backgroundColor = 'bg-green-600';
+        this.backgroundColor = 'bg-red-600';
         this.showIcon = true;
         this.btnIcon = 'save';
         this.label = 'Excluir';
-        this.hoverBackgroundColor = 'hover:bg-green-500';
+        this.hoverBackgroundColor = 'hover:bg-red-500';
         break;
       }
       case 'transparent': {

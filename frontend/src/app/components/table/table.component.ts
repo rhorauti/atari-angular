@@ -140,13 +140,12 @@ export class TableComponent implements OnChanges, OnInit {
   }
 
   @Input() tableUpdated = false;
-  @Output() tableUpdatedEmitter = new EventEmitter<boolean>();
 
   async resetTable(): Promise<void> {
     await this.getList();
     this.companiesDataFilter = this.companiesData.data;
     this.emitTableData();
-    this.tableUpdatedEmitter.emit(false);
+    this.tableUpdated = false;
   }
 
   async ngOnInit(): Promise<void> {
@@ -352,7 +351,7 @@ export class TableComponent implements OnChanges, OnInit {
       this.showLoading = true;
       switch (this.registerType) {
         case 'customers': {
-          const customersData = await this.registerApi.addNewCustomer(
+          const customersData = await this.registerApi.addNewCompany(
             this.companyData,
             'customers'
           );
@@ -360,15 +359,15 @@ export class TableComponent implements OnChanges, OnInit {
           break;
         }
         case 'suppliers': {
-          const supplierData = await this.registerApi.addNewCustomer(
+          const supplierData = await this.registerApi.addNewCompany(
             this.companyData,
-            'customers'
+            'suppliers'
           );
           this.handleSuccessModal(supplierData.message);
           break;
         }
         case 'supplier-products': {
-          const supplierProdutcData = await this.registerApi.addNewCustomer(
+          const supplierProdutcData = await this.registerApi.addNewCompany(
             this.companyData,
             'supplier-products'
           );
@@ -376,7 +375,7 @@ export class TableComponent implements OnChanges, OnInit {
           break;
         }
         case 'customer-products': {
-          const customerProdutcData = await this.registerApi.addNewCustomer(
+          const customerProdutcData = await this.registerApi.addNewCompany(
             this.companyData,
             'customer-products'
           );

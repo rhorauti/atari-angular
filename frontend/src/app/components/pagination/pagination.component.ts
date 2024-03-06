@@ -75,6 +75,9 @@ export class PaginationComponent implements OnChanges {
     }
   }
 
+  @Input() registerIdFilter = 0;
+  @Input() registerNameFilter = '';
+
   ngOnChanges(): void {
     if (this.isPaginationReset) {
       this.resetPagination();

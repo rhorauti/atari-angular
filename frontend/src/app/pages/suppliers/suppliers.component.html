@@ -1,1 +1,44 @@
-<p class="text-white">Bem vindo a página de Suppliers</p>
+<div class="flex flex-col align-middle">
+  <section
+    class="text-white text-lg font-semibold mt-2 border leading-4 border-gray-500 p-2 rounded text-center">
+    <h1>Cadastro de Fornecedores</h1>
+  </section>
+  <section class="my-4">
+    <app-filter
+      [tableHeadersData]="tableHeadersData"
+      (isTableHeaderActiveEmitter)="getTableHeadersActiveStatus($event)"
+      (showModalNewRegisterEmitter)="showModalNewCompany($event)"
+      (clearInputIdEmitter)="clearInputId()"
+      (clearInputNameEmitter)="clearInputName()"
+      (registerIdEmitter)="getRegisterId($event)"
+      (registerNameEmitter)="getRegisterName($event)"></app-filter>
+  </section>
+  <section>
+    <app-table
+      #tableComponent
+      [registerType]="'suppliers'"
+      [tableUpdated]="tableIsUpdated"
+      [tableInitialIdx]="tableInitialIdx"
+      [tableLastIdx]="tableLastIdx"
+      [registerIdFilter]="registerId"
+      [registerNameFilter]="registerName"
+      [companyTableHeaders]="tableHeadersData"
+      (tableHeadersDataEmitter)="getTableHeadersData($event)"
+      (resetPaginationEmitter)="resetPagination()"
+      (tableDataEmitter)="getTableData($event)"></app-table>
+  </section>
+  <footer class="my-4">
+    <app-pagination
+      [tableData]="tableData"
+      [isPaginationReset]="isPaginationReset"
+      [registerIdFilter]="registerId"
+      [registerNameFilter]="registerName"
+      (tableInitialIdx)="getTableInitialIdx($event)"
+      (tableLastIdx)="getTableLastIdx($event)"></app-pagination>
+  </footer>
+</div>
+<app-modal-form-company
+  [registerType]="'suppliers'"
+  (closeModalFormEmitter)="closeModalForm($event)"
+  (updateCompanyListEmitter)="updateCompanyList($event)"
+  [isModalFormCompanyActive]="isModalNewCompanyActive"></app-modal-form-company>

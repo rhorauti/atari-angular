@@ -37,6 +37,11 @@ export class CustomersComponent {
   constructor(private paginationComponent: PaginationComponent) {}
   public tableData = [{}];
 
+  /**
+   * getTableData
+   * Função que pega os dados que vem do componente table via page customers
+   * @param tableData dados que vem do componente table via props.
+   */
   getTableData(tableData: ICompany[] | IProduct[]): void {
     this.tableData = tableData;
   }
@@ -57,10 +62,20 @@ export class CustomersComponent {
     { id: 12, isChecked: true, name: 'Ação' },
   ];
 
+  /**
+   * getTableHeadersData
+   * Função que pega os dados do cabeçalho que vem do componente table.
+   * @param headersData dados do componente table
+   */
   getTableHeadersData(headersData: ICompanyTableHeaders[]): void {
     this.tableHeadersData = headersData;
   }
 
+  /**
+   * getTableHeadersActiveStatus
+   * Função que atualiza o cabeçalho da tabela ao ocultar/mostrar as colunas da tabela.
+   * @param tableHeadersData dados do cabeçalho da tabela
+   */
   getTableHeadersActiveStatus(tableHeadersData: ICompanyTableHeaders[]): void {
     this.tableHeadersData = tableHeadersData;
   }
@@ -68,63 +83,106 @@ export class CustomersComponent {
   public tableInitialIdx =
     this.paginationComponent.tableIndexInfo.tableInitialIdx;
 
+  /**
+   * getTableInitialIdx
+   * Função que pega o index do primeiro registro da tabela.
+   * @param tableInitialIdx index do primeiro registro da tabela.
+   */
   getTableInitialIdx(tableInitialIdx: number) {
     this.tableInitialIdx = tableInitialIdx;
   }
 
   public tableLastIdx = this.paginationComponent.tableIndexInfo.tableLastIdx;
 
+  /**
+   * getTableLastIdx
+   * Função que pega o index do ultimo registro da tabela.
+   * @param tableLastIdx index do ultimo registro da tabela.
+   */
   getTableLastIdx(tableLastIdx: number) {
     this.tableLastIdx = tableLastIdx;
   }
 
   public registerId = 0;
 
+  /**
+   * getRegisterId
+   * Função que pega o valor do id digitado no filtro pelo usuário.
+   * @param id id digitado pelo usuário
+   */
   getRegisterId(id: number): void {
     this.registerId = id;
   }
 
+  /**
+   * clearInputId
+   * Função que limpa o input id do filtro ao clicar no icone "x"
+   */
   clearInputId(): void {
     this.registerId = 0;
   }
 
   public registerName = '';
 
+  /**
+   * getRegisterName
+   * Função que pega o valor do name digitado no filtro pelo usuário.
+   * @param nome nome digitado pelo usuário
+   */
   getRegisterName(nome: string): void {
     this.registerName = nome;
   }
 
+  /**
+   * clearInputName
+   * Função que limpa o input name do filtro ao clicar no icone "x"
+   */
   clearInputName(): void {
     this.registerName = '';
   }
 
-  public isModalNewCustomerActive = false;
+  public isModalNewCompanyActive = false;
 
-  showModalNewCustomer(isTrue: boolean) {
-    this.isModalNewCustomerActive = isTrue;
+  /**
+   * showModalNewCustomer
+   * Função que mostra o modal de novo cadastro.
+   * @param isTrue parâmetro true para mostrar o modal novo cadastro
+   */
+  showModalNewCompany(isTrue: boolean) {
+    this.isModalNewCompanyActive = isTrue;
   }
 
-  closeModalNewCustomer(isFalse: boolean): void {
-    this.isModalNewCustomerActive = isFalse;
-  }
-
+  /**
+   * closeModalForm
+   * Função que fecha o modal de novo cadastro.
+   * @param isFalse parâmetro false para mostrar o modal novo cadastro
+   */
   closeModalForm(isFalse: boolean): void {
-    this.isModalNewCustomerActive = isFalse;
+    this.isModalNewCompanyActive = isFalse;
   }
 
   public tableIsUpdated = false;
 
-  updateCustomerList(isTrue: boolean): void {
+  /**
+   * updateCustomerList
+   * Função que envia um valor boleano para o componente table para atualizar a tabela com os valores inseridos ou excluidos.
+   * @param isTrue parêmetro true como sinal para atualização da tabela.
+   */
+  updateCompanyList(isTrue: boolean): void {
     this.tableIsUpdated = isTrue;
     this.closeModalForm(false);
   }
 
-  changeTableUpdatedToFalse(isFalse: boolean): void {
-    this.tableIsUpdated = isFalse;
-  }
+  // changeTableUpdatedToFalse(isFalse: boolean): void {
+  //   this.tableIsUpdated = isFalse;
+  // }
 
   public isPaginationReset = false;
 
+  /**
+   * resetPagination
+   * Função que envia um valor boleano true para o componente pagination para resetar os valores.
+   */
   resetPagination(): void {
     this.isPaginationReset = true;
   }

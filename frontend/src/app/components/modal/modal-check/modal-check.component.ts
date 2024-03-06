@@ -135,15 +135,31 @@ export class ModalCheckComponent implements OnChanges {
   }
 
   public showLoading = false;
+  @Input() registerType = '';
 
   async registerData() {
     this.showLoading = true;
     try {
-      const newRegisterResponse = await this.registerCompanyApi.addNewCustomer(
-        this.companyData,
-        'customers'
-      );
-      this.handleSuccessModal(newRegisterResponse.message);
+      switch (this.registerType) {
+        case 'customers': {
+          const newRegisterResponse =
+            await this.registerCompanyApi.addNewCompany(
+              this.companyData,
+              'customers'
+            );
+          this.handleSuccessModal(newRegisterResponse.message);
+          break;
+        }
+        case 'suppliers': {
+          const newRegisterResponse =
+            await this.registerCompanyApi.addNewCompany(
+              this.companyData,
+              'suppliers'
+            );
+          this.handleSuccessModal(newRegisterResponse.message);
+          break;
+        }
+      }
       this.isModalResultOk = true;
       this.isModalInfoActive = true;
     } catch (e: any) {
@@ -160,12 +176,26 @@ export class ModalCheckComponent implements OnChanges {
   async editData(): Promise<void> {
     this.showLoading = true;
     try {
-      const customerData = await this.registerCompanyApi.updateCompany(
-        this.companyData,
-        'customers',
-        this.companyData.id
-      );
-      this.handleSuccessModal(customerData.message);
+      switch (this.registerType) {
+        case 'customers': {
+          const customerData = await this.registerCompanyApi.updateCompany(
+            this.companyData,
+            'customers',
+            this.companyData.id
+          );
+          this.handleSuccessModal(customerData.message);
+          break;
+        }
+        case 'suppliers': {
+          const supplierData = await this.registerCompanyApi.updateCompany(
+            this.companyData,
+            'suppliers',
+            this.companyData.id
+          );
+          this.handleSuccessModal(supplierData.message);
+          break;
+        }
+      }
       this.isModalResultOk = true;
       this.isModalInfoActive = true;
       this.resetEditFormEmitter.emit(false);

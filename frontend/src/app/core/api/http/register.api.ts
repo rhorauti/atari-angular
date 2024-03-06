@@ -43,14 +43,14 @@ export class RegisterCompanyApi {
    * Adiciona um novo registro no banco de dados.
    * @returns Promise com o status e mensagem.
    */
-  async addNewCustomer(
-    customerData: ICompany,
+  async addNewCompany(
+    companyData: ICompany,
     registerType: string
   ): Promise<IResponseCommonMessage> {
     return await this.httpRequestService.sendHttpRequest(
       `${environment.apiUrl}/${registerType}`,
       'POST',
-      customerData
+      companyData
     );
   }
 

@@ -1,24 +1,24 @@
-import { Customers } from '@src/entities/customers'
+import { Suppliers } from '@src/entities/suppliers'
 import { dataSource } from '@src/migrations'
 import { ICompanyDTO, ICompanyDTOExtended } from './interfaces/ICompany'
 
-export class CustomerRepository {
-  private customersRepository = dataSource.getRepository(Customers)
+export class SupplierRepository {
+  private suppliersRepository = dataSource.getRepository(Suppliers)
 
-  async findCustomerByName(nome: string): Promise<Customers> {
-    return await this.customersRepository.findOneBy({
+  async findSupplierByName(nome: string): Promise<Suppliers> {
+    return await this.suppliersRepository.findOneBy({
       nome: nome,
     })
   }
 
-  async findCustomerById(id: number): Promise<Customers> {
-    return await this.customersRepository.findOneBy({
+  async findSupplierById(id: number): Promise<Suppliers> {
+    return await this.suppliersRepository.findOneBy({
       id: id,
     })
   }
 
-  async getCustomersList(): Promise<Customers[]> {
-    return await this.customersRepository.find()
+  async getSuppliersList(): Promise<Suppliers[]> {
+    return await this.suppliersRepository.find()
   }
 
   /**
@@ -27,29 +27,29 @@ export class CustomerRepository {
    * @param registerType tipo de registro (customers, suppliers, suppliers-product, customers-product, etc)
    * @param registerData Os dados que vem do frontend para registrar no banco de dados.
    */
-  async addNewCompany(registerData: ICompanyDTO): Promise<Customers> {
+  async addNewCompany(registerData: ICompanyDTO): Promise<Suppliers> {
     delete registerData.id
-    const newCustomer = this.customersRepository.create(registerData)
-    return this.customersRepository.save(newCustomer)
+    const newSupplier = this.suppliersRepository.create(registerData)
+    return this.suppliersRepository.save(newSupplier)
   }
 
   async updateCompany(
     companyData: ICompanyDTOExtended,
     companyId: string,
   ): Promise<void> {
-    await this.customersRepository
+    await this.suppliersRepository
       .createQueryBuilder()
-      .update(Customers)
+      .update(Suppliers)
       .set(companyData)
       .where('id = :id', { id: companyId })
       .execute()
   }
 
   async deleteCompany(companyId: string): Promise<void> {
-    await this.customersRepository
+    await this.suppliersRepository
       .createQueryBuilder()
       .delete()
-      .from(Customers)
+      .from(Suppliers)
       .where('id = :id', { id: companyId })
       .execute()
   }

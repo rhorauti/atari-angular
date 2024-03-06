@@ -1,22 +1,22 @@
-import { CustomerRepository } from '@src/repositories/customer.repository'
+import { SupplierRepository } from '@src/repositories/supplier.respository'
 import { Request, Response } from 'express'
 import { inject, injectable } from 'tsyringe'
 
 @injectable()
-export class CustomerController {
+export class SupplierController {
   constructor(
-    @inject('CustomerRepository')
-    private customerRepository: CustomerRepository,
+    @inject('SupplierRepository')
+    private supplierRepository: SupplierRepository,
   ) {}
 
-  async getCustomersList(response: Response): Promise<Response> {
-    const customersList = await this.customerRepository.getCustomersList()
-    customersList.sort((a, b) => {
+  async getSuppliersList(response: Response): Promise<Response> {
+    const suppliersList = await this.supplierRepository.getSuppliersList()
+    suppliersList.sort((a, b) => {
       if (a.id > b.id) {
         return -1
       }
     })
-    if (!customersList) {
+    if (!suppliersList) {
       return response.status(400).json({
         status: false,
         message: 'Nenhum registro encontrando!',
@@ -25,28 +25,28 @@ export class CustomerController {
       return response.status(200).json({
         status: true,
         message: 'Lista recebida com sucesso!',
-        data: customersList,
+        data: suppliersList,
       })
     }
   }
 
-  async addNewCustomer(
+  async addNewSupplier(
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const customer = await this.customerRepository.findCustomerByName(
+    const supplier = await this.supplierRepository.findSupplierByName(
       request.body.nome,
     )
-    if (customer) {
+    if (supplier) {
       return response.status(401).json({
         status: false,
-        message: `Cliente ${customer.nome} já existe!`,
+        message: `Fornecedor ${supplier.nome} já existe!`,
       })
     } else {
-      const newCustomer = await this.customerRepository.addNewCompany(
+      const newSupplier = await this.supplierRepository.addNewCompany(
         request.body,
       )
-      if (!newCustomer) {
+      if (!newSupplier) {
         return response.status(500).json({
           status: false,
           message: 'Erro interno do servidor!',
@@ -54,54 +54,54 @@ export class CustomerController {
       } else {
         return response.status(200).json({
           status: true,
-          message: `Cliente ${newCustomer.nome} registrado com sucesso!`,
-          data: newCustomer,
+          message: `Fornecedor ${newSupplier.nome} registrado com sucesso!`,
+          data: newSupplier,
         })
       }
     }
   }
 
-  async updateCustomer(
+  async updateSupplier(
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const customer = await this.customerRepository.findCustomerById(
+    const supplier = await this.supplierRepository.findSupplierById(
       Number(request.params.id),
     )
-    if (!customer) {
+    if (!supplier) {
       return response.status(400).json({
         status: false,
-        message: 'Cliente não encontrado!',
+        message: 'Fornecedor não encontrado!',
       })
     } else {
-      await this.customerRepository.updateCompany(
+      await this.supplierRepository.updateCompany(
         request.body,
         request.params.id,
       )
       return response.status(200).json({
         status: true,
-        message: `Cliente ${request.body.nome} alterado com sucesso!`,
+        message: `Fornecedor ${request.body.nome} alterado com sucesso!`,
       })
     }
   }
 
-  async deleteCustomer(
+  async deleteSupplier(
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const customer = await this.customerRepository.findCustomerById(
+    const supplier = await this.supplierRepository.findSupplierById(
       Number(request.params.id),
     )
-    if (!customer) {
+    if (!supplier) {
       return response.status(400).json({
         status: false,
-        message: 'Cliente não encontrando!',
+        message: 'Fornecedor não encontrando!',
       })
     } else {
-      await this.customerRepository.deleteCompany(request.params.id)
+      await this.supplierRepository.deleteCompany(request.params.id)
       return response.status(200).json({
         status: true,
-        message: `Cliente ${customer.nome} excluido com sucesso!`,
+        message: `Fornecedor ${supplier.nome} excluido com sucesso!`,
       })
     }
   }

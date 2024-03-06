@@ -7,7 +7,7 @@
     <app-filter
       [tableHeadersData]="tableHeadersData"
       (isTableHeaderActiveEmitter)="getTableHeadersActiveStatus($event)"
-      (showModalNewRegisterEmitter)="showModalNewCustomer($event)"
+      (showModalNewRegisterEmitter)="showModalNewCompany($event)"
       (clearInputIdEmitter)="clearInputId()"
       (clearInputNameEmitter)="clearInputName()"
       (registerIdEmitter)="getRegisterId($event)"
@@ -23,7 +23,6 @@
       [registerIdFilter]="registerId"
       [registerNameFilter]="registerName"
       [companyTableHeaders]="tableHeadersData"
-      (tableUpdatedEmitter)="changeTableUpdatedToFalse($event)"
       (tableHeadersDataEmitter)="getTableHeadersData($event)"
       (resetPaginationEmitter)="resetPagination()"
       (tableDataEmitter)="getTableData($event)"></app-table>
@@ -32,13 +31,13 @@
     <app-pagination
       [tableData]="tableData"
       [isPaginationReset]="isPaginationReset"
+      [registerIdFilter]="registerId"
+      [registerNameFilter]="registerName"
       (tableInitialIdx)="getTableInitialIdx($event)"
       (tableLastIdx)="getTableLastIdx($event)"></app-pagination>
   </footer>
 </div>
 <app-modal-form-company
   (closeModalFormEmitter)="closeModalForm($event)"
-  (updateCustomerListEmitter)="updateCustomerList($event)"
-  [isModalFormCompanyActive]="
-    isModalNewCustomerActive
-  "></app-modal-form-company>
+  (updateCompanyListEmitter)="updateCompanyList($event)"
+  [isModalFormCompanyActive]="isModalNewCompanyActive"></app-modal-form-company>

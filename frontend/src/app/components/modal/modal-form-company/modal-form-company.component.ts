@@ -58,6 +58,7 @@ export class ModalFormCompanyComponent {
   };
 
   @Input() companiesData: ICompany[] = [];
+  @Input() registerType = '';
 
   /**
    * showModalCheck
@@ -131,12 +132,12 @@ export class ModalFormCompanyComponent {
     modalDescription: '',
   };
   @Input() isModalFormCompanyActive = false;
-  @Output() updateCustomerListEmitter = new EventEmitter<boolean>();
+  @Output() updateCompanyListEmitter = new EventEmitter<boolean>();
 
   closeModalFormAfterOk(isFalse: boolean): void {
     this.isModalInfoActive = isFalse;
     this.isModalCheckActive = isFalse;
-    this.updateCustomerListEmitter.emit(true);
+    this.updateCompanyListEmitter.emit(true);
     this.closeModalForm();
   }
 

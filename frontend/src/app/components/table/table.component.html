@@ -1,5 +1,5 @@
 <div class="overflow-auto h-full border border-gray-500">
-  @if (registerType == 'customers') {
+  @if (registerType == 'customers' || registerType == 'suppliers') {
     <table class="text-white w-full h-full text-sm text-center">
       <thead class="bg-gray-900 border border-gray-500">
         <tr>
@@ -10,7 +10,11 @@
               }
             }
           } @else {
-            <th class="table-td text-lg">Tabela de clientes</th>
+            @if (registerType == 'customers') {
+              <th class="table-td text-lg">Tabela de clientes</th>
+            } @else if (registerType == 'suppliers') {
+              <th class="table-td text-lg">Tabela de Fornecedores</th>
+            }
           }
         </tr>
       </thead>
@@ -125,6 +129,7 @@
   [companyData]="companyData"
   [companiesData]="companiesData.data"
   [isEditForm]="isEditForm"
+  [registerType]="registerType"
   (resetEditFormEmitter)="resetEditFormAndUpdateTable()"
   (closeModalFormEmitter)="closeModalFormCompany()"></app-modal-form-company>
 <app-modal-ask
