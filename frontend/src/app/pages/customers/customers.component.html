@@ -17,14 +17,15 @@
     <app-table
       #tableComponent
       [registerType]="'customers'"
-      [tableUpdated]="tableIsUpdated"
+      [tableUpdated]="tableUpdated"
       [tableInitialIdx]="tableInitialIdx"
       [tableLastIdx]="tableLastIdx"
       [registerIdFilter]="registerId"
       [registerNameFilter]="registerName"
       [companyTableHeaders]="tableHeadersData"
       (tableHeadersDataEmitter)="getTableHeadersData($event)"
-      (resetPaginationEmitter)="resetPagination()"
+      (resetPaginationEmitter)="resetPagination($event)"
+      (tableUpdatedEmitter)="getTableUpdatedStatus($event)"
       (tableDataEmitter)="getTableData($event)"></app-table>
   </section>
   <footer class="my-4">
@@ -38,6 +39,7 @@
   </footer>
 </div>
 <app-modal-form-company
-  (closeModalFormEmitter)="closeModalForm($event)"
-  (updateCompanyListEmitter)="updateCompanyList($event)"
-  [isModalFormCompanyActive]="isModalNewCompanyActive"></app-modal-form-company>
+  [registerType]="'customers'"
+  [isModalFormCompanyActive]="isModalNewCompanyActive"
+  (resetPageEmitter)="resetPage($event)"
+  (closeModalFormEmitter)="closeModalForm($event)"></app-modal-form-company>

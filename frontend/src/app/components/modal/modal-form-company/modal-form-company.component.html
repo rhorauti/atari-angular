@@ -203,13 +203,17 @@
       </div>
     }
   </div>
-  <div class="footer-block grid grid-cols-3 gap-3 mt-5">
+  <div
+    class="footer-block grid gap-3 mt-5"
+    [ngClass]="isEditForm ? 'grid-cols-2' : 'grid-cols-3'">
     <app-button-standard
       [btnType]="'cancel'"
       (click)="closeModalForm()"></app-button-standard>
-    <app-button-standard
-      [btnType]="'clear'"
-      (click)="clearForm()"></app-button-standard>
+    @if (!isEditForm) {
+      <app-button-standard
+        [btnType]="'clear'"
+        (click)="clearForm()"></app-button-standard>
+    }
     <app-button-standard
       [btnType]="'forward'"
       (click)="showModalCheck()"></app-button-standard>
@@ -220,7 +224,7 @@
   [isEditForm]="isEditForm"
   [isModalCheckActive]="isModalCheckActive"
   [registerType]="registerType"
-  (resetEditFormEmitter)="resetEditForm()"
+  (resetPageEmitter)="resetPage($event)"
   (closeModalFormEmitter)="closeModalFormAfterOk($event)"
   (closeModalCheckEmitter)="closeModalCheck($event)">
 </app-modal-check>

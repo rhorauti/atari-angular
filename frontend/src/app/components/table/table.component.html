@@ -130,7 +130,7 @@
   [companiesData]="companiesData.data"
   [isEditForm]="isEditForm"
   [registerType]="registerType"
-  (resetEditFormEmitter)="resetEditFormAndUpdateTable()"
+  (resetPageEmitter)="resetPage($event)"
   (closeModalFormEmitter)="closeModalFormCompany()"></app-modal-form-company>
 <app-modal-ask
   [showModal]="isModalAskActive"

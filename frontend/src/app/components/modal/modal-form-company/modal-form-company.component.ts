@@ -137,14 +137,13 @@ export class ModalFormCompanyComponent {
   closeModalFormAfterOk(isFalse: boolean): void {
     this.isModalInfoActive = isFalse;
     this.isModalCheckActive = isFalse;
-    this.updateCompanyListEmitter.emit(true);
     this.closeModalForm();
   }
 
-  @Output() resetEditFormEmitter = new EventEmitter<boolean>();
+  @Output() resetPageEmitter = new EventEmitter<boolean>();
 
-  resetEditForm(): void {
-    this.resetEditFormEmitter.emit(false);
+  resetPage(isTrue: boolean): void {
+    this.resetPageEmitter.emit(isTrue);
   }
 
   /**

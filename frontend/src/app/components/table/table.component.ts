@@ -140,12 +140,12 @@ export class TableComponent implements OnChanges, OnInit {
   }
 
   @Input() tableUpdated = false;
+  @Output() tableUpdatedEmitter = new EventEmitter<boolean>();
 
   async resetTable(): Promise<void> {
     await this.getList();
-    this.companiesDataFilter = this.companiesData.data;
     this.emitTableData();
-    this.tableUpdated = false;
+    this.tableUpdatedEmitter.emit(false);
   }
 
   async ngOnInit(): Promise<void> {
@@ -186,6 +186,14 @@ export class TableComponent implements OnChanges, OnInit {
     }
   }
 
+  @Output() resetPaginationEmitter = new EventEmitter<boolean>();
+
+  resetPage(isTrue: boolean): void {
+    this.isEditForm = false;
+    this.resetTable();
+    this.resetPaginationEmitter.emit(isTrue);
+  }
+
   showModalAskToDeleteCompany(company: ICompany): void {
     switch (this.registerType) {
       case 'customers':
@@ -219,14 +227,6 @@ export class TableComponent implements OnChanges, OnInit {
     this.companyData = { ...companyData };
     this.isEditForm = true;
     this.isModalFormCompanyActive = true;
-  }
-
-  @Output() resetPaginationEmitter = new EventEmitter<boolean>();
-
-  resetEditFormAndUpdateTable(): void {
-    this.isEditForm = false;
-    this.resetTable();
-    this.resetPaginationEmitter.emit(true);
   }
 
   public isModalFormProductActive = false;
@@ -316,12 +316,14 @@ export class TableComponent implements OnChanges, OnInit {
           const customersData =
             await this.registerApi.getRegisterCompanyList('customers');
           this.companiesData.data = customersData.data;
+          this.companiesDataFilter = this.companiesData.data;
           break;
         }
         case 'suppliers': {
           const suppliersData =
             await this.registerApi.getRegisterCompanyList('suppliers');
           this.companiesData.data = suppliersData.data;
+          this.companiesDataFilter = this.companiesData.data;
           break;
         }
         case 'supplier-products': {

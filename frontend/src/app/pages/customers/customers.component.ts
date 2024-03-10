@@ -161,21 +161,16 @@ export class CustomersComponent {
     this.isModalNewCompanyActive = isFalse;
   }
 
-  public tableIsUpdated = false;
+  public tableUpdated = false;
 
-  /**
-   * updateCustomerList
-   * Função que envia um valor boleano para o componente table para atualizar a tabela com os valores inseridos ou excluidos.
-   * @param isTrue parêmetro true como sinal para atualização da tabela.
-   */
-  updateCompanyList(isTrue: boolean): void {
-    this.tableIsUpdated = isTrue;
-    this.closeModalForm(false);
+  resetPage(isTrue: boolean): void {
+    this.tableUpdated = isTrue;
+    this.resetPagination(isTrue);
   }
 
-  // changeTableUpdatedToFalse(isFalse: boolean): void {
-  //   this.tableIsUpdated = isFalse;
-  // }
+  getTableUpdatedStatus(isFalse: boolean): void {
+    this.tableUpdated = isFalse;
+  }
 
   public isPaginationReset = false;
 
@@ -183,7 +178,7 @@ export class CustomersComponent {
    * resetPagination
    * Função que envia um valor boleano true para o componente pagination para resetar os valores.
    */
-  resetPagination(): void {
-    this.isPaginationReset = true;
+  resetPagination(isTrue: boolean): void {
+    this.isPaginationReset = isTrue;
   }
 }

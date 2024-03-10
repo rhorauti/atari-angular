@@ -104,6 +104,7 @@ export class ModalCheckComponent implements OnChanges {
       this.isModalInfoActive = isFalse;
       this.closeModalCheck();
       this.closeModalFormEmitter.emit(false);
+      this.isModalResultOk = false;
     }
   }
 
@@ -136,6 +137,7 @@ export class ModalCheckComponent implements OnChanges {
 
   public showLoading = false;
   @Input() registerType = '';
+  @Output() resetPageEmitter = new EventEmitter<boolean>();
 
   async registerData() {
     this.showLoading = true;
@@ -162,6 +164,7 @@ export class ModalCheckComponent implements OnChanges {
       }
       this.isModalResultOk = true;
       this.isModalInfoActive = true;
+      this.resetPageEmitter.emit(true);
     } catch (e: any) {
       this.handleFailureModal(e.error.message);
       this.isModalInfoActive = true;
@@ -171,7 +174,6 @@ export class ModalCheckComponent implements OnChanges {
   }
 
   @Input() isEditForm = false;
-  @Output() resetEditFormEmitter = new EventEmitter<boolean>();
 
   async editData(): Promise<void> {
     this.showLoading = true;
@@ -198,7 +200,7 @@ export class ModalCheckComponent implements OnChanges {
       }
       this.isModalResultOk = true;
       this.isModalInfoActive = true;
-      this.resetEditFormEmitter.emit(false);
+      this.resetPageEmitter.emit(true);
     } catch (e: any) {
       this.handleFailureModal(e.error.message);
       this.isModalInfoActive = true;
