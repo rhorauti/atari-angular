@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ButtonStandardComponent } from '../button/button-standard/button-standard.component';
 import { InputFormComponent } from '../input/input-form/input-form.component';
 import { FormsModule } from '@angular/forms';
 import { ICompanyTableHeaders } from '../table/table.component';
+import { InputAddonsComponent } from '../input/input-addons/input-addons.component';
 
 @Component({
   selector: 'app-filter',
@@ -13,49 +14,65 @@ import { ICompanyTableHeaders } from '../table/table.component';
     ButtonStandardComponent,
     InputFormComponent,
     FormsModule,
+    InputAddonsComponent,
   ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss',
 })
-export class FilterComponent {
+export class FilterComponent implements OnInit {
   @Input() tableHeadersData: ICompanyTableHeaders[] = [];
   @Output() showModalNewRegisterEmitter = new EventEmitter<boolean>();
   public isHeadersBoxActive = false;
+  public optionList: string[] = [];
 
+  ngOnInit(): void {
+    this.updateOptionValues();
+  }
+
+  /**
+   * showNewRegister
+   * Emite um evento boleano true para o componente pai para abrir o modal de novo registro.
+   */
   showNewRegister(): void {
     this.showModalNewRegisterEmitter.emit(true);
   }
 
-  @Output() registerIdEmitter = new EventEmitter<number>();
+  public inputValue = '';
+  @Output() inputValueEmitter = new EventEmitter();
+  @Output() isPaginationResetEmitter = new EventEmitter<boolean>();
 
-  filterId(id: string) {
-    this.registerIdEmitter.emit(Number(id));
+  /**
+   * emitInputValue
+   * Envia o valor digitado no input para o componente pai.
+   */
+  filterValues(): void {
+    this.inputValueEmitter.emit(this.inputValue);
+    this.selectValueEmitter.emit(this.selectValue);
+    this.isPaginationResetEmitter.emit();
   }
 
-  @Output() registerNameEmitter = new EventEmitter<string>();
+  public selectValue = '';
+  @Output() selectValueEmitter = new EventEmitter();
 
-  filterName(nome: string) {
-    this.registerNameEmitter.emit(nome);
+  updateOptionValues(): void {
+    this.tableHeadersData.forEach(header => {
+      if (header.isChecked) {
+        this.optionList.push(header.name);
+      }
+    });
   }
 
-  @Output() clearInputIdEmitter = new EventEmitter<boolean>();
+  @Output() tableHeaderDataEmitter = new EventEmitter<ICompanyTableHeaders[]>();
 
-  clearInputId(): void {
-    this.clearInputIdEmitter.emit(true);
-  }
-
-  @Output() clearInputNameEmitter = new EventEmitter<boolean>();
-
-  clearInputName(): void {
-    this.clearInputNameEmitter.emit(true);
-  }
-
-  @Output() isTableHeaderActiveEmitter = new EventEmitter<
-    ICompanyTableHeaders[]
-  >();
-
+  /**
+   * showTableHeader
+   * Mostra ou esconde a coluna da tabela selecionada e atualiza o select do filtro.
+   * @param header ICompanyTableHeaders
+   */
   showTableHeader(header: ICompanyTableHeaders): void {
+    this.optionList = [];
     header.isChecked = !header.isChecked;
-    this.isTableHeaderActiveEmitter.emit(this.tableHeadersData);
+    this.tableHeaderDataEmitter.emit(this.tableHeadersData);
+    this.updateOptionValues();
   }
 }

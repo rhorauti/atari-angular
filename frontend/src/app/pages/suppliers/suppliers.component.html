@@ -6,39 +6,35 @@
   <section class="my-4">
     <app-filter
       [tableHeadersData]="tableHeadersData"
-      (isTableHeaderActiveEmitter)="getTableHeadersActiveStatus($event)"
-      (showModalNewRegisterEmitter)="showModalNewCompany($event)"
-      (clearInputIdEmitter)="clearInputId()"
-      (clearInputNameEmitter)="clearInputName()"
-      (registerIdEmitter)="getRegisterId($event)"
-      (registerNameEmitter)="getRegisterName($event)"></app-filter>
+      (tableHeaderDataEmitter)="tableHeadersData = $event"
+      (showModalNewRegisterEmitter)="isModalNewCompanyActive = $event"
+      (inputValueEmitter)="inputValue = $event"
+      (selectValueEmitter)="selectValue = $event"
+      (isPaginationResetEmitter)="isPaginationReset = true"></app-filter>
   </section>
   <section>
     <app-table
       #tableComponent
       [registerType]="'suppliers'"
-      [tableUpdated]="tableIsUpdated"
-      [tableInitialIdx]="tableInitialIdx"
-      [tableLastIdx]="tableLastIdx"
-      [registerIdFilter]="registerId"
-      [registerNameFilter]="registerName"
+      [tableUpdated]="tableUpdated"
+      [inputValueFilter]="inputValue"
+      [selectValueFilter]="selectValue"
       [companyTableHeaders]="tableHeadersData"
-      (tableHeadersDataEmitter)="getTableHeadersData($event)"
-      (resetPaginationEmitter)="resetPagination()"
-      (tableDataEmitter)="getTableData($event)"></app-table>
+      (resetPaginationEmitter)="isPaginationReset = $event"
+      (tableHeadersDataEmitter)="tableHeadersData = $event"
+      (tableUpdatedEmitter)="tableUpdated = $event"
+      (tableDataEmitter)="tableData = $event"></app-table>
   </section>
   <footer class="my-4">
     <app-pagination
       [tableData]="tableData"
-      [isPaginationReset]="isPaginationReset"
-      [registerIdFilter]="registerId"
-      [registerNameFilter]="registerName"
-      (tableInitialIdx)="getTableInitialIdx($event)"
-      (tableLastIdx)="getTableLastIdx($event)"></app-pagination>
+      [isPaginationReset]="isPaginationReset"></app-pagination>
   </footer>
 </div>
 <app-modal-form-company
-  [registerType]="'suppliers'"
-  (closeModalFormEmitter)="closeModalForm($event)"
-  (updateCompanyListEmitter)="updateCompanyList($event)"
-  [isModalFormCompanyActive]="isModalNewCompanyActive"></app-modal-form-company>
+  [registerType]="'customers'"
+  [isModalFormCompanyActive]="isModalNewCompanyActive"
+  (resetPageEmitter)="resetPage($event)"
+  (closeModalFormEmitter)="
+    isModalNewCompanyActive = $event
+  "></app-modal-form-company>

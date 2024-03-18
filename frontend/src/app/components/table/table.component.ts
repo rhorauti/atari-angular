@@ -148,32 +148,35 @@ export class TableComponent implements OnChanges, OnInit {
     this.tableUpdatedEmitter.emit(false);
   }
 
+  public initialTableData: ICompany[] = [];
+
   async ngOnInit(): Promise<void> {
     await this.resetTable();
+    switch (this.registerType) {
+      case 'customers':
+      case 'suppliers': {
+        this.initialTableData = this.companiesData.data;
+      }
+    }
   }
 
-  @Input() registerIdFilter = 0;
-  @Input() registerNameFilter = '';
-
+  @Input() inputValueFilter: string | number;
+  @Input() selectValueFilter = '';
   public companiesDataFilter: ICompany[] = [];
 
+  // verificar
   filterTable(): void {
-    if (this.registerIdFilter == 0 && this.registerNameFilter.length == 0) {
+    this.companiesDataFilter = this.initialTableData;
+    console.log(this.companiesDataFilter);
+    if (this.inputValueFilter && String(this.inputValueFilter).length == 0) {
       this.companiesDataFilter = this.companiesData.data;
-    } else if (this.registerIdFilter == 0) {
-      this.companiesDataFilter = this.companiesData.data.filter(company =>
-        company.nome
-          .toLowerCase()
-          .includes(this.registerNameFilter.toLowerCase())
-      );
     } else {
-      this.companiesDataFilter = this.companiesData.data.filter(
-        company =>
-          company.id.toString().includes(this.registerIdFilter.toString()) &&
-          company.nome
-            .toLowerCase()
-            .includes(this.registerNameFilter.toLowerCase())
+      const filterData = this.companiesData.data.filter(company =>
+        String(company[this.selectValueFilter.toLowerCase() as keyof ICompany])
+          .toLowerCase()
+          .includes(String(this.inputValueFilter).toLowerCase().trim())
       );
+      this.companiesDataFilter = filterData;
     }
     this.tableDataEmitter.emit(this.companiesDataFilter);
   }
@@ -235,31 +238,6 @@ export class TableComponent implements OnChanges, OnInit {
     this.productData = productData;
     this.isModalFormProductActive = true;
   }
-
-  closeModalFormCompany(): void {
-    this.isModalFormCompanyActive = false;
-  }
-
-  closeModalFormProduct(): void {
-    this.isModalFormCompanyActive = false;
-  }
-
-  /**
-   * closeModal
-   * Função que fecha o modal info.
-   * @param isFalse
-   */
-  closeModalInfo(isFalse: boolean): void {
-    this.isModalInfoActive = isFalse;
-  }
-  /**
-   * cancelModalConfirmation
-   * Método de fechar o modal confirmation
-   * @param isFalse boolean false que vem do componente modal
-   */
-  closeModalAsk(isFalse: boolean): void {
-    this.isModalAskActive = isFalse;
-  }
   /**
    * okModalConfirmation
    * Método que salva a ação solicitada.
@@ -269,7 +247,7 @@ export class TableComponent implements OnChanges, OnInit {
       case 'customers':
       case 'suppliers': {
         await this.delete(this.companyData.id);
-        this.closeModalAsk(false);
+        this.isModalAskActive = false;
         this.resetTable();
         break;
       }

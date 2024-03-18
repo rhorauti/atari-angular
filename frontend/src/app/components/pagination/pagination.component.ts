@@ -19,72 +19,71 @@ import { IPage } from './IPage';
 export class PaginationComponent implements OnChanges {
   @Input() tableData = [{}];
   @Input() isPaginationReset = false;
-  @Output() tableInitialIdx = new EventEmitter<number>();
-  @Output() tableLastIdx = new EventEmitter<number>();
+
+  public currentPage = 1;
+  public lastPage = 1;
+  public qtyRegisterPerPage = 8;
+
   public pageInfo: IPage = {
     currentPage: 1,
     lastPage: 1,
-    qtyRegisterPerPage: 9,
+    qtyRegisterPerPage: 8,
   };
+
   public tableIndexInfo = {
     tableInitialIdx: 0,
-    tableLastIdx: 9,
+    tableLastIdx: 8,
   };
 
+  public initalTableData = [{}];
+
+  // ngAfterViewInit(): void {
+  //   setTimeout(() => {
+  //     this.findLastPage();
+  //     this.findInitialIdx();
+  //     this.findLastIdx();
+  //   }, 100);
+  // }
+
   resetPagination(): void {
-    this.pageInfo = {
-      currentPage: 1,
-      lastPage: 1,
-      qtyRegisterPerPage: 9,
-    };
+    this.findLastPage();
+    this.isPaginationReset = false;
   }
-
-  findInitialIdx(): void {
-    if (this.pageInfo.currentPage && this.pageInfo.qtyRegisterPerPage) {
-      this.tableIndexInfo.tableInitialIdx =
-        this.pageInfo.currentPage == 1
-          ? 0
-          : (this.pageInfo.currentPage - 1) * this.pageInfo.qtyRegisterPerPage;
-      this.tableInitialIdx.emit(this.tableIndexInfo.tableInitialIdx);
-    } else {
-      this.tableInitialIdx.emit(this.tableIndexInfo.tableInitialIdx);
-    }
-  }
-
-  findLastIdx(): void {
-    if (this.pageInfo.currentPage && this.pageInfo.qtyRegisterPerPage) {
-      this.tableIndexInfo.tableLastIdx =
-        this.pageInfo.currentPage * this.pageInfo.qtyRegisterPerPage;
-      this.tableLastIdx.emit(this.tableIndexInfo.tableLastIdx);
-    } else {
-      this.tableLastIdx.emit(this.tableIndexInfo.tableLastIdx);
-    }
-  }
-
-  findLastPage(): void {
-    if (
-      this.tableData &&
-      this.pageInfo.qtyRegisterPerPage &&
-      this.pageInfo.currentPage
-    ) {
-      this.pageInfo.lastPage = Math.ceil(
-        this.tableData.length / this.pageInfo.qtyRegisterPerPage
-      );
-    } else {
-      this.pageInfo.lastPage = 1;
-    }
-  }
-
-  @Input() registerIdFilter = 0;
-  @Input() registerNameFilter = '';
 
   ngOnChanges(): void {
     if (this.isPaginationReset) {
       this.resetPagination();
+    } else if (this.tableData.length != 0) {
+      this.findLastPage();
+      this.findInitialIdx();
+      this.findLastIdx();
     }
-    this.findLastPage();
-    this.findInitialIdx();
-    this.findLastIdx();
+  }
+
+  @Output() tableInitialIdx = new EventEmitter<number>();
+
+  findInitialIdx(): void {
+    this.tableIndexInfo.tableInitialIdx =
+      this.pageInfo.currentPage == 1
+        ? 0
+        : (this.pageInfo.currentPage - 1) * this.pageInfo.qtyRegisterPerPage;
+    this.tableInitialIdx.emit(this.tableIndexInfo.tableInitialIdx);
+  }
+
+  @Output() tableLastIdx = new EventEmitter<number>();
+
+  findLastIdx(): void {
+    this.tableIndexInfo.tableLastIdx =
+      this.pageInfo.currentPage * this.pageInfo.qtyRegisterPerPage;
+    this.tableLastIdx.emit(this.tableIndexInfo.tableLastIdx);
+  }
+
+  findLastPage(): void {
+    if ((this.tableData && this.tableData.length > 0) ?? 0) {
+      this.pageInfo.lastPage = Math.ceil(
+        this.tableData.length / this.pageInfo.qtyRegisterPerPage
+      );
+    }
   }
 
   goBackPage(): void {
@@ -94,11 +93,9 @@ export class PaginationComponent implements OnChanges {
       } else {
         this.pageInfo.currentPage -= 1;
       }
-      this.findInitialIdx();
-      this.findLastIdx();
-    } else {
-      return;
     }
+    this.findInitialIdx();
+    this.findLastIdx();
   }
 
   goForwardPage(): void {
@@ -108,10 +105,8 @@ export class PaginationComponent implements OnChanges {
       } else {
         this.pageInfo.currentPage += 1;
       }
-      this.findInitialIdx();
-      this.findLastIdx();
-    } else {
-      return;
     }
+    this.findInitialIdx();
+    this.findLastIdx();
   }
 }

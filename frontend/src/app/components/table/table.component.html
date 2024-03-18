@@ -6,7 +6,15 @@
           @if (companiesDataFilter.length > 0) {
             @for (companyTableHeader of companyTableHeaders; track $index) {
               @if (companyTableHeader.isChecked) {
-                <th class="table-td">{{ companyTableHeader.name }}</th>
+                <th class="table-td">
+                  {{
+                    companyTableHeader.name == 'CNPJ'
+                      ? 'CPF/CNPJ'
+                      : companyTableHeader.name == 'Email'
+                        ? 'E-mail'
+                        : companyTableHeader.name
+                  }}
+                </th>
               }
             }
           } @else {
@@ -51,7 +59,9 @@
               <td class="table-td">{{ company.logradouro }}</td>
             }
             @if (companyTableHeaders[7].isChecked) {
-              <td class="table-td">{{ company.numero }}</td>
+              <td class="table-td">
+                {{ company.numero == 0 ? '' : companyData.numero }}
+              </td>
             }
             @if (companyTableHeaders[8].isChecked) {
               <td class="table-td">{{ company.complemento }}</td>
@@ -131,16 +141,18 @@
   [isEditForm]="isEditForm"
   [registerType]="registerType"
   (resetPageEmitter)="resetPage($event)"
-  (closeModalFormEmitter)="closeModalFormCompany()"></app-modal-form-company>
+  (closeModalFormEmitter)="
+    isModalFormCompanyActive = false
+  "></app-modal-form-company>
 <app-modal-ask
   [showModal]="isModalAskActive"
   [modalDescription]="modalAsk.modalDescription"
   [modalType]="modalAsk.modalType"
-  (cancelEmitter)="closeModalAsk($event)"
+  (cancelEmitter)="isModalAskActive = $event"
   (actionOkEmitter)="OnModalAskActionOk()"></app-modal-ask>
 <app-modal-info
   [showModal]="isModalInfoActive"
   [modalDescription]="modalInfo.modalDescription"
   [modalType]="modalInfo.modalType"
-  (closeModalEmitter)="closeModalInfo($event)"></app-modal-info>
+  (closeModalEmitter)="isModalInfoActive = $event"></app-modal-info>
 <app-loading [showLoading]="showLoading"></app-loading>

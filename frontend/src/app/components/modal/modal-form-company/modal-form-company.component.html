@@ -23,7 +23,7 @@
               #inputModal
               [inputValue]="this.companyData.nome"
               [showRightIcon]="false"
-              (emitInputValue)="getInputNomeValue($event)"
+              (emitInputValue)="companyData.nome = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -32,7 +32,7 @@
               #inputModal
               [inputValue]="this.companyData.email"
               [showRightIcon]="false"
-              (emitInputValue)="getInputEmailValue($event)"
+              (emitInputValue)="companyData.email = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -42,7 +42,7 @@
               [maskType]="'telefone'"
               [inputValue]="this.companyData.telefone"
               [showRightIcon]="false"
-              (emitInputValue)="getInputTelefoneValue($event)"
+              (emitInputValue)="companyData.telefone = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -61,7 +61,7 @@
               #inputModal
               [inputValue]="this.companyData.logradouro"
               [showRightIcon]="false"
-              (emitInputValue)="getInputLogradouroValue($event)"
+              (emitInputValue)="companyData.logradouro = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
         </div>
@@ -81,7 +81,7 @@
               #inputModal
               [inputValue]="this.companyData.complemento"
               [showRightIcon]="false"
-              (emitInputValue)="getInputComplementoValue($event)"
+              (emitInputValue)="companyData.complemento = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -90,7 +90,7 @@
               #inputModal
               [inputValue]="this.companyData.bairro"
               [showRightIcon]="false"
-              (emitInputValue)="getInputBairroValue($event)"
+              (emitInputValue)="companyData.bairro = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -99,7 +99,7 @@
               #inputModal
               [inputValue]="this.companyData.cidade"
               [showRightIcon]="false"
-              (emitInputValue)="getInputCidadeValue($event)"
+              (emitInputValue)="companyData.cidade = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -108,7 +108,7 @@
               #selectModal
               [selectType]="'estado'"
               [selectValue]="this.companyData.estado"
-              (selectValueEmitter)="getSelectEstadoValue($event)"></app-select>
+              (selectValueEmitter)="companyData.estado = $event"></app-select>
           </div>
         </div>
       </div>
@@ -120,7 +120,7 @@
             <app-input-form
               #inputModal
               [showRightIcon]="false"
-              (emitInputValue)="getInputNomeValue($event)"
+              (emitInputValue)="companyData.nome = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -128,7 +128,7 @@
             <app-input-form
               #inputModal
               [showRightIcon]="false"
-              (emitInputValue)="getInputEmailValue($event)"
+              (emitInputValue)="companyData.email = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -137,7 +137,7 @@
               #inputModal
               [maskType]="'telefone'"
               [showRightIcon]="false"
-              (emitInputValue)="getInputTelefoneValue($event)"
+              (emitInputValue)="companyData.telefone = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -146,7 +146,7 @@
               #inputModal
               [maskType]="'cpf'"
               [showRightIcon]="false"
-              (emitInputValue)="getInputCnpjValue($event)"
+              (emitInputValue)="companyData.cnpj = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -154,7 +154,7 @@
             <app-input-form
               #inputModal
               [showRightIcon]="false"
-              (emitInputValue)="getInputLogradouroValue($event)"
+              (emitInputValue)="companyData.logradouro = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
         </div>
@@ -173,7 +173,7 @@
             <app-input-form
               #inputModal
               [showRightIcon]="false"
-              (emitInputValue)="getInputComplementoValue($event)"
+              (emitInputValue)="companyData.complemento = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -181,7 +181,7 @@
             <app-input-form
               #inputModal
               [showRightIcon]="false"
-              (emitInputValue)="getInputBairroValue($event)"
+              (emitInputValue)="companyData.bairro = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -189,7 +189,7 @@
             <app-input-form
               #inputModal
               [showRightIcon]="false"
-              (emitInputValue)="getInputCidadeValue($event)"
+              (emitInputValue)="companyData.cidade = $event"
               [inputClass]="'text-black h-9'"></app-input-form>
           </div>
           <div class="gap-2">
@@ -197,7 +197,7 @@
             <app-select
               #selectModal
               [selectType]="'estado'"
-              (selectValueEmitter)="getSelectEstadoValue($event)"></app-select>
+              (selectValueEmitter)="companyData.estado = $event"></app-select>
           </div>
         </div>
       </div>
@@ -226,10 +226,10 @@
   [registerType]="registerType"
   (resetPageEmitter)="resetPage($event)"
   (closeModalFormEmitter)="closeModalFormAfterOk($event)"
-  (closeModalCheckEmitter)="closeModalCheck($event)">
+  (closeModalCheckEmitter)="isModalCheckActive = $event">
 </app-modal-check>
 <app-modal-info
   [showModal]="isModalInfoActive"
   [modalType]="modalInfo.modalType"
   [modalDescription]="modalInfo.modalDescription"
-  (closeModalEmitter)="closeModalInfo($event)"></app-modal-info>
+  (closeModalEmitter)="isModalInfoActive = $event"></app-modal-info>

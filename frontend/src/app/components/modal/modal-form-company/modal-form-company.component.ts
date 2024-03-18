@@ -96,15 +96,6 @@ export class ModalFormCompanyComponent {
     }
   }
 
-  /**
-   * closeModalCheck
-   * Função que fecha o modal check ao clicar no botão cancelar
-   * @param isFalse boolean false
-   */
-  closeModalCheck(isFalse: boolean): void {
-    this.isModalCheckActive = isFalse;
-  }
-
   @Output() closeModalFormEmitter = new EventEmitter<boolean>();
 
   /**
@@ -114,15 +105,6 @@ export class ModalFormCompanyComponent {
   closeModalForm(): void {
     this.clearForm();
     this.closeModalFormEmitter.emit(false);
-  }
-
-  /**
-   * closeModal
-   * Fecha o modal info.
-   * @param isFalse
-   */
-  closeModalInfo(isFalse: boolean): void {
-    this.isModalInfoActive = isFalse;
   }
 
   // Variável do modal info que é acionado quando o registro é feito com sucesso.
@@ -211,38 +193,7 @@ export class ModalFormCompanyComponent {
   getInputCadastroValue(cadastro: string): void {
     this.companyData.cadastro = new Date(cadastro);
   }
-  /**
-   * getInputNomeValue
-   * Função que pega o nome enviado pelo componente input e salva no objeto companyData do modal.
-   * @param nome nome da empresa
-   */
-  getInputNomeValue(nome: string): void {
-    this.companyData.nome = nome;
-  }
-  /**
-   * getInputEmailValue
-   * Função que pega o email enviado pelo componente input e salva no objeto companyData do modal.
-   * @param email email da empresa
-   */
-  getInputEmailValue(email: string): void {
-    this.companyData.email = email;
-  }
-  /**
-   * getInputTelefoneValue
-   * Função que pega o telefone enviado pelo componente input e salva no objeto companyData do modal.
-   * @param telefone telefone da empresa
-   */
-  getInputTelefoneValue(telefone: string): void {
-    this.companyData.telefone = telefone;
-  }
-  /**
-   * getInputLogradouroValue
-   * Função que pega o logradouro enviado pelo componente input e salva no objeto companyData do modal.
-   * @param logradouro logradouro da empresa
-   */
-  getInputLogradouroValue(logradouro: string): void {
-    this.companyData.logradouro = logradouro;
-  }
+
   /**
    * getInputCnpjValue
    * Função que pega o numero enviado pelo componente input e salva no objeto companyData do modal.
@@ -261,37 +212,5 @@ export class ModalFormCompanyComponent {
     if (this.companyData.cnpj.length > 14) {
       this.companyData.isCnpj = true;
     }
-  }
-  /**
-   * getInputComplementoValue
-   * Função que pega o complemento enviado pelo componente input e salva no objeto companyData do modal.
-   * @param complemento complemento da empresa
-   */
-  getInputComplementoValue(complemento: string): void {
-    this.companyData.complemento = complemento;
-  }
-  /**
-   * getInputBairroValue
-   * Função que pega o bairro enviado pelo componente input e salva no objeto companyData do modal.
-   * @param bairro bairro da empresa
-   */
-  getInputBairroValue(bairro: string): void {
-    this.companyData.bairro = bairro;
-  }
-  /**
-   * getInputCidadeValue
-   * Função que pega o cidade enviado pelo componente input e salva no objeto companyData do modal.
-   * @param cidade cidade da empresa
-   */
-  getInputCidadeValue(cidade: string): void {
-    this.companyData.cidade = cidade;
-  }
-  /**
-   * getSelectEstadoValue
-   * Função que pega o estado enviado pelo componente input e salva no objeto companyData do modal.
-   * @param estado estado da empresa
-   */
-  getSelectEstadoValue(estado: string): void {
-    this.companyData.estado = estado;
   }
 }
