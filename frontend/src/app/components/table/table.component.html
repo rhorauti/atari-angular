@@ -28,10 +28,7 @@
       </thead>
 
       <tbody class="divide-y divide-gray-500 border border-gray-500">
-        @for (
-          company of companiesDataFilter.slice(tableInitialIdx, tableLastIdx);
-          track $index
-        ) {
+        @for (company of companiesDataFilter; track $index) {
           <tr>
             @if (companyTableHeaders[0].isChecked) {
               <td class="table-td bg-black">

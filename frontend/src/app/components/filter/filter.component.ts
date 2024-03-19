@@ -48,7 +48,7 @@ export class FilterComponent implements OnInit {
   filterValues(): void {
     this.inputValueEmitter.emit(this.inputValue);
     this.selectValueEmitter.emit(this.selectValue);
-    this.isPaginationResetEmitter.emit();
+    // this.isPaginationResetEmitter.emit(true);
   }
 
   public selectValue = '';

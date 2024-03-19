@@ -6,6 +6,7 @@ import {
   OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   inject,
 } from '@angular/core';
 import { RegisterCompanyApi } from '../../core/api/http/register.api';
@@ -21,7 +22,6 @@ import {
 } from '../../core/api/interfaces/IRegister';
 import { IModal } from '../../core/api/interfaces/IModal';
 import { LoadingComponent } from '../loading/loading.component';
-import { PaginationComponent } from '../pagination/pagination.component';
 import { ModalInfoComponent } from '../modal/modal-info/modal-info.component';
 import { ModalAskComponent } from '../modal/modal-ask/modal-ask.component';
 import { ModalFormCompanyComponent } from '../modal/modal-form-company/modal-form-company.component';
@@ -46,18 +46,16 @@ export interface ICompanyTableHeaders {
     ModalAskComponent,
     ModalFormCompanyComponent,
   ],
-  providers: [RegisterCompanyApi, HttpRequestService, PaginationComponent],
+  providers: [RegisterCompanyApi, HttpRequestService],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
 export class TableComponent implements OnChanges, OnInit {
   private registerApi = inject(RegisterCompanyApi);
-  private paginationComponent = inject(PaginationComponent);
   public isModalInfoActive = false;
   public isModalAskActive = false;
-  @Input() tableInitialIdx =
-    this.paginationComponent.tableIndexInfo.tableInitialIdx;
-  @Input() tableLastIdx = this.paginationComponent.tableIndexInfo.tableLastIdx;
+  // @Input() tableInitialIdx: number;
+  // @Input() tableLastIdx: number;
   @Input() showLoading = false;
   @Output() tableDataEmitter = new EventEmitter<ICompany[] | IProduct[]>();
   @Input() companyTableHeaders: ICompanyTableHeaders[] = [];
@@ -124,13 +122,11 @@ export class TableComponent implements OnChanges, OnInit {
     switch (this.registerType) {
       case 'customers':
       case 'suppliers': {
-        this.tableDataEmitter.emit(this.companiesDataFilter);
         this.tableHeadersDataEmitter.emit(this.companyTableHeaders);
         break;
       }
       case 'supplier-products':
       case 'customer-products': {
-        this.tableDataEmitter.emit(this.productsData.data);
         this.tableHeadersDataEmitter.emit(this.productTableHeaders);
         break;
       }
@@ -156,6 +152,7 @@ export class TableComponent implements OnChanges, OnInit {
       case 'customers':
       case 'suppliers': {
         this.initialTableData = this.companiesData.data;
+        this.filterTable(this.currentPage, this.qtyRegisterPerPage);
       }
     }
   }
@@ -164,28 +161,107 @@ export class TableComponent implements OnChanges, OnInit {
   @Input() selectValueFilter = '';
   public companiesDataFilter: ICompany[] = [];
 
-  // verificar
-  filterTable(): void {
-    this.companiesDataFilter = this.initialTableData;
-    console.log(this.companiesDataFilter);
-    if (this.inputValueFilter && String(this.inputValueFilter).length == 0) {
-      this.companiesDataFilter = this.companiesData.data;
+  // filterTable(): void {
+  //   this.companiesDataFilter = this.initialTableData;
+  //   if (this.inputValueFilter && String(this.inputValueFilter).length == 0) {
+  //     this.companiesDataFilter = this.companiesData.data;
+  //   } else {
+  //     const filterData = this.companiesData.data.filter(company =>
+  //       String(company[this.selectValueFilter.toLowerCase() as keyof ICompany])
+  //         .toLowerCase()
+  //         .includes(String(this.inputValueFilter).toLowerCase().trim())
+  //     );
+  //     this.companiesDataFilter = filterData;
+  //   }
+  //   console.log(this.companiesDataFilter);
+  //   this.tableDataEmitter.emit(this.companiesDataFilter);
+  // }
+
+  public tableInitialIdx = 0;
+
+  findInitialIdx(currentPage: number, qtyRegisterPerPage: number): number {
+    if (currentPage == 1) {
+      return (this.tableInitialIdx = 0);
     } else {
-      const filterData = this.companiesData.data.filter(company =>
-        String(company[this.selectValueFilter.toLowerCase() as keyof ICompany])
-          .toLowerCase()
-          .includes(String(this.inputValueFilter).toLowerCase().trim())
-      );
-      this.companiesDataFilter = filterData;
+      return (this.tableInitialIdx = (currentPage - 1) * qtyRegisterPerPage);
     }
-    this.tableDataEmitter.emit(this.companiesDataFilter);
   }
 
-  async ngOnChanges(): Promise<void> {
+  public tableLastIdx = 8;
+
+  findLastIdx(currentPage: number, qtyRegisterPerPage: number): number {
+    return (this.tableLastIdx = currentPage * qtyRegisterPerPage);
+  }
+
+  public lastPage = 0;
+  @Output() lastPageEmitter = new EventEmitter<number>();
+
+  findLastPage(
+    tableData: Record<string, any>[],
+    qtyRegisterPerPage: number
+  ): number {
+    this.lastPage = Math.ceil(tableData.length / qtyRegisterPerPage);
+    this.lastPageEmitter.emit(this.lastPage);
+    return this.lastPage;
+  }
+
+  @Input() currentPage: number;
+  public qtyRegisterPerPage = 8;
+
+  // verificar
+  filterTable(currentPage: number, qtyRegisterPerPage: number): ICompany[] {
+    if (!this.inputValueFilter) {
+      console.log('entrando 1...');
+      this.currentPage = 1;
+      this.findLastPage(this.initialTableData, qtyRegisterPerPage);
+      console.log(
+        this.initialTableData.slice(this.tableInitialIdx, this.tableLastIdx)
+      );
+      return (this.companiesDataFilter = this.initialTableData.slice(
+        this.tableInitialIdx,
+        this.tableLastIdx
+      ));
+    } else {
+      console.log('entrando 2...');
+      const filterData = this.companiesData.data
+        .filter(company =>
+          String(
+            company[this.selectValueFilter.toLowerCase() as keyof ICompany]
+          )
+            .toLowerCase()
+            .includes(String(this.inputValueFilter).toLowerCase().trim())
+        )
+        .slice(this.tableInitialIdx, this.tableLastIdx);
+      console.log(this.currentPage);
+      this.currentPage = currentPage;
+      this.qtyRegisterPerPage = qtyRegisterPerPage;
+      this.findInitialIdx(currentPage, qtyRegisterPerPage);
+      this.findLastIdx(currentPage, qtyRegisterPerPage);
+      this.findLastPage(filterData, qtyRegisterPerPage);
+      console.log((this.companiesDataFilter = filterData));
+      return (this.companiesDataFilter = filterData);
+    }
+  }
+
+  @Output() currentPageEmitter = new EventEmitter<number>();
+
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    const currentValuePage = changes['currentPage']?.currentValue ?? 0;
+    const previousValuePage = changes['currentPage']?.previousValue ?? 0;
+    const currentValueInput = changes['inputValueFilter']?.currentValue ?? 0;
+    const previousValueInput = changes['inputValueFilter']?.previousValue ?? 0;
+    console.log(changes, currentValuePage, previousValuePage);
     if (this.tableUpdated) {
       await this.resetTable();
-    } else {
-      this.filterTable();
+    } else if (
+      currentValueInput != previousValueInput ||
+      currentValuePage != previousValuePage
+    ) {
+      if (currentValueInput != previousValueInput) {
+        this.currentPage = 1;
+        this.currentPageEmitter.emit(this.currentPage);
+      }
+      this.filterTable(this.currentPage, this.qtyRegisterPerPage);
     }
   }
 

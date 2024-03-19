@@ -33,7 +33,6 @@ import { ModalFormCompanyComponent } from '../../components/modal/modal-form-com
   styleUrl: './customers.component.scss',
 })
 export class CustomersComponent {
-  constructor(private paginationComponent: PaginationComponent) {}
   public tableData = [{}];
   public selectValue = '';
 
@@ -56,13 +55,15 @@ export class CustomersComponent {
   public inputValue: number | string;
   public isModalNewCompanyActive = false;
   public tableUpdated = false;
-  public isPaginationReset = false;
+  public isCurrentPageReset = false;
 
   public tableInitialIdx: number;
   public tableLastIdx: number;
+  public currentPagePagination: number;
+  public currentPageTable = 1;
+  public lastPage: number;
 
   resetPage(isTrue: boolean): void {
     this.tableUpdated = isTrue;
-    this.isPaginationReset = isTrue;
   }
 }
