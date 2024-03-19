@@ -59,8 +59,7 @@ export class CustomersComponent {
 
   public tableInitialIdx: number;
   public tableLastIdx: number;
-  public currentPagePagination: number;
-  public currentPageTable = 1;
+  public currentPage: number;
   public lastPage: number;
 
   resetPage(isTrue: boolean): void {

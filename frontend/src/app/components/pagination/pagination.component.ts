@@ -17,16 +17,17 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './pagination.component.scss',
 })
 export class PaginationComponent implements OnChanges {
-  @Input() currentPage: number;
+  public currentPage = 1;
   @Input() lastPage: number;
+  @Input() inputValueFilter: number | string;
 
   @Output() currentPageEmitter = new EventEmitter<number>();
 
-  // verificar
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.currentPage);
-    console.log(changes);
-    if (changes['currentPage']?.currentValue == 1) {
+    if (
+      changes['inputValueFilter']?.currentValue !=
+      changes['inputValueFilter']?.previousValue
+    ) {
       this.currentPage = 1;
     }
   }

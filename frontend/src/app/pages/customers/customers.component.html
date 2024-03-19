@@ -19,8 +19,7 @@
       [inputValueFilter]="inputValue"
       [selectValueFilter]="selectValue"
       [companyTableHeaders]="tableHeadersData"
-      [currentPage]="currentPagePagination"
-      (currentPageEmitter)="currentPageTable = $event"
+      [currentPage]="currentPage"
       (lastPageEmitter)="lastPage = $event"
       (tableHeadersDataEmitter)="tableHeadersData = $event"
       (tableUpdatedEmitter)="tableUpdated = $event"></app-table>
@@ -28,8 +27,8 @@
   <footer class="my-4">
     <app-pagination
       [lastPage]="lastPage"
-      [currentPage]="currentPageTable"
-      (currentPageEmitter)="currentPagePagination = $event"></app-pagination>
+      [inputValueFilter]="inputValue"
+      (currentPageEmitter)="currentPage = $event"></app-pagination>
   </footer>
 </div>
 <app-modal-form-company

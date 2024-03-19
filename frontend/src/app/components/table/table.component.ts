@@ -152,7 +152,7 @@ export class TableComponent implements OnChanges, OnInit {
       case 'customers':
       case 'suppliers': {
         this.initialTableData = this.companiesData.data;
-        this.filterTable(this.currentPage, this.qtyRegisterPerPage);
+        this.filterTable();
       }
     }
   }
@@ -179,28 +179,26 @@ export class TableComponent implements OnChanges, OnInit {
 
   public tableInitialIdx = 0;
 
-  findInitialIdx(currentPage: number, qtyRegisterPerPage: number): number {
-    if (currentPage == 1) {
+  findInitialIdx(): number {
+    if (this.currentPage == 1) {
       return (this.tableInitialIdx = 0);
     } else {
-      return (this.tableInitialIdx = (currentPage - 1) * qtyRegisterPerPage);
+      return (this.tableInitialIdx =
+        (this.currentPage - 1) * this.qtyRegisterPerPage);
     }
   }
 
   public tableLastIdx = 8;
 
-  findLastIdx(currentPage: number, qtyRegisterPerPage: number): number {
-    return (this.tableLastIdx = currentPage * qtyRegisterPerPage);
+  findLastIdx(): number {
+    return (this.tableLastIdx = this.currentPage * this.qtyRegisterPerPage);
   }
 
   public lastPage = 0;
   @Output() lastPageEmitter = new EventEmitter<number>();
 
-  findLastPage(
-    tableData: Record<string, any>[],
-    qtyRegisterPerPage: number
-  ): number {
-    this.lastPage = Math.ceil(tableData.length / qtyRegisterPerPage);
+  findLastPage(tableData: Record<string, any>[]): number {
+    this.lastPage = Math.ceil(tableData.length / this.qtyRegisterPerPage);
     this.lastPageEmitter.emit(this.lastPage);
     return this.lastPage;
   }
@@ -209,20 +207,16 @@ export class TableComponent implements OnChanges, OnInit {
   public qtyRegisterPerPage = 8;
 
   // verificar
-  filterTable(currentPage: number, qtyRegisterPerPage: number): ICompany[] {
+  filterTable(): ICompany[] {
+    console.log(this.currentPage);
     if (!this.inputValueFilter) {
-      console.log('entrando 1...');
       this.currentPage = 1;
-      this.findLastPage(this.initialTableData, qtyRegisterPerPage);
-      console.log(
-        this.initialTableData.slice(this.tableInitialIdx, this.tableLastIdx)
-      );
+      this.findLastPage(this.initialTableData);
       return (this.companiesDataFilter = this.initialTableData.slice(
         this.tableInitialIdx,
         this.tableLastIdx
       ));
     } else {
-      console.log('entrando 2...');
       const filterData = this.companiesData.data
         .filter(company =>
           String(
@@ -233,24 +227,18 @@ export class TableComponent implements OnChanges, OnInit {
         )
         .slice(this.tableInitialIdx, this.tableLastIdx);
       console.log(this.currentPage);
-      this.currentPage = currentPage;
-      this.qtyRegisterPerPage = qtyRegisterPerPage;
-      this.findInitialIdx(currentPage, qtyRegisterPerPage);
-      this.findLastIdx(currentPage, qtyRegisterPerPage);
-      this.findLastPage(filterData, qtyRegisterPerPage);
-      console.log((this.companiesDataFilter = filterData));
+      this.findInitialIdx();
+      this.findLastIdx();
+      this.findLastPage(filterData);
       return (this.companiesDataFilter = filterData);
     }
   }
-
-  @Output() currentPageEmitter = new EventEmitter<number>();
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
     const currentValuePage = changes['currentPage']?.currentValue ?? 0;
     const previousValuePage = changes['currentPage']?.previousValue ?? 0;
     const currentValueInput = changes['inputValueFilter']?.currentValue ?? 0;
     const previousValueInput = changes['inputValueFilter']?.previousValue ?? 0;
-    console.log(changes, currentValuePage, previousValuePage);
     if (this.tableUpdated) {
       await this.resetTable();
     } else if (
@@ -259,9 +247,10 @@ export class TableComponent implements OnChanges, OnInit {
     ) {
       if (currentValueInput != previousValueInput) {
         this.currentPage = 1;
-        this.currentPageEmitter.emit(this.currentPage);
       }
-      this.filterTable(this.currentPage, this.qtyRegisterPerPage);
+      this.findInitialIdx();
+      this.findLastIdx();
+      this.filterTable();
     }
   }
 
