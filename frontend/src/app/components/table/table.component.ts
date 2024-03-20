@@ -118,36 +118,27 @@ export class TableComponent implements OnChanges, OnInit {
 
   @Output() tableHeadersDataEmitter = new EventEmitter();
 
-  emitTableData(): void {
-    switch (this.registerType) {
-      case 'customers':
-      case 'suppliers': {
-        this.tableHeadersDataEmitter.emit(this.companyTableHeaders);
-        break;
-      }
-      case 'supplier-products':
-      case 'customer-products': {
-        this.tableHeadersDataEmitter.emit(this.productTableHeaders);
-        break;
-      }
-      default:
-        'customers';
-    }
-  }
-
-  @Input() tableUpdated = false;
-  @Output() tableUpdatedEmitter = new EventEmitter<boolean>();
-
-  async resetTable(): Promise<void> {
-    await this.getList();
-    this.emitTableData();
-    this.tableUpdatedEmitter.emit(false);
-  }
+  // emitTableHeadersData(): void {
+  //   switch (this.registerType) {
+  //     case 'customers':
+  //     case 'suppliers': {
+  //       this.tableHeadersDataEmitter.emit(this.companyTableHeaders);
+  //       break;
+  //     }
+  //     case 'supplier-products':
+  //     case 'customer-products': {
+  //       this.tableHeadersDataEmitter.emit(this.productTableHeaders);
+  //       break;
+  //     }
+  //     default:
+  //       'customers';
+  //   }
+  // }
 
   public initialTableData: ICompany[] = [];
 
   async ngOnInit(): Promise<void> {
-    await this.resetTable();
+    await this.getList();
     switch (this.registerType) {
       case 'customers':
       case 'suppliers': {
@@ -157,27 +148,9 @@ export class TableComponent implements OnChanges, OnInit {
     }
   }
 
-  @Input() inputValueFilter: string | number;
-  @Input() selectValueFilter = '';
-  public companiesDataFilter: ICompany[] = [];
-
-  // filterTable(): void {
-  //   this.companiesDataFilter = this.initialTableData;
-  //   if (this.inputValueFilter && String(this.inputValueFilter).length == 0) {
-  //     this.companiesDataFilter = this.companiesData.data;
-  //   } else {
-  //     const filterData = this.companiesData.data.filter(company =>
-  //       String(company[this.selectValueFilter.toLowerCase() as keyof ICompany])
-  //         .toLowerCase()
-  //         .includes(String(this.inputValueFilter).toLowerCase().trim())
-  //     );
-  //     this.companiesDataFilter = filterData;
-  //   }
-  //   console.log(this.companiesDataFilter);
-  //   this.tableDataEmitter.emit(this.companiesDataFilter);
-  // }
-
   public tableInitialIdx = 0;
+  public tableLastIdx = 8;
+  public qtyRegisterPerPage = 8;
 
   findInitialIdx(): number {
     if (this.currentPage == 1) {
@@ -188,51 +161,53 @@ export class TableComponent implements OnChanges, OnInit {
     }
   }
 
-  public tableLastIdx = 8;
-
-  findLastIdx(): number {
-    return (this.tableLastIdx = this.currentPage * this.qtyRegisterPerPage);
+  findLastIdx(): void {
+    this.tableLastIdx = this.currentPage * this.qtyRegisterPerPage;
   }
 
   public lastPage = 0;
   @Output() lastPageEmitter = new EventEmitter<number>();
 
-  findLastPage(tableData: Record<string, any>[]): number {
+  findLastPage(tableData: Record<string, any>[]): void {
     this.lastPage = Math.ceil(tableData.length / this.qtyRegisterPerPage);
     this.lastPageEmitter.emit(this.lastPage);
-    return this.lastPage;
   }
 
   @Input() currentPage: number;
-  public qtyRegisterPerPage = 8;
+  @Input() inputValueFilter: string | number;
+  @Input() selectValueFilter = '';
 
-  // verificar
-  filterTable(): ICompany[] {
-    console.log(this.currentPage);
+  public companiesDataFilter: ICompany[] = [];
+
+  filterTable(): void {
     if (!this.inputValueFilter) {
-      this.currentPage = 1;
       this.findLastPage(this.initialTableData);
-      return (this.companiesDataFilter = this.initialTableData.slice(
+      this.companiesDataFilter = this.initialTableData.slice(
         this.tableInitialIdx,
         this.tableLastIdx
-      ));
+      );
     } else {
-      const filterData = this.companiesData.data
-        .filter(company =>
-          String(
-            company[this.selectValueFilter.toLowerCase() as keyof ICompany]
-          )
-            .toLowerCase()
-            .includes(String(this.inputValueFilter).toLowerCase().trim())
-        )
-        .slice(this.tableInitialIdx, this.tableLastIdx);
-      console.log(this.currentPage);
-      this.findInitialIdx();
-      this.findLastIdx();
+      const filterData = this.companiesData.data.filter(company =>
+        String(company[this.selectValueFilter.toLowerCase() as keyof ICompany])
+          .toLowerCase()
+          .includes(String(this.inputValueFilter).toLowerCase().trim())
+      );
       this.findLastPage(filterData);
-      return (this.companiesDataFilter = filterData);
+      this.companiesDataFilter = filterData.slice(
+        this.tableInitialIdx,
+        this.tableLastIdx
+      );
     }
   }
+
+  @Output() tableUpdatedEmitter = new EventEmitter<boolean>();
+
+  async resetTable(): Promise<void> {
+    await this.getList();
+    this.filterTable();
+  }
+
+  @Input() tableUpdated = false;
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
     const currentValuePage = changes['currentPage']?.currentValue ?? 0;
@@ -240,26 +215,41 @@ export class TableComponent implements OnChanges, OnInit {
     const currentValueInput = changes['inputValueFilter']?.currentValue ?? 0;
     const previousValueInput = changes['inputValueFilter']?.previousValue ?? 0;
     if (this.tableUpdated) {
-      await this.resetTable();
-    } else if (
-      currentValueInput != previousValueInput ||
-      currentValuePage != previousValuePage
-    ) {
-      if (currentValueInput != previousValueInput) {
-        this.currentPage = 1;
-      }
-      this.findInitialIdx();
-      this.findLastIdx();
+      await this.getList();
+      this.tableInitialIdx = 0;
+      this.tableLastIdx = 8;
       this.filterTable();
+      this.tableUpdatedEmitter.emit(false);
+    } else {
+      if (
+        currentValueInput != previousValueInput ||
+        currentValuePage != previousValuePage
+      ) {
+        if (currentValueInput != previousValueInput) {
+          this.currentPage = 1;
+        }
+        this.findInitialIdx();
+        this.findLastIdx();
+        this.filterTable();
+      }
     }
   }
 
-  @Output() resetPaginationEmitter = new EventEmitter<boolean>();
-
-  resetPage(isTrue: boolean): void {
+  resetPage(): void {
     this.isEditForm = false;
     this.resetTable();
-    this.resetPaginationEmitter.emit(isTrue);
+  }
+
+  async OnModalAskActionOk(): Promise<void> {
+    switch (this.registerType) {
+      case 'customers':
+      case 'suppliers': {
+        await this.delete(this.companyData.id);
+        this.isModalAskActive = false;
+        this.resetTable();
+        break;
+      }
+    }
   }
 
   showModalAskToDeleteCompany(company: ICompany): void {
@@ -303,21 +293,6 @@ export class TableComponent implements OnChanges, OnInit {
     this.productData = productData;
     this.isModalFormProductActive = true;
   }
-  /**
-   * okModalConfirmation
-   * Método que salva a ação solicitada.
-   */
-  async OnModalAskActionOk(): Promise<void> {
-    switch (this.registerType) {
-      case 'customers':
-      case 'suppliers': {
-        await this.delete(this.companyData.id);
-        this.isModalAskActive = false;
-        this.resetTable();
-        break;
-      }
-    }
-  }
 
   public modalInfo: IModal = {
     modalType: '',
@@ -359,6 +334,7 @@ export class TableComponent implements OnChanges, OnInit {
           const customersData =
             await this.registerApi.getRegisterCompanyList('customers');
           this.companiesData.data = customersData.data;
+          this.initialTableData = this.companiesData.data;
           this.companiesDataFilter = this.companiesData.data;
           break;
         }
@@ -366,6 +342,7 @@ export class TableComponent implements OnChanges, OnInit {
           const suppliersData =
             await this.registerApi.getRegisterCompanyList('suppliers');
           this.companiesData.data = suppliersData.data;
+          this.initialTableData = this.companiesData.data;
           this.companiesDataFilter = this.companiesData.data;
           break;
         }

@@ -33,7 +33,6 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './suppliers.component.scss',
 })
 export class SuppliersComponent {
-  constructor(private paginationComponent: PaginationComponent) {}
   public tableData = [{}];
   public selectValue = '';
 
@@ -56,10 +55,10 @@ export class SuppliersComponent {
   public inputValue: number | string;
   public isModalNewCompanyActive = false;
   public tableUpdated = false;
-  public isPaginationReset = false;
+  public isCurrentPageReset = false;
 
-  resetPage(isTrue: boolean): void {
-    this.tableUpdated = isTrue;
-    this.isPaginationReset = isTrue;
-  }
+  public tableInitialIdx: number;
+  public tableLastIdx: number;
+  public currentPage: number;
+  public lastPage: number;
 }

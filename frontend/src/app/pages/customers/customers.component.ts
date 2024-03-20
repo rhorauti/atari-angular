@@ -61,8 +61,4 @@ export class CustomersComponent {
   public tableLastIdx: number;
   public currentPage: number;
   public lastPage: number;
-
-  resetPage(isTrue: boolean): void {
-    this.tableUpdated = isTrue;
-  }
 }

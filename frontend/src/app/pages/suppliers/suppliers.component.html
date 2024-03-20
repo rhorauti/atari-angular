@@ -9,8 +9,7 @@
       (tableHeaderDataEmitter)="tableHeadersData = $event"
       (showModalNewRegisterEmitter)="isModalNewCompanyActive = $event"
       (inputValueEmitter)="inputValue = $event"
-      (selectValueEmitter)="selectValue = $event"
-      (isPaginationResetEmitter)="isPaginationReset = true"></app-filter>
+      (selectValueEmitter)="selectValue = $event"></app-filter>
   </section>
   <section>
     <app-table
@@ -20,19 +19,23 @@
       [inputValueFilter]="inputValue"
       [selectValueFilter]="selectValue"
       [companyTableHeaders]="tableHeadersData"
-      (resetPaginationEmitter)="isPaginationReset = $event"
-      (tableHeadersDataEmitter)="tableHeadersData = $event"
+      [currentPage]="currentPage"
+      (lastPageEmitter)="lastPage = $event"
       (tableUpdatedEmitter)="tableUpdated = $event"
-      (tableDataEmitter)="tableData = $event"></app-table>
+      (tableHeadersDataEmitter)="tableHeadersData = $event"></app-table>
   </section>
   <footer class="my-4">
-    <!-- <app-pagination [tableData]="tableData"></app-pagination> -->
+    <app-pagination
+      [lastPage]="lastPage"
+      [tableUpdated]="tableUpdated"
+      [inputValueFilter]="inputValue"
+      (currentPageEmitter)="currentPage = $event"></app-pagination>
   </footer>
 </div>
 <app-modal-form-company
-  [registerType]="'customers'"
+  [registerType]="'suppliers'"
   [isModalFormCompanyActive]="isModalNewCompanyActive"
-  (resetPageEmitter)="resetPage($event)"
+  (resetPageEmitter)="tableUpdated = $event"
   (closeModalFormEmitter)="
     isModalNewCompanyActive = $event
   "></app-modal-form-company>

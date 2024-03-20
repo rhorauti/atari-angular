@@ -21,12 +21,13 @@
       [companyTableHeaders]="tableHeadersData"
       [currentPage]="currentPage"
       (lastPageEmitter)="lastPage = $event"
-      (tableHeadersDataEmitter)="tableHeadersData = $event"
-      (tableUpdatedEmitter)="tableUpdated = $event"></app-table>
+      (tableUpdatedEmitter)="tableUpdated = $event"
+      (tableHeadersDataEmitter)="tableHeadersData = $event"></app-table>
   </section>
   <footer class="my-4">
     <app-pagination
       [lastPage]="lastPage"
+      [tableUpdated]="tableUpdated"
       [inputValueFilter]="inputValue"
       (currentPageEmitter)="currentPage = $event"></app-pagination>
   </footer>
@@ -34,7 +35,7 @@
 <app-modal-form-company
   [registerType]="'customers'"
   [isModalFormCompanyActive]="isModalNewCompanyActive"
-  (resetPageEmitter)="resetPage($event)"
+  (resetPageEmitter)="tableUpdated = $event"
   (closeModalFormEmitter)="
     isModalNewCompanyActive = $event
   "></app-modal-form-company>

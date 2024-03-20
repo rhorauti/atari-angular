@@ -114,7 +114,6 @@ export class ModalFormCompanyComponent {
     modalDescription: '',
   };
   @Input() isModalFormCompanyActive = false;
-  @Output() updateCompanyListEmitter = new EventEmitter<boolean>();
 
   closeModalFormAfterOk(isFalse: boolean): void {
     this.isModalInfoActive = isFalse;
@@ -124,8 +123,8 @@ export class ModalFormCompanyComponent {
 
   @Output() resetPageEmitter = new EventEmitter<boolean>();
 
-  resetPage(isTrue: boolean): void {
-    this.resetPageEmitter.emit(isTrue);
+  resetPage(): void {
+    this.resetPageEmitter.emit(true);
   }
 
   /**

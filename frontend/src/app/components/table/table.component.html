@@ -57,7 +57,7 @@
             }
             @if (companyTableHeaders[7].isChecked) {
               <td class="table-td">
-                {{ company.numero == 0 ? '' : companyData.numero }}
+                {{ company.numero == 0 ? '' : company.numero }}
               </td>
             }
             @if (companyTableHeaders[8].isChecked) {
@@ -137,7 +137,7 @@
   [companiesData]="companiesData.data"
   [isEditForm]="isEditForm"
   [registerType]="registerType"
-  (resetPageEmitter)="resetPage($event)"
+  (resetPageEmitter)="resetPage()"
   (closeModalFormEmitter)="
     isModalFormCompanyActive = false
   "></app-modal-form-company>

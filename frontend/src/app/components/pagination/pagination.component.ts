@@ -20,13 +20,16 @@ export class PaginationComponent implements OnChanges {
   public currentPage = 1;
   @Input() lastPage: number;
   @Input() inputValueFilter: number | string;
+  @Input() tableUpdated: boolean;
 
   @Output() currentPageEmitter = new EventEmitter<number>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
       changes['inputValueFilter']?.currentValue !=
-      changes['inputValueFilter']?.previousValue
+        changes['inputValueFilter']?.previousValue ||
+      changes['tableUpdated']?.currentValue !=
+        changes['tableUpdated']?.previousValue
     ) {
       this.currentPage = 1;
     }

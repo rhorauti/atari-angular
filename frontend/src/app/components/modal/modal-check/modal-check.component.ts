@@ -200,7 +200,7 @@ export class ModalCheckComponent implements OnChanges {
       }
       this.isModalResultOk = true;
       this.isModalInfoActive = true;
-      this.resetPageEmitter.emit(true);
+      this.resetPageEmitter.emit();
     } catch (e: any) {
       this.handleFailureModal(e.error.message);
       this.isModalInfoActive = true;
