@@ -1,5 +1,6 @@
 import { AuthController } from '@src/controllers/auth.controller'
 import { CustomerController } from '@src/controllers/customer.controller'
+import { MyCompanyController } from '@src/controllers/myCompany.controller'
 import { SupplierController } from '@src/controllers/supplier.controller'
 import { Router } from 'express'
 import { container } from 'tsyringe'
@@ -8,6 +9,7 @@ const router = Router()
 const authController = container.resolve(AuthController)
 const customerController = container.resolve(CustomerController)
 const supplierController = container.resolve(SupplierController)
+const myCompanyController = container.resolve(MyCompanyController)
 
 router.post('/login', (request, response) => {
   authController.loginUser(request, response)
@@ -59,6 +61,22 @@ router.put('/suppliers/:id', async (request, response) => {
 
 router.delete('/suppliers/:id', (request, response) => {
   supplierController.deleteSupplier(request, response)
+})
+
+router.get('/mycompany', (request, response) => {
+  myCompanyController.getMyCompaniesList(response)
+})
+
+router.post('/mycompany', (request, response) => {
+  myCompanyController.addNewCompany(request, response)
+})
+
+router.put('/mycompany/:id', async (request, response) => {
+  myCompanyController.updateCompany(request, response)
+})
+
+router.delete('/mycompany/:id', (request, response) => {
+  myCompanyController.deleteCompany(request, response)
 })
 
 export { router }

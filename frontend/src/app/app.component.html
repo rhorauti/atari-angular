@@ -1,22 +1,8 @@
-<div class="flex h-screen w-full overflow-hidden">
-  @if (isSideBarActive) {
-    <div class="'w-[10%]'">
-      <app-menu
-        [isSideBarActive]="isSideBarActive"
-        (isSideBarActiveEmitter)="isSideBarActive = false"></app-menu>
-    </div>
-  } @else {
-    <div class="flex justify-center w-[3%] bg-gray-900 py-4 px-2">
-      <mat-icon
-        (click)="isSideBarActive = true"
-        class="text-white bg-gray-800 rounded-full cursor-pointer"
-        >keyboard_arrow_right</mat-icon
-      >
-    </div>
-  }
-  <div
-    class="mx-3 overflow-auto"
-    [ngClass]="isSideBarActive ? 'w-[90%]' : 'w-[97%]'">
+<div class="overflow-hidden adjust-menu">
+  <div>
+    <app-navbar></app-navbar>
+  </div>
+  <div class="mx-3 overflow-auto adjust-router">
     <router-outlet></router-outlet>
   </div>
 </div>

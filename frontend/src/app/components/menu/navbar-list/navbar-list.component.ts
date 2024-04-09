@@ -25,18 +25,15 @@ interface ILink {
 }
 
 @Component({
-  selector: 'app-menu',
+  selector: 'app-navbar-list',
   standalone: true,
   imports: [CommonModule, MatIconModule, RouterModule],
-  templateUrl: './menu.component.html',
-  styleUrl: './menu.component.scss',
+  templateUrl: './navbar-list.component.html',
+  styleUrl: './navbar-list.component.scss',
 })
-export class MenuComponent {
+export class NavbarListComponent {
   @ViewChildren('linkItem') linksItem!: QueryList<ElementRef>;
   @ViewChildren('linkIcon') linkIcon!: QueryList<ElementRef>;
-
-  @Input() isSideBarActive = false;
-  @Output() isSideBarActiveEmitter = new EventEmitter<boolean>();
 
   public links: ILink[] = [
     {
@@ -102,10 +99,7 @@ export class MenuComponent {
     },
   ];
 
-  hideSideBar(): void {
-    this.isSideBarActiveEmitter.emit(false);
-  }
-
+  @Input() isMenuListMobileActive: boolean;
   public isColapsed = false;
 
   toogleLink(link: ILink): void {
@@ -125,9 +119,6 @@ export class MenuComponent {
       this.linkIcon.get(link.idLink).nativeElement.firstChild.innerHTML =
         'keyboard_arrow_down';
     }
-
-    // this.linkIcon.get(link.idLink).nativeElement.innerHTML =
-    //   'keyboard_arrow_up';
   }
 
   clearSubLinkSelection(): void {
@@ -136,8 +127,11 @@ export class MenuComponent {
     );
   }
 
+  @Output() closeMenuListEmitter = new EventEmitter<boolean>();
+
   selectSubLink(sublink: ISublink): void {
     this.clearSubLinkSelection();
     sublink.isSelected = true;
+    this.closeMenuListEmitter.emit();
   }
 }

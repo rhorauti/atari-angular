@@ -12,7 +12,7 @@ import { ModalInfoComponent } from '../../../components/modal/modal-info/modal-i
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { Router } from '@angular/router';
 import { IModal } from '../../../core/api/interfaces/IModal';
-import { MenuComponent } from '../../../components/menu/menu.component';
+import { NavbarComponent } from '../../../components/menu/navbar/navbar.component';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +35,7 @@ export class LoginComponent {
   private authApi = inject(AuthApi);
   private router = inject(Router);
 
-  @ViewChild(MenuComponent) menuComponent?: MenuComponent;
+  @ViewChild(NavbarComponent) menuComponent?: NavbarComponent;
 
   loginData: IRequestlogin = {
     email: '',

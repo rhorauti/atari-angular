@@ -6,7 +6,7 @@ import { ModalInfoComponent } from '../../../components/modal/modal-info/modal-i
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
-import { InputValidationComponent } from '../../../components/input-validation/input-validation.component';
+import { InputValidationComponent } from '../../../components/input/input-validation/input-validation.component';
 import { AuthApi } from '../../../core/api/http/auth.api';
 import { HttpRequestService } from '../../../core/api/http-request.service';
 import {

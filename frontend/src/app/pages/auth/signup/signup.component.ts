@@ -10,7 +10,7 @@ import { AuthApi } from '../../../core/api/http/auth.api';
 import { HttpRequestService } from '../../../core/api/http-request.service';
 import { Router } from '@angular/router';
 import { IModal } from '../../../core/api/interfaces/IModal';
-import { InputValidationComponent } from '../../../components/input-validation/input-validation.component';
+import { InputValidationComponent } from '../../../components/input/input-validation/input-validation.component';
 import {
   IFormValidation,
   IRequestSignUp,
