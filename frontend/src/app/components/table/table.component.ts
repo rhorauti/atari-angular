@@ -149,8 +149,8 @@ export class TableComponent implements OnChanges, OnInit {
   }
 
   public tableInitialIdx = 0;
-  public tableLastIdx = 8;
-  public qtyRegisterPerPage = 8;
+  public tableLastIdx = 15;
+  public qtyRegisterPerPage = 15;
 
   findInitialIdx(): number {
     if (this.currentPage == 1) {
@@ -217,7 +217,6 @@ export class TableComponent implements OnChanges, OnInit {
     if (this.tableUpdated) {
       await this.getList();
       this.tableInitialIdx = 0;
-      this.tableLastIdx = 8;
       this.filterTable();
       this.tableUpdatedEmitter.emit(false);
     } else {

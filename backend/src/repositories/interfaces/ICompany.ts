@@ -1,26 +1,26 @@
 export interface ICompanyDTO {
-  id: number
-  cadastro: string
-  nome: string
-  email: string
-  telefone: string
-  isCnpj: boolean
-  cnpj: string
-  logradouro: string
-  numero: number
-  complemento: string
-  bairro: string
-  cidade: string
-  estado: string
+  id: number;
+  cadastro: string;
+  nome: string;
+  email: string;
+  telefone: string;
+  isCnpj: boolean;
+  cnpj: string;
+  logradouro: string;
+  numero: number;
+  complemento: string;
+  bairro: string;
+  cidade: string;
+  estado: string;
 }
 
 export interface ICompanyDTOExtended extends ICompanyDTO {
-  id: number
+  id: number;
 }
 
 export interface IResponseCompany {
-  date: string
-  status: boolean
-  message: string
-  data: ICompanyDTO[]
+  date: string;
+  status: boolean;
+  message: string;
+  data: ICompanyDTO[];
 }

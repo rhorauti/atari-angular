@@ -1,9 +1,9 @@
-import nodemailer from 'nodemailer'
-import { Users } from '../entities/users'
-import jwt from 'jsonwebtoken'
+import nodemailer from 'nodemailer';
+import { Users } from '../entities/users';
+import jwt from 'jsonwebtoken';
 
 export class EmailSender {
-  private transporter: nodemailer.Transporter
+  private transporter: nodemailer.Transporter;
 
   constructor() {
     this.transporter = nodemailer.createTransport({
@@ -17,7 +17,7 @@ export class EmailSender {
       tls: {
         rejectUnauthorized: false,
       },
-    })
+    });
   }
 
   async sendEmailConfirmationSignUp(user: Users): Promise<void> {
@@ -25,7 +25,7 @@ export class EmailSender {
       { email: user.email },
       process.env.JWT_SECRET_KEY,
       { algorithm: 'HS256', expiresIn: process.env.JWT_EXPIRES_IN },
-    )
+    );
     try {
       await this.transporter.sendMail({
         from: process.env.EMAIL_USER,
@@ -39,9 +39,9 @@ export class EmailSender {
         <p>A Equipe ${process.env.COMPANY}</p>
         `,
         text: `Olá ${user.name}, Para confirmar seu cadastro, clique no link abaixo:`,
-      })
+      });
     } catch (error) {
-      throw Error('Erro interno do servidor!')
+      throw Error('Erro interno do servidor!');
     }
   }
 
@@ -50,7 +50,7 @@ export class EmailSender {
       { email: user.email },
       process.env.JWT_SECRET_KEY,
       { expiresIn: process.env.JWT_EXPIRES_IN },
-    )
+    );
     try {
       await this.transporter.sendMail({
         from: process.env.EMAIL_USER,
@@ -65,9 +65,9 @@ export class EmailSender {
         <p>A Equipe ${process.env.COMPANY}</p>
         `,
         text: 'Olá, Para mudar sua senha, clique no link abaixo:',
-      })
+      });
     } catch (error) {
-      throw Error('Erro interno do servidor!')
+      throw Error('Erro interno do servidor!');
     }
   }
 }

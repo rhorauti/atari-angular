@@ -1,40 +1,40 @@
-import { Exclude } from 'class-transformer'
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   Timestamp,
-} from 'typeorm'
+} from 'typeorm';
 
 @Entity('Users')
 export class Users {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column({ type: 'varchar', length: 100 })
-  name: string
+  name: string;
 
   @Column({ type: 'varchar', length: 256, unique: true })
-  email: string
+  email: string;
 
   @Column({ type: 'varchar', length: 256 })
   @Exclude()
-  password: string
+  password: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   @Exclude()
-  createdAt: Timestamp
+  createdAt: Timestamp;
 
   @Column()
   @Exclude()
-  accessLevel: number
+  accessLevel: number;
 
   @Column()
   @Exclude()
-  isActive: boolean
+  isActive: boolean;
 
   @Column()
   @Exclude()
-  emailConfirmed: boolean
+  emailConfirmed: boolean;
 }

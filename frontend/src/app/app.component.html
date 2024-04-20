@@ -1,8 +1,10 @@
 <div class="overflow-hidden adjust-menu">
-  <div>
-    <app-navbar></app-navbar>
-  </div>
+  @if (showNavBar) {
+    <div>
+      <app-navbar></app-navbar>
+    </div>
+  }
   <div class="mx-3 overflow-auto adjust-router">
-    <router-outlet></router-outlet>
+    <router-outlet (showNavBarEmitter)="showNavBar = true"></router-outlet>
   </div>
 </div>

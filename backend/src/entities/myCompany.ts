@@ -1,43 +1,43 @@
-import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
 
 @Entity('MyCompany')
 export class MyCompany {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column({ type: 'timestamp' })
-  cadastro: Timestamp
+  cadastro: Timestamp;
 
   @Column({ type: 'varchar', length: 100 })
-  nome: string
+  nome: string;
 
   @Column({ type: 'varchar', length: 100 })
-  email: string
+  email: string;
 
   @Column({ type: 'varchar', length: 20 })
-  telefone: string
+  telefone: string;
 
   @Column({ type: 'boolean' })
-  isCnpj: boolean
+  isCnpj: boolean;
 
   @Column({ type: 'varchar', length: 20 })
-  cnpj: string
+  cnpj: string;
 
   @Column({ type: 'varchar', length: 150 })
-  logradouro: string
+  logradouro: string;
 
   @Column({ type: 'int' })
-  numero: number
+  numero: number;
 
   @Column({ type: 'varchar', length: 100 })
-  complemento: string
+  complemento: string;
 
   @Column({ type: 'varchar', length: 50 })
-  bairro: string
+  bairro: string;
 
   @Column({ type: 'varchar', length: 50 })
-  cidade: string
+  cidade: string;
 
   @Column({ type: 'varchar', length: 2 })
-  estado: string
+  estado: string;
 }

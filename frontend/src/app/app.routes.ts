@@ -10,7 +10,7 @@ import { SuppliersComponent } from './pages/suppliers/suppliers.component';
 
 export const routes: Routes = [
   {
-    path: 'login',
+    path: '',
     component: LoginComponent,
   },
   {
@@ -43,6 +43,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    component: CustomersComponent,
+    component: LoginComponent,
   },
 ];

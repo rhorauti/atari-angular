@@ -1,9 +1,12 @@
 import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
 
-@Entity('Suppliers')
-export class Suppliers {
+@Entity('Companies')
+export class Company {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ type: 'int' })
+  tipoEmpresa: number;
 
   @Column({ type: 'timestamp' })
   cadastro: Timestamp;
@@ -16,9 +19,6 @@ export class Suppliers {
 
   @Column({ type: 'varchar', length: 20 })
   telefone: string;
-
-  @Column({ type: 'boolean' })
-  isCnpj: boolean;
 
   @Column({ type: 'varchar', length: 20 })
   cnpj: string;
@@ -39,5 +39,5 @@ export class Suppliers {
   cidade: string;
 
   @Column({ type: 'varchar', length: 2 })
-  estado: string;
+  uf: string;
 }

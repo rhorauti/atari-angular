@@ -1,24 +1,24 @@
-import { MyCompany } from '@src/entities/myCompany'
-import { dataSource } from '@src/migrations'
-import { ICompanyDTO, ICompanyDTOExtended } from './interfaces/ICompany'
+import { MyCompany } from '@src/entities/myCompany';
+import { dataSource } from '@src/migrations';
+import { ICompanyDTO, ICompanyDTOExtended } from './interfaces/ICompany';
 
 export class MyCompanyRepository {
-  private suppliersRepository = dataSource.getRepository(MyCompany)
+  private suppliersRepository = dataSource.getRepository(MyCompany);
 
   async findMyCompanyByName(nome: string): Promise<MyCompany> {
     return await this.suppliersRepository.findOneBy({
       nome: nome,
-    })
+    });
   }
 
   async findMyCompanyById(id: number): Promise<MyCompany> {
     return await this.suppliersRepository.findOneBy({
       id: id,
-    })
+    });
   }
 
   async getMyCompanyList(): Promise<MyCompany[]> {
-    return await this.suppliersRepository.find()
+    return await this.suppliersRepository.find();
   }
 
   /**
@@ -28,9 +28,9 @@ export class MyCompanyRepository {
    * @param registerData Os dados que vem do frontend para registrar no banco de dados.
    */
   async addNewCompany(registerData: ICompanyDTO): Promise<MyCompany> {
-    delete registerData.id
-    const newSupplier = this.suppliersRepository.create(registerData)
-    return this.suppliersRepository.save(newSupplier)
+    delete registerData.id;
+    const newSupplier = this.suppliersRepository.create(registerData);
+    return this.suppliersRepository.save(newSupplier);
   }
 
   async updateCompany(
@@ -42,7 +42,7 @@ export class MyCompanyRepository {
       .update(MyCompany)
       .set(companyData)
       .where('id = :id', { id: companyId })
-      .execute()
+      .execute();
   }
 
   async deleteCompany(companyId: string): Promise<void> {
@@ -51,6 +51,6 @@ export class MyCompanyRepository {
       .delete()
       .from(MyCompany)
       .where('id = :id', { id: companyId })
-      .execute()
+      .execute();
   }
 }

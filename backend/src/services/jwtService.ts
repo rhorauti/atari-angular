@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken'
-import 'dotenv/config'
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 /**
  * Classe que possui métodos úteis para a manipulação de tokens JWT.
@@ -12,7 +12,7 @@ export default class JwtHandler {
    *  @returns {Promise<string>} - Retorna token JWT.
    */
   static async signToken(payload: any, options: object = {}): Promise<string> {
-    return jwt.sign(payload, process.env.JWT_SECRET_KEY, options)
+    return jwt.sign(payload, process.env.JWT_SECRET_KEY, options);
   }
 
   /**
@@ -25,10 +25,10 @@ export default class JwtHandler {
   static async verifyToken(token: string, callback: Function) {
     jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
       if (err) {
-        callback(err, null)
+        callback(err, null);
       } else {
-        callback(null, decoded)
+        callback(null, decoded);
       }
-    })
+    });
   }
 }

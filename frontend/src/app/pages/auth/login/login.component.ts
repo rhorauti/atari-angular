@@ -1,4 +1,10 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { AuthApi } from '../../../core/api/http/auth.api';
 import { IRequestlogin } from '../../../core/api/interfaces/IAuth';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +19,7 @@ import { LoadingComponent } from '../../../components/loading/loading.component'
 import { Router } from '@angular/router';
 import { IModal } from '../../../core/api/interfaces/IModal';
 import { NavbarComponent } from '../../../components/menu/navbar/navbar.component';
+import { DataService } from '../../../core/services/data.service';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +39,8 @@ import { NavbarComponent } from '../../../components/menu/navbar/navbar.componen
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  constructor(private dataService: DataService) {}
+
   private authApi = inject(AuthApi);
   private router = inject(Router);
 
@@ -92,6 +101,7 @@ export class LoginComponent {
   }
 
   public isLoginSuccess = false;
+  @Output() showNavBarEmitter = new EventEmitter<boolean>();
 
   /**
    * authenticateUser
@@ -109,6 +119,7 @@ export class LoginComponent {
         if (response) {
           this.handleSuccessModal(response.message);
           this.isLoginSuccess = true;
+          this.dataService.emitData(true);
         }
       }
       this.isModalActive = true;

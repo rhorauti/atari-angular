@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/menu/navbar/navbar.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { MatIconModule } from '@angular/material/icon';
+import { DataService } from './core/services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -21,5 +22,11 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  public isSideBarActive = true;
+  public showNavBar = false;
+
+  constructor(private dataService: DataService) {
+    this.dataService.dataService.subscribe(data => {
+      this.showNavBar = data;
+    });
+  }
 }

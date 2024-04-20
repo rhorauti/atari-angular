@@ -1,6 +1,6 @@
-import { SupplierRepository } from '@src/repositories/supplier.respository'
-import { Request, Response } from 'express'
-import { inject, injectable } from 'tsyringe'
+import { SupplierRepository } from '@src/repositories/supplier.respository';
+import { Request, Response } from 'express';
+import { inject, injectable } from 'tsyringe';
 
 @injectable()
 export class SupplierController {
@@ -10,23 +10,23 @@ export class SupplierController {
   ) {}
 
   async getSuppliersList(response: Response): Promise<Response> {
-    const suppliersList = await this.supplierRepository.getSuppliersList()
+    const suppliersList = await this.supplierRepository.getSuppliersList();
     suppliersList.sort((a, b) => {
       if (a.id > b.id) {
-        return -1
+        return -1;
       }
-    })
+    });
     if (!suppliersList) {
       return response.status(400).json({
         status: false,
         message: 'Nenhum registro encontrando!',
-      })
+      });
     } else {
       return response.status(200).json({
         status: true,
         message: 'Lista recebida com sucesso!',
         data: suppliersList,
-      })
+      });
     }
   }
 
@@ -36,27 +36,27 @@ export class SupplierController {
   ): Promise<Response> {
     const supplier = await this.supplierRepository.findSupplierByName(
       request.body.nome,
-    )
+    );
     if (supplier) {
       return response.status(401).json({
         status: false,
         message: `Fornecedor ${supplier.nome} já existe!`,
-      })
+      });
     } else {
       const newSupplier = await this.supplierRepository.addNewCompany(
         request.body,
-      )
+      );
       if (!newSupplier) {
         return response.status(500).json({
           status: false,
           message: 'Erro interno do servidor!',
-        })
+        });
       } else {
         return response.status(200).json({
           status: true,
           message: `Fornecedor ${newSupplier.nome} registrado com sucesso!`,
           data: newSupplier,
-        })
+        });
       }
     }
   }
@@ -67,21 +67,21 @@ export class SupplierController {
   ): Promise<Response> {
     const supplier = await this.supplierRepository.findSupplierById(
       Number(request.params.id),
-    )
+    );
     if (!supplier) {
       return response.status(400).json({
         status: false,
         message: 'Fornecedor não encontrado!',
-      })
+      });
     } else {
       await this.supplierRepository.updateCompany(
         request.body,
         request.params.id,
-      )
+      );
       return response.status(200).json({
         status: true,
         message: `Fornecedor ${request.body.nome} alterado com sucesso!`,
-      })
+      });
     }
   }
 
@@ -91,18 +91,18 @@ export class SupplierController {
   ): Promise<Response> {
     const supplier = await this.supplierRepository.findSupplierById(
       Number(request.params.id),
-    )
+    );
     if (!supplier) {
       return response.status(400).json({
         status: false,
         message: 'Fornecedor não encontrando!',
-      })
+      });
     } else {
-      await this.supplierRepository.deleteCompany(request.params.id)
+      await this.supplierRepository.deleteCompany(request.params.id);
       return response.status(200).json({
         status: true,
         message: `Fornecedor ${supplier.nome} excluido com sucesso!`,
-      })
+      });
     }
   }
 }
