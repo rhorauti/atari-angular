@@ -44,13 +44,13 @@ export class NavbarListComponent {
           idSublink: 0,
           name: 'Clientes',
           isSelected: false,
-          routerLink: '/customers',
+          routerLink: '/company/customers',
         },
         {
           idSublink: 1,
           name: 'Fornecedores',
           isSelected: false,
-          routerLink: '/suppliers',
+          routerLink: '/company/suppliers',
         },
         {
           idSublink: 2,
@@ -81,7 +81,7 @@ export class NavbarListComponent {
           idSublink: 0,
           name: 'Clientes',
           isSelected: false,
-          routerLink: '/customers',
+          routerLink: 'customers',
         },
         {
           idSublink: 1,

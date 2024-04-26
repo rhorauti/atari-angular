@@ -22,7 +22,7 @@ import { DataService } from './core/services/data.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  public showNavBar = false;
+  public showNavBar = true;
 
   constructor(private dataService: DataService) {
     this.dataService.dataService.subscribe(data => {

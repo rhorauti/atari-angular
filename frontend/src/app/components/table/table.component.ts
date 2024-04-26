@@ -54,8 +54,6 @@ export class TableComponent implements OnChanges, OnInit {
   private registerApi = inject(RegisterCompanyApi);
   public isModalInfoActive = false;
   public isModalAskActive = false;
-  // @Input() tableInitialIdx: number;
-  // @Input() tableLastIdx: number;
   @Input() showLoading = false;
   @Output() tableDataEmitter = new EventEmitter<ICompany[] | IProduct[]>();
   @Input() companyTableHeaders: ICompanyTableHeaders[] = [];
@@ -117,23 +115,6 @@ export class TableComponent implements OnChanges, OnInit {
   };
 
   @Output() tableHeadersDataEmitter = new EventEmitter();
-
-  // emitTableHeadersData(): void {
-  //   switch (this.registerType) {
-  //     case 'customers':
-  //     case 'suppliers': {
-  //       this.tableHeadersDataEmitter.emit(this.companyTableHeaders);
-  //       break;
-  //     }
-  //     case 'supplier-products':
-  //     case 'customer-products': {
-  //       this.tableHeadersDataEmitter.emit(this.productTableHeaders);
-  //       break;
-  //     }
-  //     default:
-  //       'customers';
-  //   }
-  // }
 
   public initialTableData: ICompany[] = [];
 
@@ -214,6 +195,8 @@ export class TableComponent implements OnChanges, OnInit {
     const previousValuePage = changes['currentPage']?.previousValue ?? 0;
     const currentValueInput = changes['inputValueFilter']?.currentValue ?? 0;
     const previousValueInput = changes['inputValueFilter']?.previousValue ?? 0;
+    const previousValueRegisterType = changes['registerType']?.previousValue;
+    const currentValueRegisterType = changes['registerType']?.currentValue;
     if (this.tableUpdated) {
       await this.getList();
       this.tableInitialIdx = 0;
@@ -229,6 +212,11 @@ export class TableComponent implements OnChanges, OnInit {
         }
         this.findInitialIdx();
         this.findLastIdx();
+        this.filterTable();
+      }
+      if (currentValueRegisterType != previousValueRegisterType) {
+        await this.getList();
+        this.initialTableData = this.companiesData.data;
         this.filterTable();
       }
     }

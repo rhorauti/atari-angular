@@ -7,11 +7,13 @@ import { NewPasswordComponent } from './pages/auth/new-password/new-password.com
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { RedirectComponent } from './pages/auth/redirect/redirect.component';
 import { SuppliersComponent } from './pages/suppliers/suppliers.component';
+import { PurchasedProductsComponent } from './pages/purchased-products/purchased-products.component';
+import { CompanyComponent } from './pages/company/company.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    component: CustomersComponent,
   },
   {
     path: 'signup',
@@ -40,6 +42,14 @@ export const routes: Routes = [
   {
     path: 'suppliers',
     component: SuppliersComponent,
+  },
+  {
+    path: 'company/:registerType',
+    component: CompanyComponent,
+  },
+  {
+    path: 'purchased-products',
+    component: PurchasedProductsComponent,
   },
   {
     path: '**',
